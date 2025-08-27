@@ -6,6 +6,7 @@ import LogoImg from "../../assets/images/logo.png";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoEyeOffSharp } from "react-icons/io5";
+import GoogleLogo from "../../assets/images/googleLogo.png"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,7 +34,12 @@ const Login = () => {
           </div>
         </div>
           <p onClick={() => navigate("/auth/forgotPassword")}>Forget Password?</p>
+          
           <button onClick={() => navigate("/customer/dashboard")} className="btn">Login</button>
+          
+          <p className="or">OR</p>
+          <button className="btn1"><img src={GoogleLogo}/>Continue with Google</button>
+          
       </Form>
       <LastText>
         <p>

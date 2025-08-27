@@ -50,7 +50,19 @@ export const Container = styled.div`
         }
         input {
           width: calc(100% - 15px);
-          object-fit: cover;
+          border: 1px solid var(--borderColor);
+          font-family: "regular";
+          font-size: 15px;
+          border-radius: 5px;
+          padding: 13px 10px;
+          outline-color: var(--borderColor);
+          margin-block: 10px;
+          @media (max-width: 480px) {
+            margin-block: 2px;
+          }
+        }
+        textarea {
+          width: calc(100% - 15px);
           border: 1px solid var(--borderColor);
           font-family: "regular";
           font-size: 15px;
@@ -66,15 +78,23 @@ export const Container = styled.div`
     }
     .radioInputFields {
       display: flex;
-      gap: 20px;
+      gap: 50px;
       font-size: 20px;
       font-family: "regular";
       padding-block: 10px;
       .radioChilds {
         display: flex;
         gap: 3px;
-        input {
+        align-items: center;
+        input[type="radio"] {
           font-size: 50px;
+          height: 17px;
+          width: 17px;
+          accent-color: var(--dark-teal);
+          cursor: pointer;
+        }
+        label{
+          cursor: pointer;
         }
       }
     }

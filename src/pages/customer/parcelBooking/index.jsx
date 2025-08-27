@@ -4,8 +4,10 @@ import { Container } from "./style";
 import { MdLocationOn } from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa6";
 import { RiCalendarScheduleFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 const ParcelBooking = () => {
+  const navigate = useNavigate();
     const [pickupOption, setPickupOption] = useState("Instant Pickup");
   return (
     <Container>
@@ -48,6 +50,12 @@ const ParcelBooking = () => {
             <input type="text" placeholder="Enter Package Content" />
           </div>
         </div>
+        <div className="inputFields">
+          <div className="childs">
+          <label htmlFor="">Enter Special Instructions</label><br />
+          <textarea></textarea>
+          </div>
+        </div>
         
         {/* Pickup Options*/}
         <div className="boldText">
@@ -61,9 +69,9 @@ const ParcelBooking = () => {
                 <label htmlFor="Instant">Instant Pickup</label><br />
             </div>
             <div className="radioChilds">
-                <input className="schPick" type="radio" id="Schedule" name="Pickup" value="Schedule Pickup" checked={pickupOption === "Schedule Pickup"}
+                <input type="radio" id="Schedule" name="Pickup" value="Schedule Pickup" checked={pickupOption === "Schedule Pickup"}
                 onClick={() => setPickupOption("Schedule Pickup")}/>
-                <label >Schedule Pickup</label>
+                <label htmlFor="Schedule">Schedule Pickup</label>
             </div>
         </div>
         {/* Date Time */}
@@ -79,7 +87,7 @@ const ParcelBooking = () => {
           </div>
         </div>
         )}
-        <button>Book Parcel</button>
+        <button onClick={() => navigate("/customer/payment")}>Book Parcel</button>
         
         
       </form>

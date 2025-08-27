@@ -18,6 +18,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 
 // Register Chart.js modules
 ChartJS.register(
@@ -31,6 +32,7 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const labels = [
     "January",
     "February",
@@ -55,7 +57,7 @@ const Dashboard = () => {
   return (
     <Container>
       {/* 1st Section */}
-      <h2 className="heading">Customer Dashboard</h2>
+      <h2 className="heading">Dashboard</h2>
       <div className="cardComponent">
         <Card
           icon={<FaBox color="#006769" size={21} />}
@@ -82,7 +84,7 @@ const Dashboard = () => {
       <div className="recentParcels">
         <div className="firstLine">
           <h3>Recent Parcels</h3>
-          <button>Book New Parcel</button>
+          <button onClick={() => navigate("/customer/parcelBooking")}>Book New Parcel</button>
         </div>
         <table>
           <thead>

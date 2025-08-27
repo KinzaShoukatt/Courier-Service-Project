@@ -34,7 +34,6 @@ export const Form = styled.form`
     gap: 5px;
     padding: 10px;
     border-radius: 8px;
-    
     margin-block: 13px;
     align-items: center;
     input {
@@ -79,18 +78,56 @@ export const Form = styled.form`
     text-align: left;
     margin: auto;
   }
-  .btn {
+  .btn{
+     background-color: var(--dark-teal);
+    font-family: "regular";
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--secColor);
+    padding: 9.5px 10px;
+    width: 74%;
+    border: 2px solid var(--dark-teal);
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  .btn1 {
     background-color: var(--dark-teal);
     font-family: "regular";
     font-size: 17px;
     font-weight: bold;
     color: var(--secColor);
-    padding: 9px 10px;
+    padding: 7px 10px;
     width: 74%;
     border: 2px solid var(--dark-teal);
     border-radius: 10px;
-    margin-top: 15px;
+    margin: 10px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-inline: auto;
+    @media (max-width: 858px) {
+      font-size: 14px;
+      padding: 9px 10px;
+    }
+   
+    img{
+      height: 30px;
+      width: 30px;
+      align-items: center;
+      @media (max-width: 858px) {
+       height: 25px;
+      width: 25px;
+    }
+    }
+  }
+  
+  .or{
+    text-align: center;
+    font-weight: bold;
+    align-items: center;
   }
 `;
 export const LastText = styled.div`
