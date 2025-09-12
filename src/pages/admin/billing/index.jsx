@@ -247,6 +247,7 @@ const Billing = () => {
               <input type="text" placeholder="transaction ID" />
             </div>
           </div>
+          <div className="tableDiv">
           <table>
             <thead>
               <tr>
@@ -275,6 +276,7 @@ const Billing = () => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </PaymentsTable>
       {/* Manage Refunds & Failed Payments */}

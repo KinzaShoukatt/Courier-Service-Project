@@ -5,13 +5,30 @@ import { MdLocationOn } from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa6";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import AI from "../../../components/aiChatBox";
 
 const ParcelBooking = () => {
   const navigate = useNavigate();
     const [pickupOption, setPickupOption] = useState("Instant Pickup");
+
+    const [pickupAddress, setPickupAddress] = useState("");
+    const [pickupZone, setPickupZone] = useState("")
+
+    const [deliveryAddress, setDeliveryAddress] = useState("");
+    const [deliveryZone, setDeliveryZone] = useState("")
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if(!pickupAddress || !pickupZone){
+        alert("Please Enter pickup Address  and enter a pickup Zone!")
+      }
+      if(!deliveryAddress || !deliveryZone){
+        alert("Please Enter pickup Address  and enter a pickup Zone!")
+      }
+    }
   return (
     <Container>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="heading">
           <h1>Create New Booking</h1>
           <p>Fill out the form below to schedule your delivery</p>
@@ -24,11 +41,25 @@ const ParcelBooking = () => {
         <div className="inputFields">
           <div className="childs">
             <label htmlFor="">Pickup Address</label><br />
-            <input type="text" placeholder="Enter Pickup Address" />
+            <input type="text" placeholder="Enter Pickup Address" value={pickupAddress} onChange={(e) => setPickupAddress(e.target.value)}/>
+            <select value={pickupZone} onChange={(e) => setPickupZone(e.target.value)}>
+              <option >Select Pickup Zone</option>
+              <option >Punjab</option>
+              <option >Sindh</option>
+              <option >kPk</option>
+              <option >Balochistan</option>
+            </select>
           </div>
           <div className="childs">
             <label htmlFor="">Delivery Address</label><br />
-            <input type="text" placeholder="Enter Delivery Address" />
+            <input type="text" placeholder="Enter Delivery Address" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)}/>
+            <select value={deliveryZone} onChange={(e) => setDeliveryZone(e.target.value)}>
+              <option >Select Delivery Zone</option>
+              <option >Punjab</option>
+              <option >Sindh</option>
+              <option >kPk</option>
+              <option >Balochistan</option>
+            </select>
           </div>
         </div>
         {/* package Details */}
@@ -43,7 +74,12 @@ const ParcelBooking = () => {
           </div>
           <div className="childs">
             <label htmlFor="">Package Size</label><br />
-            <input type="text" placeholder="Enter Size" />
+            <select name="" id="">
+              <option value="">small</option>
+              <option value="">medium</option>
+              <option value="">large</option>
+              </select>
+            
           </div>
           <div className="childs">
             <label htmlFor="">Package Content</label><br />
@@ -87,10 +123,9 @@ const ParcelBooking = () => {
           </div>
         </div>
         )}
-        <button onClick={() => navigate("/customer/payment")}>Book Parcel</button>
-        
-        
+        <button onClick={() => navigate("/customer/payment")}>Check Out</button>
       </form>
+      <AI/>
     </Container>
   );
 };

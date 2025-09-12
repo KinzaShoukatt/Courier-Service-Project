@@ -149,19 +149,4 @@ display: flex;
 .button-section button:hover {
   background: #01976b;
 }
-.homeMsg{
-    display: flex;
-    justify-content: space-evenly;
-    padding-block: 17px;
-    cursor: pointer;
-}
-
-/* Mobile responsive */
-@media (max-width: 480px) {
-  /* .chat-container {
-    width: 100%;
-    height: 90vh;
-  } */
-}
-
-`
+`;

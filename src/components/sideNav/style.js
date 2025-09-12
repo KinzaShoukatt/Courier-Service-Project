@@ -4,6 +4,12 @@ export const Container = styled.div`
   color: var(--secColor);
   font-family: "regular";
   box-sizing: border-box;
+  position: fixed;
+  overflow-y: auto;
+  top: 0;
+  height: 100vh;
+  -ms-overflow-style: none;
+  scrollbar-width: none;  
   .closeBtn {
     display: none;
   }
@@ -39,7 +45,16 @@ export const Container = styled.div`
       gap: 7px;
       line-height: 2.7;
       cursor: pointer;
-    }
+      }
+      .items.active{
+        /* margin-inline: 0px; */
+        width: 100%;
+         background-color: rgba(255, 255, 255, 0.1); 
+    border-left: 3px solid #ffffff; 
+    border-radius: 4px; 
+      }
+    
+   
     .icon {
       font-size: 18px;
     }

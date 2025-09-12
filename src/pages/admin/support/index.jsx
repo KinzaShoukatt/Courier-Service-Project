@@ -1,0 +1,112 @@
+import React from "react";
+import axios from "axios";
+import { ChatbotWrapper } from "./style";
+
+import { useState, useRef, useEffect } from "react";
+import Logo from "../../../assets/images/LogoWhite.png";
+
+const API_BASE = "http://127.0.0.1:8000/api";
+const AdminSupport = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [sessionId, setSessionId] = useState(null);
+  const [buttons, setButtons] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
+
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    const welcome =
+      "👋 Welcome! Here’s what I can help you with today:\n" +
+      "⑴ Booking Help\n⑵ Track Order\n⑶ Cancel Order\n⑷ Reschedule Order\n⑸ FAQ\n\n" +
+      "Please type the number of your choice:";
+    setMessages([{ sender: "bot", text: welcome }]);
+  }, []);
+
+  const sendMessage = async (customMessage) => {
+    const msgToSend = customMessage || input.trim();
+    if (!msgToSend) return;
+
+    //     setMessages((prev) => [...prev, { sender: "user", text: msgToSend }]);
+    //     setInput("");
+    //     setIsTyping(true);
+
+    //     try {
+    //       const response = await axios.post(`${API_BASE}/chat/`, {
+    //         message: msgToSend,
+    //         session_id: sessionId,
+    //       });
+
+    //       const { reply, session_id, buttons: newButtons } = response.data;
+    //       if (session_id) setSessionId(session_id);
+
+    //       setMessages((prev) => [...prev, { sender: "bot", text: reply }]);
+    //       setButtons(newButtons || []);
+    //       setIsTyping(false);
+    //     } catch (err) {
+    //       console.error(err);
+    //       setMessages((prev) => [
+    //         ...prev,
+    //         { sender: "bot", text: "❌ Error contacting server." },
+    //       ]);
+    //       setIsTyping(false);
+    //     }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") sendMessage();
+  };
+
+  return (
+    <ChatbotWrapper>
+      <div className="chat-container">
+        <div className="devgo">
+          <img src={Logo} alt="" />
+          <p>DEVGO Chat With Admin</p>
+        </div>
+        <div className="messages">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={msg.sender === "bot" ? "bot-message" : "user-message"}
+            >
+              {msg.text.split("\n").map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
+          ))}
+          {isTyping && (
+            <div className="bot-message typing">Bot is typing...</div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* FAQ / Quick Buttons */}
+        {buttons.length > 0 && (
+          <div className="button-section">
+            {buttons.map((btn, idx) => (
+              <button key={idx}>{btn}</button>
+            ))}
+          </div>
+        )}
+
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Type a message..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+          />
+          <button onClick={() => sendMessage()}>Send</button>
+        </div>
+      </div>
+    </ChatbotWrapper>
+  );
+};
+
+export default AdminSupport;

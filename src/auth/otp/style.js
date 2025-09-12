@@ -1,5 +1,6 @@
 import styled from "styled-components";
 export const Container = styled.div`
+font-family: "regular";
   height: auto;
   background-color: var(--secColor);
   margin-block: 3vw;
@@ -26,6 +27,10 @@ export const Heading = styled.h1`
 `;
 export const Para = styled.p`
   font-family: "semibold";
+  strong{
+    color: var(--dark-teal);
+    font-family: "regular";
+  }
 `;
 export const Form = styled.form`
   .inputFields {
@@ -40,7 +45,13 @@ export const Form = styled.form`
       border: 2px solid var(--dark-teal);
       border-radius: 10px;
       font-family: "regular";
+      text-align: center;
     }
+  }
+  .time{
+    color: var(--dark-teal);
+    font-family: "regular";
+    font-weight: 700;
   }
   .btn {
     background-color: var(--dark-teal);

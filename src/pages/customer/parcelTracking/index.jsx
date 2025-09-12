@@ -5,6 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaTruckFast } from "react-icons/fa6";
 import { RiTruckFill } from "react-icons/ri";
 import { FaBoxOpen } from "react-icons/fa6";
+import AI from "../../../components/aiChatBox";
 const ParcelTracking = () => {
   return (
     <Container>
@@ -77,6 +78,7 @@ const ParcelTracking = () => {
           </div>
         </div>
       </div>
+      <AI/>
     </Container>
   );
 };

@@ -5,9 +5,6 @@ import { ChatbotWrapper } from "./style";
 import { useState, useRef, useEffect } from "react";
 import Logo from "../../../assets/images/LogoWhite.png";
 
-import { BiHomeAlt } from "react-icons/bi";
-import { LuMessageCircle } from "react-icons/lu";
-
 const API_BASE = "http://127.0.0.1:8000/api";
 const Support = () => {
   const [messages, setMessages] = useState([]);
@@ -15,7 +12,6 @@ const Support = () => {
   const [sessionId, setSessionId] = useState(null);
   const [buttons, setButtons] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [selected, setSelected] = useState("msg");
 
   const messagesEndRef = useRef(null);
 
@@ -100,49 +96,24 @@ const Support = () => {
       <div className="chat-container">
         <div className="devgo">
           <img src={Logo} alt="" />
-          <p>DEVGO ChatBox</p>
+          <p>DEVGO Chat With Admin</p>
         </div>
-
-        {selected === "home" && (
-          <div className="homee">
-            <div className="box">
-              <p>⑴ Booking Help</p>
+        <div className="messages">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={msg.sender === "bot" ? "bot-message" : "user-message"}
+            >
+              {msg.text.split("\n").map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
             </div>
-            <div className="box">
-              <p>⑵ Track Order</p>
-            </div>
-            <div className="box">
-              <p>⑶ Cancel Order</p>
-            </div>
-            <div className="box">
-              <p>⑷ Reschedule Order</p>
-            </div>
-            <div className="box">
-              <p>⑸ FAQ</p>
-            </div>
-          </div>
-        )}
-
-        {selected === "msg" && (
-          <div className="messages">
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={
-                  msg.sender === "bot" ? "bot-message" : "user-message"
-                }
-              >
-                {msg.text.split("\n").map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </div>
-            ))}
-            {isTyping && (
-              <div className="bot-message typing">Bot is typing...</div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-        )}
+          ))}
+          {isTyping && (
+            <div className="bot-message typing">Bot is typing...</div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
 
         {/* FAQ / Quick Buttons */}
         {buttons.length > 0 && (
@@ -164,21 +135,6 @@ const Support = () => {
             onKeyDown={handleKeyPress}
           />
           <button onClick={() => sendMessage()}>Send</button>
-        </div>
-        <div className="homeMsg">
-          <BiHomeAlt 
-            className={`home ${selected === "home" ? "active" : ""}`}
-            onClick={() => setSelected("home")}
-            color="#006769"
-            size={25}
-          />
-
-          <LuMessageCircle
-            className={`msg ${selected === "msg" ? "active" : ""}`}
-            onClick={() => setSelected("msg")}
-            color="#006769"
-            size={25}
-          />
         </div>
       </div>
     </ChatbotWrapper>

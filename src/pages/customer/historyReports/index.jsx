@@ -1,5 +1,6 @@
 import React from "react";
-import { Container } from "./style";
+import { Heading, Container, RecentParcels, GraphDiv } from "./style";
+import AI from "../../../components/aiChatBox";
 
 import {
   Chart as ChartJS,
@@ -46,66 +47,91 @@ const HistoryReports = () => {
       },
     ],
   };
+
+  const dummyParcelHistory = [
+    {
+      id: "#TRK123451",
+      recipient: "Robert Smith",
+      destination: "New York, USA",
+      status: "Order Placed",
+      action: "Track",
+    },
+    {
+      id: "#TRK123451",
+      recipient: "Robert Smith",
+      destination: "New York, USA",
+      status: "Pickup",
+      action: "Track",
+    },
+    {
+      id: "#TRK123452",
+      recipient: "Emma Johnson",
+      destination: "London, UK",
+      status: "in transit",
+      action: "Track",
+    },
+    {
+      id: "#TRK123454",
+      recipient: "Robert Smith",
+      destination: "New York, USA",
+      status: "out For Delivery",
+      action: "Track",
+    },
+    {
+      id: "#TRK123455",
+      recipient: "Robert Smith",
+      destination: "New York, USA",
+      status: "delivered",
+      action: "View",
+    },
+  ];
   return (
-    <Container>
-      <h2>History & Reports</h2>
-      <div className="recentParcels">
-        <div className="firstLine">
-          <p>Recent Parcels</p>
-          <button>Book New Parcel</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tracking ID</th>
-              <th>Recipient</th>
-              <th>Destination</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>#TRK123456</td>
-              <td>John Smith</td>
-              <td>New York, USA6</td>
-              <td>
-                <span className="status1">In transit</span>
-              </td>
-              <td>
-                <button>Track</button>
-              </td>
-            </tr>
-            <tr>
-              <td>#TRK123457</td>
-              <td>Emma Johnson</td>
-              <td>London, UK</td>
-              <td>
-                <span className="status2">Delivered</span>
-              </td>
-              <td>
-                <button>Track</button>
-              </td>
-            </tr>
-            <tr>
-              <td>#TRK123458</td>
-              <td>Robert Brown</td>
-              <td>Tokyo, Japan</td>
-              <td>
-                <span className="status3">Pending Pickup</span>
-              </td>
-              <td>
-                <button>Track</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {/* 3rd Section */}
-      <div className="graph">
-        <Line className="lineChart" data={data} />
-      </div>
-    </Container>
+    <>
+      <Heading>History & Reports</Heading>
+      <Container>
+        <RecentParcels>
+          <p className="heading">Recent Parcels</p>
+          <div className="tableDiv">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tracking ID</th>
+                  <th>Recipient</th>
+                  <th>Destination</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dummyParcelHistory.map((data) => (
+                  <tr key={data.id}>
+                    <td>{data.id}</td>
+                    <td>{data.recipient}</td>
+                    <td>{data.destination}</td>
+                    <td>
+                      <span className={`status ${data.status}`}>
+                        {data.status}
+                      </span>
+                    </td>
+                    <td>
+                      {" "}
+                      <span className="action">{data.action}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </RecentParcels>
+
+        {/* 3rd Section */}
+        <GraphDiv>
+          <Line className="lineChart" data={data} />
+        </GraphDiv>
+
+        <AI />
+      </Container>
+    </>
   );
 };
 

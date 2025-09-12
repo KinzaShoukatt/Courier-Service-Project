@@ -1,29 +1,144 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { Container, ImgDiv, Heading, Para, Form, LastText } from "./style";
 import LogoImg from "../../assets/images/logo.png";
+import UseAuth from "../useHook";
+import { showError, showSuccess } from "../../utils/toast";
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
+  const { verifyOtp } = UseAuth();
+  const location = useLocation();
+  const email = location.state?.email;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const inputsRef = useRef([]);
+
+  const [time, setTime] = useState(60);
+  const [isActive, setIsActive] = useState(true);
+
+  useEffect(() => {
+    let timer;
+    if (isActive && time > 0) {
+      timer = setTimeout(() => setTime(time - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [time, isActive]);
+
+  const onSubmit = async (data) => {
+    const otp = Object.values(data).join("");
+    // try {
+    //   const response = await verifyOtp({otp});
+    //   if (response.user) {
+    //     showSuccess(response.message || "OTP verified successfully!");
+    //     navigate("/auth/login");
+    //   } else {
+    //     showError(response.message || "Invalid OTP, please try again");
+    //   }
+    // } catch (error) {
+    //   showError("Something Went wrong, please try again later!");
+    try {
+      let response;
+      switch (type) {
+        case "email-verification":
+          response = await verifyOtp({ otp, type: "email-verification" });
+          navigate("/auth/login");
+          break;
+        case "resend-otp":
+          response = await verifyOtp({ otp, type: "resend-otp" });
+          navigate("/auth/verify-otp");
+          break;
+        case "password-reset":
+          response = await verifyOtp({ otp, type: "password-reset" });
+          navigate("/auth/reset-password");
+          break;
+      }
+      if (response.user) {
+        showSuccess(response.message || "OTP verified successfully!");
+        navigate("/auth/login");
+      } else {
+        showError(response.message || "Invalid OTP, please try again");
+      }
+    } catch (error) {
+      showError("Something Went wrong, please try again later!");
+    }
+  };
+
+  const handleKeyUp = (e, index) => {
+    const value = e.target.value;
+    if (value.length === 1 && index < inputsRef.current.length - 1) {
+      inputsRef.current[index + 1].focus();
+    }
+    if (e.key === "Backspace" && value === "" && index > 0) {
+      inputsRef.current[index - 1].focus();
+    }
+  };
+
+  const handleResend = () => {
+    reset();
+    inputsRef.current[0]?.focus();
+    setTime(60);
+    setIsActive(true);
+  };
 
   return (
     <Container>
       <ImgDiv>
-        <img src={LogoImg} alt="" />
+        <img src={LogoImg} alt="logo" />
       </ImgDiv>
       <Heading>Enter OTP Here!</Heading>
-      <Para>We Sent an OTP to Your Email</Para>
-      <Form>
+      <Para>
+        We Sent an OTP to Your Email <br /> <strong>{email}</strong>
+      </Para>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="inputFields">
-          <input className="box" type="text" />
-          <input className="box" type="text" />
-          <input className="box" type="text" />
-          <input className="box" type="text" />
-          <input className="box" type="text" />
-          <input className="box" type="text" />
+          {[...Array(6)].map((_, i) => (
+            <input
+              key={i}
+              className="box"
+              type="text"
+              maxLength="1"
+              {...register(`digit${i + 1}`, {
+                required: "",
+                pattern: { value: /^[0-9]$/, message: "Only digits allowed" },
+              })}
+              ref={(el) => (inputsRef.current[i] = el)}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, ""); 
+              }}
+              onKeyUp={(e) => handleKeyUp(e, i)}
+            />
+          ))}
         </div>
-        <button onClick={() => navigate("/auth/resetPassword")} className="btn">
+
+        {Object.values(errors).length > 0 && (
+          <p style={{ color: "red", fontSize: "12px" }}>
+            {Object.values(errors)[0].message}
+          </p>
+        )}
+
+        <p className="time">00 : {time < 10 ? `0${time}` : time}</p>
+        <button
+          type="submit"
+          className="btn"
+          onClick={handleResend}
+          disabled={time > 0}
+          style={{
+            opacity: time > 0 ? 0.5 : 1,
+            cursor: time > 0 ? "not-allowed" : "pointer",
+          }}
+        >
+          Resend OTP
+        </button>
+        <button type="submit" className="btn">
           Continue
         </button>
         <LastText>

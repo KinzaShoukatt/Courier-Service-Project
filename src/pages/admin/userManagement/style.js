@@ -266,13 +266,14 @@ export const SuspendBlock = styled.div`
     padding-bottom: 15px;
     padding-inline-start: 15px;
     border-bottom: 1px solid var(--borderColor);
-    min-width: 650px;
-    overflow-x: auto;
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
     }
   }
+  .tableDiv{
+    overflow-x: auto;
+  
   table {
     width: 100%;
     margin-block: 10px;
@@ -319,4 +320,5 @@ export const SuspendBlock = styled.div`
       }
     }
   }
+}
 `;

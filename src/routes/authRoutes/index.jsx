@@ -4,7 +4,6 @@ import SignUp from "../../auth/signUp";
 import Login from "../../auth/login";
 import VerifyOtp from "../../auth/otp";
 
-
 import ForgotPassword from "../../auth/forgotPassword";
 import ResetPassword from "../../auth/resetPassword";
 import AuthLayout from "../../components/layouts/authLayout";
@@ -13,13 +12,14 @@ const AuthRoutes = () => {
   return (
     <AuthLayout>
       <Routes>
-        <Route path="/" element={<Navigate to="/auth/login" />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/signUp" element={<SignUp />} />
-        <Route path="/auth/verifyOtp" element={<VerifyOtp />} />
+        {/* <Route path="/" element={<Navigate to="/auth/login" />} /> */}
+        <Route path="/auth/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
 
-        <Route path="/auth/forgotPassword" element={<ForgotPassword />} />
-        <Route path="/auth/resetPassword" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </AuthLayout>
   );

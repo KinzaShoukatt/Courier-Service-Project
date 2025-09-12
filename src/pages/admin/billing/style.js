@@ -99,6 +99,9 @@ export const PaymentsTable = styled.div`
         }
       }
     }
+    .tableDiv{
+      overflow-x: auto;
+    }
     table {
       width: 100%;
       margin-block: 10px;
@@ -106,7 +109,7 @@ export const PaymentsTable = styled.div`
       border-collapse: collapse;
       text-align: left;
       color: var(--textColor);
-      overflow-x: auto;
+      /* overflow-x: auto; */
       th,
       td {
         padding: 12px;
@@ -164,6 +167,7 @@ export const RefundPayments = styled.div`
   }
   .paymentTable {
     padding-inline: 10px;
+      overflow-x: auto;
     table {
       width: 100%;
       margin-block: 10px;
@@ -237,6 +241,7 @@ export const InvoiceReports = styled.div`
   }
   .paymentTable {
     padding-inline: 10px;
+      overflow-x: auto;
     table {
       width: 100%;
       margin-block: 10px;

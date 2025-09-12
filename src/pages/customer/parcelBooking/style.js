@@ -13,6 +13,7 @@ export const Container = styled.div`
     padding-block: 10px;
     padding-inline: 3vw;
     color: var(--dark-teal);
+    box-sizing: border-box;
     .heading {
       text-align: center;
       h1 {
@@ -25,7 +26,7 @@ export const Container = styled.div`
     .boldText {
       font-family: "semibold";
       display: flex;
-      gap: 3px;
+      gap: 20px;
       align-items: center;
       padding-block: 10px;
       border-bottom: 1px solid var(--borderColor);
@@ -34,6 +35,7 @@ export const Container = styled.div`
       }
     }
     .inputFields {
+      box-sizing: border-box;
       font-family: "regular";
       display: flex;
       flex-wrap: wrap;
@@ -48,8 +50,9 @@ export const Container = styled.div`
         label {
           font-size: 18px;
         }
-        input {
-          width: calc(100% - 15px);
+        input, select {
+          box-sizing: border-box;
+          width: 100%;
           border: 1px solid var(--borderColor);
           font-family: "regular";
           font-size: 15px;
