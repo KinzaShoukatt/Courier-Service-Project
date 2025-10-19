@@ -19,10 +19,10 @@ export const RecentParcels = styled.div`
   box-sizing: border-box;
   margin-block: 20px;
   .firstLine {
-     background-color: var(--dark-teal);
-      color: var(--secColor);
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+    background-color: var(--dark-teal);
+    color: var(--secColor);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     display: flex;
     justify-content: space-between;
     padding-block: 10px;
@@ -51,7 +51,7 @@ export const RecentParcels = styled.div`
       flex-shrink: 0;
     }
   }
-.tableDiv {
+  .tableDiv {
     padding-inline: 10px;
     overflow-x: auto;
     box-sizing: border-box;
@@ -83,19 +83,19 @@ export const RecentParcels = styled.div`
       text-transform: capitalize;
       font-size: 15px;
     }
-    .status.Order {
+    .status.order_placed {
       background-color: #c8d9eeff;
       color: #0b5ed7;
     }
-    .status.Pickup {
+    .status.picked_up {
       background-color: #facc15;
-      color: #1f2937;
+      color: #08101cff;
     }
-    .status.in {
+    .status.in_transit {
       background-color: #3b82f6;
       color: #ffffff;
     }
-    .status.out {
+    .status.out_for_delivery {
       background-color: #1e404f;
       color: #ffffff;
     }
@@ -103,33 +103,70 @@ export const RecentParcels = styled.div`
       background-color: #ceead7;
       color: #28a745;
     }
-    .action {
+    .actionBtn {
       background-color: var(--dark-teal);
+      font-family: "regular";
       color: var(--secColor);
-      padding: 5px 10px;
+      padding: 6px 10px;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
     }
   }
 `;
 
-export const GraphDiv = styled.div`
-  background-color: var(--secColor);
-  border-radius: 10px;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  margin-block: 25px;
-  padding-inline: 15px;
-   padding-block: 15px;
-  .graph {
-    max-height: 90vh;
-    /* .lineChart{
-       height: 100%;
-      width: 100%;
-      object-fit: cover; 
-      @media (max-width: 768px) {
-        
-      }
-    } */
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: "regular";
+  padding-bottom: 10px;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
+`;
+
+export const PaginationInfo = styled.p`
+  padding-left: 0.25rem;
+  @media (max-width: 320px) {
+    display: none;
+  }
+`;
+
+export const PaginationNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageButton = styled.button`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #374151;
+  background-color: white;
+  font-family: "regular";
+  font-weight: 600;
+  @media (max-width: 320px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    background-color: var(--dark-teal);
+    color: white;
+    border: none;
+  }
+`;
+
+export const PageNavButton = styled(PageButton)`
+  font-size: 0.75rem;
 `;

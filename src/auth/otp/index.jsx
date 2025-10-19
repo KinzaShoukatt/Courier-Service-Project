@@ -9,9 +9,10 @@ import { showError, showSuccess } from "../../utils/toast";
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
-  const { verifyOtp } = UseAuth();
+  const { verifyOtp, resendOtp } = UseAuth();
   const location = useLocation();
   const email = location.state?.email;
+  const type = location.state?.type;
 
   const {
     register,
@@ -27,49 +28,28 @@ const VerifyOtp = () => {
 
   useEffect(() => {
     let timer;
-    if (isActive && time > 0) {
-      timer = setTimeout(() => setTime(time - 1), 1000);
+
+    if (isActive) {
+      timer = setInterval(() => {
+        setTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            setIsActive(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     }
-    return () => clearTimeout(timer);
-  }, [time, isActive]);
+
+    return () => clearInterval(timer);
+  }, [isActive]);
 
   const onSubmit = async (data) => {
     const otp = Object.values(data).join("");
-    // try {
-    //   const response = await verifyOtp({otp});
-    //   if (response.user) {
-    //     showSuccess(response.message || "OTP verified successfully!");
-    //     navigate("/auth/login");
-    //   } else {
-    //     showError(response.message || "Invalid OTP, please try again");
-    //   }
-    // } catch (error) {
-    //   showError("Something Went wrong, please try again later!");
-    try {
-      let response;
-      switch (type) {
-        case "email-verification":
-          response = await verifyOtp({ otp, type: "email-verification" });
-          navigate("/auth/login");
-          break;
-        case "resend-otp":
-          response = await verifyOtp({ otp, type: "resend-otp" });
-          navigate("/auth/verify-otp");
-          break;
-        case "password-reset":
-          response = await verifyOtp({ otp, type: "password-reset" });
-          navigate("/auth/reset-password");
-          break;
-      }
-      if (response.user) {
-        showSuccess(response.message || "OTP verified successfully!");
-        navigate("/auth/login");
-      } else {
-        showError(response.message || "Invalid OTP, please try again");
-      }
-    } catch (error) {
-      showError("Something Went wrong, please try again later!");
-    }
+    console.log("otp: ", otp);
+    console.log("type: ", type);
+    await verifyOtp({ otp, type, email });
   };
 
   const handleKeyUp = (e, index) => {
@@ -82,11 +62,23 @@ const VerifyOtp = () => {
     }
   };
 
-  const handleResend = () => {
-    reset();
-    inputsRef.current[0]?.focus();
-    setTime(60);
-    setIsActive(true);
+  const handleResend = async () => {
+    try {
+      const response = await resendOtp({ email, type: "resend_otp" });
+      if (response?.message.includes("sent")) {
+        showSuccess(response.message || "OTP resent successfully!");
+        reset();
+        inputsRef.current[0]?.focus();
+        setTime(60);
+        setIsActive(true);
+      } else {
+        showError(
+          response?.message || "Failed to resend OTP, please try again"
+        );
+      }
+    } catch (error) {
+      showError("Something Went wrong, please try again later!");
+    }
   };
 
   return (
@@ -107,12 +99,15 @@ const VerifyOtp = () => {
               type="text"
               maxLength="1"
               {...register(`digit${i + 1}`, {
-                required: "",
+                required: "Kindly Enter OTP",
                 pattern: { value: /^[0-9]$/, message: "Only digits allowed" },
               })}
-              ref={(el) => (inputsRef.current[i] = el)}
+              ref={(el) => {
+                register(`digit${i + 1}`).ref(el);
+                inputsRef.current[i] = el;
+              }}
               onInput={(e) => {
-                e.target.value = e.target.value.replace(/[^0-9]/g, ""); 
+                e.target.value = e.target.value.replace(/[^0-9]/g, "");
               }}
               onKeyUp={(e) => handleKeyUp(e, i)}
             />
@@ -120,14 +115,12 @@ const VerifyOtp = () => {
         </div>
 
         {Object.values(errors).length > 0 && (
-          <p style={{ color: "red", fontSize: "12px" }}>
-            {Object.values(errors)[0].message}
-          </p>
+          <p className="errorMsg">{Object.values(errors)[0].message}</p>
         )}
 
         <p className="time">00 : {time < 10 ? `0${time}` : time}</p>
         <button
-          type="submit"
+          type="button"
           className="btn"
           onClick={handleResend}
           disabled={time > 0}

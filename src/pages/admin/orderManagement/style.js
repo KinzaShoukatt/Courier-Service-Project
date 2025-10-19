@@ -5,8 +5,9 @@ export const Heading = styled.p`
   font-family: "semibold";
   font-size: 25px;
 `;
-export const Container = styled.div``;
-
+export const Container = styled.div`
+  position: relative;
+`;
 // Assign Delivery to Agent Section
 export const AssignDelivery = styled.div`
   background-color: var(--secColor);
@@ -84,7 +85,20 @@ export const LeftDiv = styled.div`
       padding: 5px 12px;
       border-radius: 5px;
       cursor: pointer;
+      text-align: center;
     }
+  }
+  .cancelBtn {
+    background-color: #dc3545;
+    border: none;
+    font-family: "regular";
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 6px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
   }
 `;
 export const RightDiv = styled.div`
@@ -184,27 +198,15 @@ export const AssignDeliveryTable = styled.div`
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
     }
-    .btns {
-      display: flex;
-      gap: 6px;
-      button {
-        background-color: var(--dark-teal);
-        border: none;
-        padding: 4px 8px;
-        border-radius: 3px;
-        cursor: pointer;
-        .btn1 {
-          font-size: 18px;
-          color: var(--secColor);
-        }
-        .btn2 {
-          font-size: 18px;
-          color: var(--secColor);
-        }
-      }
-      .btn3 {
-        background-color: #dc3545;
-      }
+    .cancelBtn {
+      color: black;
+      background-color: #dc3545;
+      font-weight: bold;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
     }
   }
 `;
@@ -215,6 +217,8 @@ export const RescheduleCancel = styled.div`
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin-block: 25px;
+  position: relative;
+  /* position: absolute; */
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);
@@ -254,33 +258,15 @@ export const RescheduleCancel = styled.div`
       border-bottom: 1px solid var(--borderColor);
     }
 
-    .status1 {
-      background-color: var(--priColor);
-      color: var(--dark-teal);
-      font-weight: bold;
-      padding: 5px;
-      border-radius: 10px;
-      font-size: 12px;
-    }
-    .status2 {
-      background-color: #ceead7;
-      color: #28a745;
-      font-weight: bold;
-      padding: 5px;
-      border-radius: 10px;
-      font-size: 12px;
-    }
-    .status3 {
-      background-color: #f9f0ca;
-      color: #ffc107;
+    .cancelStatus {
+      background-color: #dc3545;
+      color: black;
       font-weight: bold;
       padding: 5px;
       border-radius: 10px;
       font-size: 12px;
     }
     .btns {
-      display: flex;
-      gap: 6px;
       .btn1 {
         background-color: #ffca2c;
         border: none;
@@ -293,19 +279,87 @@ export const RescheduleCancel = styled.div`
         align-items: center;
         font-family: "regular";
       }
-      .btn2 {
-        background-color: #bb2d3b;
-        color: var(--secColor);
-        border: none;
-        padding: 4px 8px;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        gap: 3px;
-        padding: 10px;
-        align-items: center;
-        font-family: "regular";
+    }
+  }
+`;
+
+export const Popup = styled.div`
+  font-family: "regular";
+  color: var(--dark-teal);
+  width: 60%;
+  background-color: var(--priColor);
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-family: "semibold";
+    border-bottom: 1px solid var(--borderColor);
+    padding-block: 10px;
+  }
+  .errorMsg {
+    color: red;
+  }
+
+  .dateTime {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-family: "regular";
+    padding-block: 10px;
+    /* display: none; */
+    @media (max-width: 480px) {
+      gap: 7px;
+    }
+    .dateTimeChilds {
+      flex: 1;
+      min-width: 200px;
+      label {
+        font-size: 18px;
       }
+      input {
+        width: calc(100% - 15px);
+        object-fit: cover;
+        border: 1px solid var(--borderColor);
+        font-family: "regular";
+        font-size: 15px;
+        border-radius: 5px;
+        padding: 13px 10px;
+        margin-block: 10px;
+        color: grey;
+        outline-color: var(--borderColor);
+        cursor: pointer;
+        @media (max-width: 480px) {
+          margin-block: 3px;
+        }
+      }
+    }
+  }
+  .slot {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  button {
+    background-color: var(--dark-teal);
+    border: none;
+    color: var(--secColor);
+    font-weight: 400;
+    font-family: "regular";
+    font-size: 18px;
+    padding: 10px 35px;
+    border-radius: 8px;
+    margin: 5px 0px;
+    cursor: pointer;
+    @media (max-width: 480px) {
+      padding: 10px 28px;
     }
   }
 `;
@@ -336,13 +390,13 @@ export const ParcelHistory = styled.div`
     overflow-x: auto;
     box-sizing: border-box;
     margin-block: 20px;
+
     table {
       width: 100%;
       font-family: "regular";
       border-collapse: collapse;
       text-align: left;
       color: var(--textColor);
-      width: 100%;
       th,
       td {
         padding: 12px;
@@ -362,19 +416,19 @@ export const ParcelHistory = styled.div`
         text-transform: capitalize;
         font-size: 15px;
       }
-      .status.scheduled {
+      .status.order_placed {
         background-color: #c8d9eeff;
         color: #0b5ed7;
       }
-      .status.Pickup {
+      .status.picked_up {
         background-color: #facc15;
-        color: #1f2937;
+        color: #08101cff;
       }
-      .status.in {
+      .status.in_transit {
         background-color: #3b82f6;
         color: #ffffff;
       }
-      .status.out {
+      .status.out_for_delivery {
         background-color: #1e404f;
         color: #ffffff;
       }
@@ -382,13 +436,85 @@ export const ParcelHistory = styled.div`
         background-color: #ceead7;
         color: #28a745;
       }
-      .action {
+      .actionBtn {
         background-color: var(--dark-teal);
+        font-family: "regular";
         color: var(--secColor);
-        padding: 5px 10px;
+        padding: 6px 10px;
+        border: none;
         border-radius: 5px;
         cursor: pointer;
       }
+      .btns {
+        display: flex;
+        gap: 3px;
+        .cancelBtn {
+          color: black;
+          background-color: #dc3545;
+          font-weight: bold;
+          padding: 6px 10px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 15px;
+        }
+      }
     }
   }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: "regular";
+  padding-bottom: 10px;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
+export const PaginationInfo = styled.p`
+  padding-left: 0.25rem;
+  @media (max-width: 320px) {
+    display: none;
+  }
+`;
+
+export const PaginationNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageButton = styled.button`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #374151;
+  background-color: white;
+  font-family: "regular";
+  font-weight: 600;
+  @media (max-width: 320px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    background-color: var(--dark-teal);
+    color: white;
+    border: none;
+  }
+`;
+
+export const PageNavButton = styled(PageButton)`
+  font-size: 0.75rem;
 `;

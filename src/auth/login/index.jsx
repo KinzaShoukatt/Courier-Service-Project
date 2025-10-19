@@ -7,13 +7,16 @@ import LogoImg from "../../assets/images/logo.png";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoEyeOffSharp } from "react-icons/io5";
-import GoogleLogo from "../../assets/images/googleLogo.png";
+import { MdRemoveRedEye } from "react-icons/md";
 import UseAuth from "../useHook";
-import { showError, showSuccess } from "../../utils/toast";
-
+import { GoogleLogin } from "@react-oauth/google";
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = UseAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const { login, googleLogin } = UseAuth();
 
   const {
     register,
@@ -22,19 +25,15 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    try{
-      const response = await login(data);
-      if(response.success) {
-        showSuccess(response.message || "Login Successful!");
-        navigate("/customer/dashboard");
-      } else {
-        showError(response.message || "Invalid email or password");
-      } 
-    } catch(error) {
-        showError("Something went wrong, please try again!");
-    }
+    await login(data);
   };
-   
+
+  const handleGoogleLogin = async (response) => {
+    const idToken = response.credential;
+    await googleLogin({ idToken });
+    navigate("/customer/dashboard");
+  };
+
   return (
     <Container>
       <ImgDiv>
@@ -65,7 +64,7 @@ const Login = () => {
           <div className="passwordInput">
             <RiLockPasswordFill color="#006769" size={18} />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Enter Your Password"
               {...register("password", {
                 required: "Password is required",
@@ -76,8 +75,20 @@ const Login = () => {
               })}
             />
           </div>
-          <div className="eyeIcon">
-            <IoEyeOffSharp color="#006769" size={18} />
+          <div className="eyeIcon" onClick={togglePassword}>
+            {showPassword ? (
+              <MdRemoveRedEye
+                color="#006769"
+                size={18}
+                style={{ cursor: "pointer" }}
+              />
+            ) : (
+              <IoEyeOffSharp
+                color="#006769"
+                size={18}
+                style={{ cursor: "pointer" }}
+              />
+            )}
           </div>
         </div>
         {errors.password && (
@@ -93,10 +104,17 @@ const Login = () => {
         </button>
 
         <p className="or">OR</p>
-        <button type="button" className="btn1">
-          <img src={GoogleLogo} alt="Google Logo" />
-          Continue with Google
-        </button>
+        <div className="googleLogin">
+          <GoogleLogin
+            className="googleLoginn"
+            onSuccess={handleGoogleLogin}
+            onError={() => console.log("Login Failed")}
+            width="100%"
+            size="large"
+            shape="rectangular"
+            theme="outline"
+          />
+        </div>
       </Form>
 
       <LastText>

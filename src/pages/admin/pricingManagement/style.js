@@ -5,7 +5,9 @@ export const Heading = styled.p`
   font-family: "semibold";
   font-size: 27px;
 `;
-export const Container = styled.div``;
+export const Container = styled.div`
+  position: relative;
+`;
 
 export const WeightParent = styled.div`
   box-sizing: border-box;
@@ -31,30 +33,48 @@ export const WeightParent = styled.div`
     flex-direction: column;
     padding-top: 15px;
     padding-inline: 10px;
+    .errorMsg {
+      color: red;
+    }
   }
-  .inputFeild {
-    flex: 1;
-    min-width: 160px;
+  .inputFields {
+    box-sizing: border-box;
     font-family: "regular";
-    color: var(--dark-teal);
-    font-weight: bold;
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px;
-      margin-top: 5px;
-      font-family: "regular";
-      outline-color: var(--borderColor);
-      border: 1px solid var(--borderColor);
-      border-radius: 5px;
-      background-color: var(--secColor);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-block: 10px;
+    @media (max-width: 480px) {
+      gap: 7px;
+    }
+    .childs {
+      flex: 1;
+      min-width: 200px;
+      label {
+        font-size: 18px;
+        color: var(--dark-teal);
+      }
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid var(--borderColor);
+        font-family: "regular";
+        font-size: 15px;
+        border-radius: 5px;
+        padding: 13px 10px;
+        outline-color: var(--borderColor);
+        margin-block: 10px;
+        @media (max-width: 480px) {
+          margin-block: 2px;
+        }
+      }
     }
   }
   .btn {
     display: flex;
     justify-content: flex-end;
     margin: 5px 0px;
-    .addAgentBtn {
+    .addBtn {
       padding: 12px 15px;
       margin-block: 10px;
       border-radius: 8px;
@@ -77,7 +97,7 @@ export const Table = styled.div`
   background-color: var(--secColor);
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(21, 21, 21, 0.5);
-
+  position: relative;
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);
@@ -140,12 +160,99 @@ export const Table = styled.div`
     }
   }
 `;
+
+export const FormDiv = styled.div`
+  font-family: "regular";
+  color: var(--dark-teal);
+  width: 60%;
+  background-color: var(--priColor);
+  border-radius: 10px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  transform: translateX(-50%);
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  form {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    .errorMsg {
+      color: red;
+    }
+  }
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-family: "semibold";
+    border-bottom: 1px solid var(--borderColor);
+    padding-inline: 15px;
+    align-items: center;
+  }
+  .parentInput {
+    padding-inline: 15px;
+  }
+  .inputFields {
+    box-sizing: border-box;
+    font-family: "regular";
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-block: 10px;
+    .childs {
+      flex: 1;
+      min-width: 200px;
+      label {
+        font-size: 18px;
+        color: var(--dark-teal);
+      }
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid var(--borderColor);
+        font-family: "regular";
+        font-size: 15px;
+        border-radius: 5px;
+        padding: 13px 10px;
+        outline-color: var(--borderColor);
+        margin-block: 10px;
+        @media (max-width: 480px) {
+          margin-block: 2px;
+        }
+      }
+    }
+  }
+  .btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    .addBtn {
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "regular";
+      background-color: var(--dark-teal);
+      color: var(--secColor);
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+`;
+
 export const AgentPricing = styled.div`
   box-sizing: border-box;
   margin-block: 15px;
   background-color: var(--secColor);
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(21, 21, 21, 0.5);
+  .errorMsg {
+    color: red;
+  }
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);

@@ -25,6 +25,10 @@ export const Heading = styled.h1`
   padding: 10px 0px;
 `;
 export const Form = styled.form`
+  .errorMsg {
+    color: red;
+    font-family: "regular";
+  }
   .inputFields2 {
     border: 1px solid var(--borderColor);
     margin: auto;

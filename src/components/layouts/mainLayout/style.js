@@ -4,6 +4,8 @@ export const Container = styled.div`
   display: flex;
   box-sizing: border-box;
   width: 100%;
+  position: relative;
+
 `;
 
 export const LeftDiv = styled.div`
@@ -12,6 +14,7 @@ export const LeftDiv = styled.div`
   background-color: var(--dark-teal);
   box-sizing: border-box;
   display: block;
+  position: relative;
   @media (max-width: 768px) {
     display: block;
     position: fixed;
@@ -28,6 +31,7 @@ export const LeftDiv = styled.div`
 `;
 
 export const RightDiv = styled.div`
+position: relative;
   width: calc(100% - 18%);
   @media (max-width: 768px) {
     width: 100%;

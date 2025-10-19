@@ -3,9 +3,13 @@ import styled from "styled-components";
 export const Container = styled.div`
   position: relative;
   scroll-behavior: smooth;
+  * {
+    box-sizing: border-box;
+  }
 `;
 export const NavContainer = styled.div`
   box-sizing: border-box;
+
   .navBar {
     box-sizing: border-box;
     display: flex;
@@ -80,85 +84,211 @@ export const NavContainer = styled.div`
 
 export const HomeSection = styled.div`
   box-sizing: border-box;
+  /* border: 2px solid red; */
+  box-sizing: border-box;
   scroll-margin-top: 60px;
+  margin-top: 5vh;
   .coverImg {
-    width: 100%;
-    height: 100vh;
     position: relative;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: rgba(8, 134, 134, 0.5);
-      z-index: 1;
-    }
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
   }
-  .text {
+
+  .coverImg img {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .coverImg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(8, 134, 134, 0.5);
+    z-index: 1;
+  }
+
+  .text {
+    position: relative;
     z-index: 2;
-    line-height: 2;
-    .heading {
-      font-family: "semibold";
-      font-size: 28px;
-      font-weight: bolder;
-      color: var(--secColor);
+    text-align: center;
+    color: white;
+    /* max-width: 800px; */
+    line-height: 1.8;
+  }
+
+  .heading {
+    font-family: "semibold";
+    font-size: 28px;
+    font-weight: bolder;
+    color: var(--secColor);
+  }
+  .desc {
+    font-family: "regular";
+    font-size: 17px;
+    color: var(--secColor);
+  }
+  .tracking {
+    display: flex;
+    border-radius: 5px;
+    padding-inline: 10px;
+    width: fit-content;
+    align-items: center;
+    gap: 10px;
+    margin-block: 20px;
+    background-color: white;
+    margin-inline: auto;
+    @media (max-width: 768px) {
+      margin-block: 10px;
     }
-    .desc {
-      font-family: "regular";
-      font-size: 17px;
-      color: var(--secColor);
-    }
-    .tracking {
-      display: flex;
-      border-radius: 5px;
-      padding-inline: 10px;
-      width: fit-content;
-      align-items: center;
-      gap: 10px;
-      margin-block: 20px;
-      background-color: white;
-      margin-inline: auto;
-      input {
-        font-size: 16px;
-        border: none;
-        font-family: "regular";
-        outline: none;
-      }
-      button {
-        border: none;
-        padding: 8px 15px;
-        color: var(--secColor);
-        font-size: 16px;
-        cursor: pointer;
-        font-family: "regular";
-        background-color: rgba(3, 63, 63, 1);
-        border-radius: 5px;
-        margin-block: 5px;
-      }
-    }
-    .btn {
-      background-color: rgba(3, 63, 63, 1);
-      color: var(--secColor);
-      padding: 11px 19px;
+    input {
+      font-size: 16px;
       border: none;
       font-family: "regular";
-      font-size: 15px;
-      border-radius: 5px;
-      cursor: pointer;
+      outline: none;
     }
+    button {
+      border: none;
+      padding: 8px 15px;
+      color: var(--secColor);
+      font-size: 16px;
+      cursor: pointer;
+      font-family: "regular";
+      background-color: rgba(3, 63, 63, 1);
+      border-radius: 5px;
+      margin-block: 5px;
+      @media (max-width: 768px) {
+        padding: 3px 10px;
+      }
+    }
+  }
+  .parcelStatus {
+    margin-top: 30px;
+    padding-block: 15px;
+    padding-inline: 10px;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--priColor);
+    border-radius: 5px;
+    font-family: "regular";
+    @media (max-width: 768px) {
+      display: block;
+      margin-top: 10px;
+    }
+    @media (max-width: 450px) {
+      display: block;
+      margin-top: 10px;
+    }
+    .status {
+      display: flex;
+      gap: 10px;
+      text-transform: capitalize;
+      font-family: "regular";
+      color: var(--dark-teal);
+      @media (max-width: 565px) {
+        font-size: 14px;
+      }
+      @media (max-width: 510px) {
+        font-size: 13px;
+        gap: 5px;
+      }
+      .left {
+        font-weight: bold;
+        color: black;
+      }
+    }
+  }
+  .parentProgressLine {
+    position: relative;
+    z-index: 1;
+    font-family: "regular";
+    .progressLine {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 30px 0;
+      z-index: 2;
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+        margin-left: 20px;
+      }
+    }
+    .progressLine::before {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      border-radius: 4px;
+      background-color: var(--borderColor);
+      z-index: 1;
+      @media (max-width: 768px) {
+        width: 4px;
+        height: 105%;
+        top: -10px;
+        left: 20px;
+      }
+    }
+    .progressStep {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      @media (max-width: 768px) {
+        flex-direction: row;
+        gap: 15px;
+      }
+      .icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: var(--secColor);
+        border: 4px solid var(--borderColor);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+    }
+    .progressStep.stepComplete .icon {
+      border-color: green;
+      background-color: green;
+      color: white;
+    }
+    .progressStep.stepComplete p {
+      color: green;
+      font-weight: 600;
+    }
+    .progressStep.stepActive .icon {
+      border-color: green;
+      background-color: green;
+      color: white;
+    }
+    .progressStep.stepActive p {
+      color: green;
+      font-weight: 600;
+    }
+  }
+  .btn {
+    background-color: rgba(3, 63, 63, 1);
+    color: var(--secColor);
+    padding: 11px 19px;
+    border: none;
+    font-family: "regular";
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
   }
 `;
 

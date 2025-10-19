@@ -17,33 +17,96 @@ import { FaMoneyBill1Wave } from "react-icons/fa6";
 import { FaReceipt } from "react-icons/fa6";
 
 import { useState } from "react";
+import UseAdmin from "../useHooks";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 
 const ManualOrderCreation = () => {
+  const {
+    manualOrderPrepare,
+    cashPayment,
+    bookingOrderInvoice,
+    stripePayment,
+    cancelParcel,
+  } = UseAdmin();
   const [pickupOption, setPickupOption] = useState("Instant Pickup");
+  const [isOrder1Confirmed, setIsOrder1Confirmed] = useState(false);
+  const [showInvoiceBtn, setShowInvoiceBtn] = useState(false);
 
-  const [pickupAddress, setPickupAddress] = useState("");
-  const [pickupZone, setPickupZone] = useState("");
-
-  const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [deliveryZone, setDeliveryZone] = useState("");
+  const zones = [
+    { id: 1, name: "Punjab" },
+    { id: 2, name: "Sindh" },
+    { id: 3, name: "KPK" },
+    { id: 4, name: "Balochistan" },
+  ];
 
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!pickupAddress || !pickupZone) {
-      alert("Please Enter pickup Address  and enter a pickup Zone!");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    if (pickupOption === "Scheduled Pickup") {
+      data.pickupSlot = `${data.pickupDate}, ${data.pickupStart} to ${data.pickupEnd}`;
+    } else {
+      data.pickupSlot = "Instant Pickup";
     }
-    if (!deliveryAddress || !deliveryZone) {
-      alert("Please Enter pickup Address  and enter a pickup Zone!");
+    const payload = {
+      customer: {
+        fullName: data.fullName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+      },
+      parcel: {
+        pickupAddress: data.pickupAddress,
+        deliveryAddress: data.deliveryAddress,
+        packageWeight: data.packageWeight,
+        packageSize: data.packageSize,
+        packageContent: data.packageContent,
+        pickupSlot: data.pickupSlot,
+        specialInstructions: data.specialInstructions,
+        pickupZoneId: Number(data.pickupZoneId),
+        deliveryZoneId: Number(data.deliveryZoneId),
+        deliveryType:
+          pickupOption === "Instant Pickup" ? "instant" : "scheduled",
+      },
+    };
+    const response = await manualOrderPrepare(payload);
+    console.log(response);
+    if (response?.parcelId) {
+      setShow(true);
     }
   };
+
+  const location = useLocation();
+  const parcelId = Number(localStorage.getItem("parcelId"));
+  const totalCharges = Number(sessionStorage.getItem("totalCharges"));
+
+  const handleCashPayment = async (body) => {
+    return await cashPayment(body);
+  };
+
+  const handleBookingOrderInvoice = async () => {
+    await bookingOrderInvoice(parcelId);
+  };
+
+  const handleStripePayment = async (body) => {
+    await stripePayment(body);
+  };
+
+  const handleCancelParcel = async (body) => {
+    return await cancelParcel(body);
+  };
+
   return (
     <>
       <Container>
         <h2 className="heading">Manual Order Creation</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* person Information */}
           <div className="boldText">
             <IoPerson className="icon" color="#006769" />
@@ -52,18 +115,59 @@ const ManualOrderCreation = () => {
           <div className="inputFields">
             <div className="childs">
               <label htmlFor="">Full Name</label>
+
               <br />
-              <input type="text" placeholder="Enter Full Name" />
+              {errors.fullName && (
+                <p className="errorMsg">{errors.fullName.message}</p>
+              )}
+              <input
+                type="text"
+                placeholder="Enter Full Name"
+                {...register("fullName", {
+                  required: "Enter Name of Customer!",
+                })}
+              />
             </div>
             <div className="childs">
               <label htmlFor="">Enter Email</label>
               <br />
-              <input type="email" placeholder="Enter Email" />
+
+              {errors.email && (
+                <p className="errorMsg">{errors.email.message}</p>
+              )}
+              <input
+                type="email"
+                placeholder="Enter Email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Enter a valid Email",
+                  },
+                })}
+              />
             </div>
             <div className="childs">
               <label htmlFor="">Phone No.</label>
               <br />
-              <input type="tel" placeholder="Enter Phone No" />
+              {errors.phoneNumber && (
+                <p className="errorMsg">{errors.phoneNumber.message}</p>
+              )}
+              <input
+                type="tel"
+                placeholder="Enter Phone No"
+                {...register("phoneNumber", {
+                  required: "Phone Number is Required",
+                  minLength: {
+                    value: 11,
+                    message: "Invalid Phone Number",
+                  },
+                  maxLength: {
+                    value: 11,
+                    message: "Invalid Phone Number",
+                  },
+                })}
+              />
             </div>
           </div>
           {/* Address Information */}
@@ -75,41 +179,59 @@ const ManualOrderCreation = () => {
             <div className="childs">
               <label htmlFor="">Pickup Address</label>
               <br />
+              {errors.pickupAddress && (
+                <p className="errorMsg">{errors.pickupAddress.message}</p>
+              )}
               <input
                 type="text"
                 placeholder="Enter Pickup Address"
-                value={pickupAddress}
-                onChange={(e) => setPickupAddress(e.target.value)}
+                {...register("pickupAddress", {
+                  required: "Enter Pickup Address",
+                })}
               />
+              {errors.pickupZoneId && (
+                <p className="errorMsg">{errors.pickupZoneId.message}</p>
+              )}
               <select
-                value={pickupZone}
-                onChange={(e) => setPickupZone(e.target.value)}
+                {...register("pickupZoneId", {
+                  required: "Enter Pickup Zone",
+                })}
               >
-                <option>Select Pickup Zone</option>
-                <option>Punjab</option>
-                <option>Sindh</option>
-                <option>kPk</option>
-                <option>Balochistan</option>
+                <option value="">Select Pickup Zone</option>
+                {zones.map((zone) => (
+                  <option key={zone.id} value={zone.id}>
+                    {zone.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="childs">
               <label htmlFor="">Delivery Address</label>
               <br />
+              {errors.deliveryAddress && (
+                <p className="errorMsg">{errors.deliveryAddress.message}</p>
+              )}
               <input
                 type="text"
                 placeholder="Enter Delivery Address"
-                value={deliveryAddress}
-                onChange={(e) => setDeliveryAddress(e.target.value)}
+                {...register("deliveryAddress", {
+                  required: "Enter Delivery Address",
+                })}
               />
+              {errors.deliveryZoneId && (
+                <p className="errorMsg">{errors.deliveryZoneId.message}</p>
+              )}
               <select
-                value={deliveryZone}
-                onChange={(e) => setDeliveryZone(e.target.value)}
+                {...register("deliveryZoneId", {
+                  required: "Enter Delivery Zone",
+                })}
               >
-                <option>Select Delivery Zone</option>
-                <option>Punjab</option>
-                <option>Sindh</option>
-                <option>kPk</option>
-                <option>Balochistan</option>
+                <option value="">Select Delivery Zone</option>
+                {zones.map((zone) => (
+                  <option key={zone.id} value={zone.id}>
+                    {zone.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -122,28 +244,65 @@ const ManualOrderCreation = () => {
             <div className="childs">
               <label htmlFor="">Package Weight</label>
               <br />
-              <input type="number" placeholder="Enter Weight" />
+              {errors.packageWeight && (
+                <p className="errorMsg">{errors.packageWeight.message}</p>
+              )}
+              <input
+                type="number"
+                placeholder="Enter Weight"
+                {...register("packageWeight", {
+                  required: "Enter Weight of Parcel!",
+                  max: {
+                    value: 50,
+                    message: "Weight cannot exceed 50 kg",
+                  },
+                })}
+              />
             </div>
             <div className="childs">
               <label htmlFor="">Package Size</label>
               <br />
-              <select name="" id="">
-                <option value="">small</option>
-                <option value="">medium</option>
-                <option value="">large</option>
+              {errors.packageSize && (
+                <p className="errorMsg">{errors.packageSize.message}</p>
+              )}
+              <select
+                name=""
+                id=""
+                {...register("packageSize", {
+                  required: "Enter Size of Parcel!",
+                })}
+              >
+                <option value="">Select Size</option>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
               </select>
             </div>
             <div className="childs">
               <label htmlFor="">Package Content</label>
               <br />
-              <input type="text" placeholder="Enter Package Content" />
+              {errors.packageContent && (
+                <p className="errorMsg">{errors.packageContent.message}</p>
+              )}
+              <input
+                type="text"
+                placeholder="Enter Package Content"
+                {...register("packageContent", {
+                  required: "Enter Package Content!",
+                })}
+              />
             </div>
           </div>
           <div className="inputFields">
             <div className="childs">
-              <label htmlFor="">Enter Special Instructions</label>
-              <br />
-              <textarea></textarea>
+              {errors.specialInstructions && (
+                <p className="errorMsg">{errors.specialInstructions.message}</p>
+              )}
+              <textarea
+                {...register("specialInstructions", {
+                  required: "Enter Special Instructions!",
+                })}
+              ></textarea>
             </div>
           </div>
 
@@ -161,6 +320,9 @@ const ManualOrderCreation = () => {
                 value="Instant Pickup"
                 checked={pickupOption === "Instant Pickup"}
                 onClick={() => setPickupOption("Instant Pickup")}
+                {...register("deliveryType", {
+                  required: "Select Pickup Date!",
+                })}
               />
               <label htmlFor="Instant">Instant Pickup</label>
               <br />
@@ -168,32 +330,73 @@ const ManualOrderCreation = () => {
             <div className="radioChilds">
               <input
                 type="radio"
-                id="Schedule"
+                id="Scheduled"
                 name="Pickup"
                 value="Schedule Pickup"
-                checked={pickupOption === "Schedule Pickup"}
-                onClick={() => setPickupOption("Schedule Pickup")}
+                checked={pickupOption === "Scheduled Pickup"}
+                onClick={() => setPickupOption("Scheduled Pickup")}
+                {...register("deliveryType", {
+                  required: "Select Pickup Date!",
+                })}
               />
               <label htmlFor="Schedule">Schedule Pickup</label>
             </div>
           </div>
           {/* Date Time */}
-          {pickupOption === "Schedule Pickup" && (
-            <div className="dateTime">
-              <div className="dateTimeChilds">
-                <label htmlFor="">Pickup Date</label>
-                <br />
-                <input type="date" placeholder="mm/dd/yyyy" />
+          {pickupOption === "Scheduled Pickup" && (
+            <>
+              <div className="dateTime">
+                <div className="dateTimeChilds">
+                  <label htmlFor="">Pickup Date</label>
+                  <br />
+                  {errors.pickupDate && (
+                    <p className="errorMsg">{errors.pickupDate.message}</p>
+                  )}
+                  <input
+                    type="date"
+                    placeholder="mm/dd/yyyy"
+                    {...register("pickupDate", {
+                      required: "Select Pickup Date!",
+                    })}
+                  />
+                </div>
               </div>
-              <div className="dateTimeChilds">
-                <label htmlFor="">Time Slot</label>
-                <br />
-                <input type="time" placeholder="Enter Time" />
+
+              <label htmlFor="">Pick Time Slot</label>
+              <div className="dateTime">
+                <div className="dateTimeChilds">
+                  <label htmlFor="">Strat Time</label>
+                  <br />
+                  {errors.pickupStart && (
+                    <p className="errorMsg">{errors.pickupStart.message}</p>
+                  )}
+                  <input
+                    type="time"
+                    placeholder="mm/dd/yyyy"
+                    {...register("pickupStart", {
+                      required: "Select Start Time!",
+                    })}
+                  />
+                </div>
+                <div className="dateTimeChilds">
+                  <label htmlFor="">End Time</label>
+                  <br />
+                  {errors.pickupEnd && (
+                    <p className="errorMsg">{errors.pickupEnd.message}</p>
+                  )}
+                  <input
+                    type="time"
+                    placeholder="Enter Time"
+                    {...register("pickupEnd", { required: "Select End Time!" })}
+                  />
+                </div>
               </div>
-            </div>
+              <input type="hidden" {...register("pickupSlot")} />
+            </>
           )}
-          <button onClick={() => setShow(true)}>Check Out</button>
+          <button type="submit">Check Out</button>
         </form>
+
         {show && (
           <Payment>
             <Content>
@@ -206,11 +409,11 @@ const ManualOrderCreation = () => {
                 <div className="parent">
                   <div className="child1">
                     <p>Delivery Charges</p>
-                    <p>100 rps</p>
+                    <p>{totalCharges} rps</p>
                   </div>
                   <div className="child2">
                     <p>Total Amount</p>
-                    <p>100 rps</p>
+                    <p>{totalCharges} rps</p>
                   </div>
                 </div>
               </OrderSummary>
@@ -241,20 +444,64 @@ const ManualOrderCreation = () => {
               </PaymentMethod>
               {/* Credit Card */}
               {selected === "credit" && (
-                <CreditCardParent>{/* remianing  */}</CreditCardParent>
+                <CreditCardParent>
+                  {showInvoiceBtn ? (
+                    <button
+                      className="confirmBtn"
+                      onClick={() => handleBookingOrderInvoice()}
+                    >
+                      Show Invoice
+                    </button>
+                  ) : (
+                    <button
+                      className="confirmBtn"
+                      onClick={async () => {
+                        handleStripePayment();
+                      }}
+                    >
+                      Confirm Order
+                    </button>
+                  )}
+                </CreditCardParent>
               )}
 
               {/* COD Parent */}
               {selected === "cod" && (
                 <CODParent>
                   <div className="child1">
-                    <p>You will pay $25.00 now.</p>
+                    <p>You will pay {totalCharges} now.</p>
                   </div>
-                  <button className="confirmBtn">Confirm Order</button>
+                  {!isOrder1Confirmed ? (
+                    <button
+                      className="confirmBtn"
+                      onClick={async () => {
+                        const response = await handleCashPayment({
+                          paymentMethod: "cod",
+                        });
+                        if (response?.message?.includes("confirmed")) {
+                          setIsOrder1Confirmed(true);
+                        }
+                      }}
+                    >
+                      Confirm Order
+                    </button>
+                  ) : (
+                    <button
+                      className="confirmBtn"
+                      onClick={() => handleBookingOrderInvoice()}
+                    >
+                      Show Invoice
+                    </button>
+                  )}
                 </CODParent>
               )}
 
-              <button className="cancelBtn">Cancel Order</button>
+              <button
+                className="cancelBtn"
+                onClick={() => handleCancelParcel(parcelId)}
+              >
+                Cancel Order
+              </button>
             </Content>
           </Payment>
         )}

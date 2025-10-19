@@ -13,6 +13,13 @@
   --secColor: white;
   --borderColor: #e0dfdfff;
   --textColor: #333333;
+  --progressColor: white;
+}
+.toast-progress-custom {
+  background-color: #07bc0c !important;
+}
+.toast-progress-error {
+  background-color: #ffffff !important;
 }
 * {
   padding: 0;

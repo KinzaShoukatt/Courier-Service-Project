@@ -30,25 +30,8 @@ export const Container = styled.div`
       border-top: none;
       border-left: none;
       border-right: none;
-    }
-  }
-  .description {
-    color: var(--dark-teal);
-    font-weight: bold;
-    gap: 10px;
-    font-size: 17px;
-    padding-block: 15px;
-    p {
-      padding-bottom: 10px;
-    }
-    textarea {
-      width: 100%;
-      border: 1px solid var(--borderColor);
-      outline-color: 1px solid var(--borderColor);
-      border-radius: 10px;
-      min-height: 15vh;
-      min-width: 100%;
-      max-width: 100%;
+      font-family: "regular";
+      font-weight: bold;
     }
   }
   .trackingId {
@@ -56,7 +39,7 @@ export const Container = styled.div`
     font-weight: bold;
     gap: 10px;
     font-size: 17px;
-    padding-bottom: 15px;
+    padding-block: 15px;
     input {
       width: 100%;
       box-sizing: border-box;
@@ -68,6 +51,29 @@ export const Container = styled.div`
       outline-color: 2px solid var(--borderColor);
       border: 1px solid var(--borderColor);
       border-radius: 10px;
+    }
+  }
+  .description {
+    color: var(--dark-teal);
+    font-weight: bold;
+    gap: 10px;
+    font-size: 17px;
+    padding-bottom: 15px;
+    p {
+      padding-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      border: 1px solid var(--borderColor);
+      /* outline-color: 1px solid var(--borderColor); */
+      outline-style: 2px solid var(--borderColor);
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 10px;
+      min-height: 20vh;
+      min-width: 100%;
+      max-width: 100%;
+      font-family: "regular";
     }
   }
   .submitBtn {

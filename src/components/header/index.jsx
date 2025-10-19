@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Container } from "./style";
 
 import { FaCircleUser } from "react-icons/fa6";
@@ -7,8 +7,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 const Header = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname , 'here is my location');
-  
+  console.log(location.pathname, "here is my location");
+
+  let headerText = "Customer Pannel";
+
+  if (location.pathname?.startsWith("/customer")) {
+    headerText = "Customer Pannel";
+  } else if (location.pathname?.startsWith("/admin")) {
+    headerText = "Admin Pannel";
+  } else {
+    headerText = "Agent Pannel";
+  }
+
   return (
     <Container>
       <div className="headertext">
@@ -16,7 +26,7 @@ const Header = ({ toggleSidebar }) => {
           <GiHamburgerMenu className="icon" color="#006769" />
         </div>
         <div>
-          <h2>Customer Pannel</h2>
+          <h2>{headerText}</h2>
         </div>
       </div>
       <div className="profile">

@@ -26,12 +26,15 @@ import RaiseComplaint from '../../pages/customer/raiseComplaint'
 import ManualOrderCreation from '../../pages/admin/manualOrderCreation'
 import AdminSupport from '../../pages/admin/support'
 import Complaint from '../../pages/admin/complaint'
+import ProtectedRoutes from '../../components/protectedRoutes'
 
 const MainRoutes = () => {
   return (
     <>
     <MainLayout>
-        <Routes>
+      <Routes>
+      
+        <Route element={<ProtectedRoutes/>}>
             <Route path="/customer/" element={<Navigate to="/dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/parcel-booking" element={<ParcelBooking/>}/>
@@ -42,13 +45,14 @@ const MainRoutes = () => {
             <Route path="/raise-complaint" element={<RaiseComplaint/>}/>
             <Route path="/ai-chat" element={<AIChatboox/>}/>
             <Route path="/profile" element={<UserProfile/>}/>
-        </Routes>
+        </Route>
         
-        <Routes>
+        <Route element={<ProtectedRoutes/>}>
           <Route path="/admin/" element={< Navigate to="/admin-dashboard" />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/order-management" element={<OrderManagement />} />
+           <Route path="/tracking" element={<ParcelTracking/>}/>
           <Route path="/manual-order-creation" element={<ManualOrderCreation />} />
           <Route path="/zone-management" element={<ZoneManagement />} />
           <Route path="/pricing-management" element={<PricingManagement />} />
@@ -57,12 +61,15 @@ const MainRoutes = () => {
           <Route path="/support-admin" element={<AdminSupport />} />
           <Route path="/complaint" element={<Complaint />} />
           <Route path="/cms-&-setting" element={<CMSAndSetting />} /> 
-        </Routes>
+        </Route>
 
-        <Routes>
+        <Route element={<ProtectedRoutes/>}>
           <Route path='/agent/' element={<Navigate to="/agent-dashboard"/>}></Route>
           <Route path='/agent-dashboard' element={<AgentDashboard/>}></Route>
           <Route path='/history-and-earnings' element={<HistoryAndEarnings/>}></Route>
+        </Route>
+
+      
         </Routes>
     </MainLayout>
     </>

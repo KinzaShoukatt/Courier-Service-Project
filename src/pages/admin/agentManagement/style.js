@@ -37,6 +37,9 @@ export const FormDiv = styled.div`
   box-sizing: border-box;
   margin-block: 25px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
+  .errorMsg {
+    color: red;
+  }
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);
@@ -53,6 +56,9 @@ export const FormDiv = styled.div`
   form {
     display: flex;
     flex-direction: column;
+    .errorMsg {
+      color: red;
+    }
     .inputFields {
       display: flex;
       gap: 15px;
@@ -97,76 +103,6 @@ export const FormDiv = styled.div`
   }
 `;
 
-// Assign Delivery to Agent Section
-export const AssignDelivery = styled.div`
-  background-color: var(--secColor);
-  border-radius: 10px;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  margin-block: 25px;
-  overflow-x: auto;
-  .heading {
-    font-size: 22px;
-    background-color: var(--dark-teal);
-    color: var(--secColor);
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-family: "regular";
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding-block: 12px;
-    font-weight: bold;
-    /* text-align: center; */
-    padding-left: 20px;
-  }
-  .tableDiv{
-    overflow-x: auto;
-    padding-inline: 10px;
-  }
-  table {
-    width: 100%;
-    margin-block: 15px;
-    font-family: "regular";
-    border-collapse: collapse;
-    text-align: left;
-    color: var(--textColor);
-    th,
-    td {
-      padding: 12px;
-    }
-    th {
-      background-color: var(--priColor);
-      color: var(--dark-teal);
-    }
-    tr {
-      border-bottom: 1px solid var(--borderColor);
-      white-space: nowrap;
-    }
-    .btns {
-      display: flex;
-      gap: 6px;
-      button {
-        background-color: var(--dark-teal);
-        border: none;
-        padding: 4px 8px;
-        border-radius: 3px;
-        cursor: pointer;
-        .btn1 {
-          font-size: 18px;
-          color: var(--secColor);
-        }
-        .btn2 {
-          font-size: 18px;
-          color: var(--secColor);
-        }
-      }
-      .btn3 {
-        background-color: #dc3545;
-      }
-    }
-  }
-`;
-
 export const AgentchartContainer = styled.div`
   width: 100%;
   background-color: var(--secColor);
@@ -189,15 +125,19 @@ export const AgentchartContainer = styled.div`
     padding-left: 20px;
   }
 
-  .heading {
-    font-size: 22px;
-    margin-bottom: 10px;
+  .headingDiv {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
+    margin-bottom: 10px;
     padding-top: 10px;
-    text-align: center;
+  }
+  .heading2 {
+    text-transform: uppercase;
   }
   .filterContainer {
     margin-block: 15px;

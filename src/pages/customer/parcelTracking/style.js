@@ -47,137 +47,144 @@ export const Container = styled.div`
         margin-block: 10px;
       }
       .btn {
-      background-color: var(--dark-teal);
-      color: var(--secColor);
-      font-family: "regular";
-      font-weight: bold;
-      border: 1 px solid var(--dark-teal);
-      height: 45px;
-      padding: 0px 10px;
-      border-radius: 5px;
-     
-    }
-    }
-    
-
-  .parcelStatus {
-    margin-top: 30px;
-    padding-block: 15px;
-    padding-inline: 10px;
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--priColor);
-    border-radius: 5px;
-    @media (max-width: 450px) {
-      display: block;
-    }
-    .status {
-      display: flex;
-      gap: 10px;
-      @media (max-width: 565px) {
-        font-size: 14px;
-      }
-      @media (max-width: 510px) {
-        font-size: 13px;
-        gap: 5px;
-      }
-      .left {
+        background-color: var(--dark-teal);
+        color: var(--secColor);
+        font-family: "regular";
         font-weight: bold;
+        border: 1 px solid var(--dark-teal);
+        height: 45px;
+        padding: 0px 10px;
+        border-radius: 5px;
+        cursor: pointer;
       }
     }
-  }
-  /* parcel Status */
-  .parentProgressLine {
-    position: relative;
-    z-index: 1;
-    .progressLine {
+
+    .parcelStatus {
+      margin-top: 30px;
+      padding-block: 15px;
+      padding-inline: 10px;
       display: flex;
       justify-content: space-between;
-      position: relative;
-      margin: 30px 0;
-      z-index: 2;
-      @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 25px;
-        margin-left: 20px;
+      background-color: var(--priColor);
+      border-radius: 5px;
+      @media (max-width: 450px) {
+        display: block;
       }
-    }
-    .progressLine::before {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      border-radius: 4px;
-      background-color: var(--borderColor);
-      z-index: 1;
-      @media (max-width: 768px) {
-        width: 4px;
-        height: 105%;
-        top: -10px;
-        left: 20px;
-      }
-    }
-    .progressStep {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-      @media (max-width: 768px) {
-        flex-direction: row;
-        gap: 15px;
-      }
-      .icon {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background-color: var(--secColor);
-        border: 4px solid var(--borderColor);
+      .status {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 10px;
+        gap: 10px;
+        @media (max-width: 565px) {
+          font-size: 14px;
+        }
+        @media (max-width: 510px) {
+          font-size: 13px;
+          gap: 5px;
+        }
+        .left {
+          font-weight: bold;
+        }
       }
     }
-    .stepComplete .icon {
-      border-color: green;
-      background-color: green;
-      color: white;
-    }
-    .stepComplete p {
-      color: green;
-    }
-    .stepActive .icon {
-      border-color: var(--dark-teal);
-      background-color: var(--dark-teal);
-      color: white;
-    }
-    .stepPending p {
-      color: black;
+    /* parcel Status */
+    .parentProgressLine {
+      position: relative;
+      z-index: 1;
+      .progressLine {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin: 30px 0;
+        z-index: 2;
+        @media (max-width: 768px) {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 25px;
+          margin-left: 20px;
+        }
+      }
+      .progressLine::before {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        border-radius: 4px;
+        background-color: var(--borderColor);
+        z-index: 1;
+        @media (max-width: 768px) {
+          width: 4px;
+          height: 105%;
+          top: -10px;
+          left: 20px;
+        }
+      }
+      .progressStep {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        @media (max-width: 768px) {
+          flex-direction: row;
+          gap: 15px;
+        }
+        .icon {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background-color: var(--secColor);
+          border: 4px solid var(--borderColor);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 10px;
+        }}
+        .progressStep.stepComplete .icon {
+          border-color: green;
+          background-color: green;
+          color: white;
+        }
+        .progressStep.stepComplete p {
+          color: green;
+          font-weight: 600;
+        }
+        .progressStep.stepActive .icon {
+          border-color: green;
+          background-color: green;
+          color: white;
+        }
+        .progressStep.stepActive p {
+          color: green;
+          font-weight: 600;
+        }
+      }
+    
+    /* details */
+    .card {
+      background-color: var(--priColor);
+      box-sizing: border-box;
+      padding-left: 20px;
+      padding-block: 30px;
+      border-radius: 10px;
+      p {
+        color: var(--dark-teal);
+      }
+      .heading1 {
+        font-weight: bold;
+        font-family: "semibold";
+        color: var(--dark-teal);
+        font-size: 20px;
+        padding-bottom: 10px;
+      }
+      .cardChild {
+        display: flex;
+        gap: 10px;
+        .heading {
+          color: black;
+          font-weight: bold;
+        }
+      }
     }
   }
-  /* details */
-  .card {
-    background-color: var(--priColor);
-    box-sizing: border-box;
-    padding-left: 20px;
-    padding-block: 30px;
-    border-radius: 10px;
-    p {
-      color: black;
-    }
-    .heading {
-      font-weight: bold;
-      font-family: "semibold";
-      color: var(--dark-teal);
-    }
-    .cardChild {
-      display: flex;
-      gap: 3px;
-    }
-  }
-    }
 `;

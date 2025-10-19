@@ -1,31 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Heading, AgentPricingTable, Popup } from "./style";
+import UseAdmin from "../useHooks";
 const Complaint = () => {
   const [status, setStatus] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const popupRef = useRef(null);
 
-  const dummyComplains = [
-    {
-      id: "ORD-001",
-      name: "Malaika",
-      email: "malaika@gmail.com",
-      description: "My order is not delivered yet.",
-      action: "",
-    },
-    {
-      id: "ORD-002",
-      name: "Ayesha",
-      email: "ayesha@gmail.com",
-      description: "My order is not delivered yet.",
-    },
-    {
-      id: "ORD-003",
-      name: "Hania",
-      email: "hania@gmail.com",
-      description: "My order is not delivered yet.",
-    },
-  ];
+  const { complaintsGet, complaintsStatusUpdation } = UseAdmin();
+  const [totalComplaints, setTotalComplaints] = useState([]);
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      const response = await complaintsGet();
+      if (response) {
+        setTotalComplaints(response.data);
+      }
+    };
+    fetchComplaints();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -42,6 +34,13 @@ const Complaint = () => {
     };
   }, [selectedId]);
 
+    const handleComplaintsStatusUpdation = async (id, status) => {
+      const body = {
+        status: status
+      }
+    await complaintsStatusUpdation(id, body)
+  }
+
   return (
     <>
       <Heading>Complaints</Heading>
@@ -51,33 +50,40 @@ const Complaint = () => {
           <table>
             <thead>
               <tr>
+                <th>Parcel ID</th>
                 <th>Tracking ID</th>
                 <th>Customer Name</th>
-                <th>Email</th>
+                <th>Subject</th>
                 <th>Complaint Description</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {dummyComplains.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.description}</td>
-                  <td style={{position: "relative"}}>
+              {totalComplaints.map((ticket) => (
+                <tr key={ticket.id}>
+                  <td>{ticket.parcelId}</td>
+                  <td>{ticket.BookingParcel.trackingNumber}</td>
+                  <td>{ticket.User.fullName}</td>
+                  <td>{ticket.subject}</td>
+                  <td>{ticket.description}</td>
+                  <td >
+                    <span className={`ticketStatus ${ticket.status}`}>{ticket.status}</span></td>
+                  <td style={{ position: "relative" }}>
                     <button
                       onClick={() =>
-                        setSelectedId(selectedId === user.id ? null : user.id)
+                        setSelectedId(
+                          selectedId === ticket.id ? null : ticket.id
+                        )
                       }
                     >
-                      Open
+                      Change Ticket Status
                     </button>
-                    {selectedId === user.id && (
+                    {selectedId === ticket.id && (
                       <Popup ref={popupRef}>
                         <div className="btnParent">
-                          <button>In Progress</button>
-                          <button>Closed</button>
+                          {/* <button>In Progress</button> */}
+                          <button  onClick={() => handleComplaintsStatusUpdation(ticket.id, "closed")}>Closed</button>
                         </div>
                       </Popup>
                     )}

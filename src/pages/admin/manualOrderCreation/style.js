@@ -6,6 +6,10 @@ export const Container = styled.div`
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin-block: 25px;
+  .errorMsg{
+      color: red;
+      font-family: "regular";
+    }
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);
@@ -256,7 +260,7 @@ export const PaymentMethod = styled.div`
       text-align: center;
       padding-block: 35px;
       cursor: pointer;
-      transition: all 0.4s;
+      transition: all 0.4s ease-in-out;
       &:hover {
         border: 1px solid var(--dark-teal);
         transform: translateY(-5px);
@@ -275,6 +279,12 @@ export const PaymentMethod = styled.div`
         flex-wrap: wrap;
       }
     }
+     .card.active {
+  background: #e6f0ff; 
+  transform: translateY(-8px); 
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); 
+  border: 1px solid  var(--dark-teal);
+}
   }
 `;
 
@@ -284,6 +294,17 @@ export const CreditCardParent = styled.div`
   margin-block: 10px;
   padding-block: 20px;
   padding-inline: 10px;
+  .confirmBtn {
+    background-color: var(--dark-teal);
+    color: var(--secColor);
+    font-family: "regular";
+    border: none;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
   .creditCard {
     font-family: "regular";
     display: flex;
@@ -307,6 +328,7 @@ export const CreditCardParent = styled.div`
         margin-block: 10px;
       }
     }
+    
   }
 `;
 

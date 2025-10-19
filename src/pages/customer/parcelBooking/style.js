@@ -7,6 +7,10 @@ export const Container = styled.div`
   margin-inline: 15px;
   @media (max-width: 768px) {
     margin-inline: 0px;
+    .errorMsg{
+      color: red;
+      font-family: "regular";
+    }
   }
 
   form {
@@ -101,6 +105,10 @@ export const Container = styled.div`
         }
       }
     }
+     label {
+          font-size: 18px;
+          font-family: "regular";
+        }
     .dateTime {
       display: flex;
       flex-wrap: wrap;
@@ -108,12 +116,14 @@ export const Container = styled.div`
       font-family: "regular";
       padding-block: 10px;
       /* display: none; */
+      
       @media (max-width: 480px) {
         gap: 7px;
       }
       .dateTimeChilds {
         flex: 1;
         min-width: 200px;
+       
         label {
           font-size: 18px;
         }

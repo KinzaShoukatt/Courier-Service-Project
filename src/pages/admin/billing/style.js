@@ -33,6 +33,7 @@ export const PaymentCards = styled.div`
     }
   }
 `;
+
 export const PaymentsTable = styled.div`
   font-family: "regular";
   color: var(--dark-teal);
@@ -99,7 +100,16 @@ export const PaymentsTable = styled.div`
         }
       }
     }
-    .tableDiv{
+    .searchBtn {
+      background-color: var(--dark-teal);
+      color: var(--secColor);
+      font-family: "regular";
+      border: none;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-radius: 7px;
+    }
+    .tableDiv {
       overflow-x: auto;
     }
     table {
@@ -122,6 +132,11 @@ export const PaymentsTable = styled.div`
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
       }
+      .iconClass {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
       .status {
         padding: 4px 8px;
         border-radius: 4px;
@@ -137,9 +152,45 @@ export const PaymentsTable = styled.div`
         background-color: #fef6e7;
         color: #e6a700;
       }
-      .status.failed {
-        background-color: #fee7e7;
-        color: #d93030;
+      .orderStatus {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: 15px;
+      }
+      .orderStatus.scheduled {
+        background-color: #74ea70c8;
+        color: #39a294ff;
+      }
+      .orderStatus.order_placed {
+        background-color: #c8d9eeff;
+        color: #0b5ed7;
+      }
+      .orderStatus.picked_up {
+        background-color: #facc15;
+        color: #08101cff;
+      }
+      .orderStatus.in_transit {
+        background-color: #3b82f6;
+        color: #ffffff;
+      }
+      .orderStatus.out_for_delivery {
+        background-color: #1e404f;
+        color: #ffffff;
+      }
+      .orderStatus.delivered {
+        background-color: #ceead7;
+        color: #28a745;
+      }
+      .completePaymentBtn {
+        background-color: green;
+        color: var(--secColor);
+        border: none;
+        padding: 5px;
+        font-family: "regular";
+        border-radius: 5px;
+        cursor: pointer;
       }
     }
   }
@@ -167,7 +218,7 @@ export const RefundPayments = styled.div`
   }
   .paymentTable {
     padding-inline: 10px;
-      overflow-x: auto;
+    overflow-x: auto;
     table {
       width: 100%;
       margin-block: 10px;
@@ -241,7 +292,7 @@ export const InvoiceReports = styled.div`
   }
   .paymentTable {
     padding-inline: 10px;
-      overflow-x: auto;
+    overflow-x: auto;
     table {
       width: 100%;
       margin-block: 10px;
@@ -262,21 +313,77 @@ export const InvoiceReports = styled.div`
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
       }
-      .type {
+      .status {
         padding: 4px 8px;
         border-radius: 4px;
         font-weight: bold;
         text-transform: capitalize;
         font-size: 15px;
       }
-      .type.paid {
+      .status.completed {
         background-color: #e7f6e9;
         color: #155724;
       }
-      .type.pending {
+      .status.pending {
         background-color: #fef6e7;
         color: #e6a700;
       }
     }
   }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: "regular";
+  padding-bottom: 10px;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
+export const PaginationInfo = styled.p`
+  padding-left: 0.25rem;
+  @media (max-width: 320px) {
+    display: none;
+  }
+`;
+
+export const PaginationNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageButton = styled.button`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #374151;
+  background-color: white;
+  font-family: "regular";
+  font-weight: 600;
+  @media (max-width: 320px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    background-color: var(--dark-teal);
+    color: white;
+    border: none;
+  }
+`;
+
+export const PageNavButton = styled(PageButton)`
+  font-size: 0.75rem;
 `;

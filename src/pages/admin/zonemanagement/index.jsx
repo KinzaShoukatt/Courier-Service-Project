@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   ServiceAreasParent,
@@ -8,97 +8,61 @@ import {
   SetChargesParent,
   SetCharges,
   LastFormDiv,
-  LastListing
-
+  LastListing,
 } from "./style";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
+import UseAdmin from "../useHooks";
+import { useForm } from "react-hook-form";
+
 const ZoneManagement = () => {
-  // provinces States
-  const [provinces, setProvinces] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState("punjab");
+  const { allZonePrices, zonePricesUpdate } = UseAdmin();
 
-  //pricing States
-  const [pricing, setPricing] = useState([]);
-  const [selectedPricingProvince, setSelectedPricingProvince] = useState("punjab");
-  const [price, setPrice] = useState("");
-
-  //editMode States
-  const [editMode, setEditMode] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
-
-  const handleAddProvince = (e) => {
-    e.preventDefault();
-    if (provinces.includes(selectedProvince)) {
-      alert('This province has already been added.');
-      return;
+  const [allZone, setAllZone] = useState([]);
+  const fetchZones = async () => {
+    const response = await allZonePrices();
+    if (response) {
+      setAllZone(response.pricingRules);
+      console.log(response);
     }
-
-    setProvinces([...provinces, selectedProvince]);
   };
+  useEffect(() => {
+    fetchZones();
+  }, []);
 
-  const handleDeleteProvince = (province) => {
-    // Remove the province from the list
-    setProvinces(provinces.filter((p) => p !== province));
-  };
+  const zones = [
+    { zoneId: 1, name: "Punjab" },
+    { zoneId: 2, name: "Sindh" },
+    { zoneId: 3, name: "KPK" },
+    { zoneId: 4, name: "Balochistan" },
+  ];
 
-  const handleAddPricing = (e) => {
-    e.preventDefault();
-    if(!price){
-      alert("Please Enter the base Price");
-      return
+  const [selecteditem, setSelectedItem] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    if (selecteditem) {
+      reset({
+        zoneId: selecteditem.zoneId,
+        baseFare: selecteditem.baseFare,
+      });
     }
+  }, [selecteditem, reset]);
 
-    if(editMode) {
-      const updated = [...pricing];
-      updated[editIndex] = {
-        provine: selectedPricingProvince, price,
-      };
-      setPricing(updated);
-      setEditMode(false);
-  setEditIndex(null);
-    }
-    else{
-      const newEntry = {province: selectedPricingProvince, price};
-  setPricing([...pricing, newEntry]);
-    }
-  setPrice("");
-  };
-
-  const handleDeletePricing = (index) => {
-    // Remove the province from the list
-    setPricing(pricing.filter((_, i) => i !== index));
-  };
-
-  const handleEditPricing = (index) => {
-    const item = pricing[index];
-    // Remove the province from the list
-    setSelectedPricingProvince(item.province);;
-    setPrice(item.price);
-    setEditMode(true);
-    setEditIndex(index);
-  };
-
-  const formatProvinceName = (province) => {
-    // Convert province value to formatted name
-    switch (province) {
-      case "punjab":
-        return "Punjab";
-      case "sindh":
-        return "Sindh";
-      case "balochistan":
-        return "Balochistan";
-      case "khyberPakhtunkhwa":
-        return "Khyber Pakhtunkhwa";
-      default:
-        return province;
-    }
+  const onSubmit = async (id, body) => {
+    await zonePricesUpdate(id, body);
+    fetchZones();
   };
 
   return (
     <Container>
       <p className="mainHeading">Zone Management</p>
-      <ServiceAreasParent>
+      {/* <ServiceAreasParent>
         <p className="heading">Define Service Areas</p>
         <ServiceAreas>
           <FormDiv>
@@ -162,47 +126,89 @@ const ZoneManagement = () => {
             </table>
           </Listing>
         </ServiceAreas>
-      </ServiceAreasParent>
+      </ServiceAreasParent>  */}
+
       {/* Setcharges */}
       <SetChargesParent>
         <p className="heading">Set Charges Per Province</p>
         <SetCharges>
           <LastFormDiv>
             <p className="leftHeading">Add Province-Based Pricing</p>
-            <form onSubmit={handleAddPricing}>
+            <form
+              onSubmit={handleSubmit((body) => onSubmit(selecteditem.id, body))}
+            >
               <div className="inputFeild">
                 <label htmlFor="">Select Province</label>
                 <br />
+                {errors.zoneId && (
+                  <p className="errorMsg">{errors.zoneId.message}</p>
+                )}
                 <select
-                  name="zone"
-                  id="zone"
-                  value={selectedPricingProvince}
-                  onChange={(e) => setSelectedPricingProvince(e.target.value)}
+                  {...register("zoneId", {
+                    required: "Enter Pickup Zone",
+                  })}
                 >
-                  <option value="punjab">
-                    Punjab
-                  </option>
-                  <option value="sindh">Sindh</option>
-                  <option value="balochistan">Balochistan</option>
-                  <option value="khyberPakhtunkhwa">Khyber Pakhtunkhwa</option>
+                  <option value="">Select Pickup Zone</option>
+                  {zones.map((zone) => (
+                    <option key={zone.zoneId} value={zone.zoneId}>
+                      {zone.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="inputFeild">
                 <label htmlFor="">Base Price</label>
                 <br />
-                
-                <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+                {errors.baseFare && (
+                  <p className="errorMsg">{errors.baseFare.message}</p>
+                )}
+                <input
+                  type="number"
+                  {...register("baseFare", {
+                    required: "Base Fare is Required!",
+                  })}
+                />
               </div>
               <div className="btn">
-                <button className="addAgentBtn">
-                  Add Pricing
-                </button>
+                <button className="addAgentBtn">Add Pricing</button>
               </div>
             </form>
           </LastFormDiv>
+
           <LastListing>
             <p className="rightHeading">Current Province-Based Pricing</p>
             <table>
+              <thead>
+                <tr>
+                  <th>Province</th>
+                  <th>Base Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allZone.map((zone) => (
+                  <tr key={zone.id}>
+                    <td>{zone.Zone.name}</td>
+                    <td>{zone.baseFare}</td>
+                    <td>
+                      <div className="btns">
+                        <button
+                          type="button"
+                          className="editBtn"
+                          onClick={() => setSelectedItem(zone)}
+                        >
+                          <FaEdit color="white" size={18} />
+                        </button>
+                        {/* <button className="deleteBtn" title="Remove province">
+                          <AiFillDelete color="white" size={18} />
+                        </button> */}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* <table>
               <thead>
                 <tr>
                   <th>Province</th>
@@ -236,7 +242,7 @@ const ZoneManagement = () => {
                 ))
               )}
               </tbody>
-            </table>
+            </table> */}
           </LastListing>
         </SetCharges>
       </SetChargesParent>

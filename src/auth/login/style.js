@@ -25,6 +25,9 @@ export const Heading = styled.h1`
   padding: 10px 0px;
 `;
 export const Form = styled.form`
+  .errorMsg {
+    color: red;
+  }
   .inputFields {
     border: 1px solid var(--borderColor);
     margin: auto;
@@ -78,8 +81,8 @@ export const Form = styled.form`
     text-align: left;
     margin: auto;
   }
-  .btn{
-     background-color: var(--dark-teal);
+  .btn {
+    background-color: var(--dark-teal);
     font-family: "regular";
     font-size: 17px;
     font-weight: bold;
@@ -91,43 +94,26 @@ export const Form = styled.form`
     margin: 10px;
     cursor: pointer;
   }
-  .btn1 {
-    background-color: var(--dark-teal);
-    font-family: "regular";
-    font-size: 17px;
-    font-weight: bold;
-    color: var(--secColor);
-    padding: 7px 10px;
-    width: 74%;
-    border: 2px solid var(--dark-teal);
-    border-radius: 10px;
-    margin: 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-inline: auto;
-    @media (max-width: 858px) {
-      font-size: 14px;
-      padding: 9px 10px;
-    }
-   
-    img{
-      height: 30px;
-      width: 30px;
-      align-items: center;
-      @media (max-width: 858px) {
-       height: 25px;
-      width: 25px;
-    }
-    }
-  }
-  
-  .or{
+
+  .or {
     text-align: center;
     font-weight: bold;
     align-items: center;
+  }
+  .googleLogin {
+    padding: 9px 10px;
+    width: 73%;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .googleLogin > div,
+  .googleLogin iframe {
+    width: 100% !important;
+    font-family: "regular";
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
   }
 `;
 export const LastText = styled.div`

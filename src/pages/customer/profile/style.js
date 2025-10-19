@@ -8,6 +8,10 @@ export const Container = styled.div`
   width: 70%;
   margin-inline: auto;
   padding-block: 35px;
+  .errorMsg {
+    color: red;
+    font-family: "regular";
+  }
   @media (max-width: 768px) {
     width: 85%;
   }

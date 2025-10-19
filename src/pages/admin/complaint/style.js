@@ -24,6 +24,7 @@ export const AgentPricingTable = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    z-index: auto;
   }
   .tableDiv {
     margin-inline: 10px;
@@ -60,6 +61,21 @@ export const AgentPricingTable = styled.div`
         cursor: pointer;
         gap: 3px;
       }
+      .ticketStatus{
+          padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: 15px;
+      }
+      .ticketStatus.closed{
+                background-color: #e7f6e9;
+        color: #155724;
+      }
+       .ticketStatus.open {
+        background-color: #fef6e7;
+        color: #e6a700;
+      }
     }
   }
 `;
@@ -68,10 +84,11 @@ export const Popup = styled.div`
   background-color: var(--secColor);
   padding: 20px;
   position: absolute;
-  bottom: 80%;
+  bottom: 90%;
+  right: 30%;
   border-radius: 5px;
   box-shadow: 0px 4px 14px rgba(21, 21, 21, 0.5);
-  z-index: 2;
+  z-index: 12;
   .btnParent {
     display: flex;
     flex-direction: column;

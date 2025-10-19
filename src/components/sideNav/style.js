@@ -6,10 +6,12 @@ export const Container = styled.div`
   box-sizing: border-box;
   position: fixed;
   overflow-y: auto;
-  top: 0;
   height: 100vh;
   -ms-overflow-style: none;
-  scrollbar-width: none;  
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   .closeBtn {
     display: none;
   }
@@ -37,30 +39,49 @@ export const Container = styled.div`
     }
   }
   .parentDiv {
-    padding-block: 30px;
-    padding-inline: 15px;
+    padding-block: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     .items {
       display: flex;
       align-items: center;
+      /* align-items: flex-start; */
+      flex-wrap: wrap;
       gap: 7px;
       line-height: 2.7;
+      width: 100%;
+      box-sizing: border-box;
       cursor: pointer;
-      }
-      .items.active{
-        /* margin-inline: 0px; */
-        width: 100%;
-         background-color: rgba(255, 255, 255, 0.1); 
-    border-left: 3px solid #ffffff; 
-    border-radius: 4px; 
-      }
-    
-   
+      padding: 5px 15px;
+      flex-wrap: wrap;
+    }
+    .item p {
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .items.active {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
     .icon {
       font-size: 18px;
     }
     @media (max-width: 1080px) {
       p {
         font-size: 12px;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .icon {
         font-size: 14px;
@@ -69,6 +90,10 @@ export const Container = styled.div`
     @media (max-width: 849px) {
       p {
         font-size: 10px;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .icon {
         font-size: 12px;

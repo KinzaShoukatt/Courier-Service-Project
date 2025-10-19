@@ -73,14 +73,19 @@ export const BookingChart = styled.div`
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  .heading {
-    font-size: 22px;
-    margin-bottom: 10px;
+  .headingDiv {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
+    margin-bottom: 10px;
     padding-top: 10px;
+  }
+  .heading2 {
+    text-transform: uppercase;
   }
   .filterContainer {
     margin-block: 15px;
@@ -152,14 +157,19 @@ export const AgentChart = styled.div`
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  .heading {
-    font-size: 22px;
-    margin-bottom: 10px;
+  .headingDiv {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
+    margin-bottom: 10px;
     padding-top: 10px;
+  }
+  .heading2 {
+    text-transform: uppercase;
   }
   .filterContainer {
     margin-block: 15px;
@@ -218,14 +228,19 @@ export const RevenuechartContainer = styled.div`
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin-top: 30px;
-  .heading {
-    font-size: 22px;
-    margin-bottom: 10px;
+  .headingDiv {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
+    margin-bottom: 10px;
     padding-top: 10px;
+  }
+  .heading2 {
+    text-transform: uppercase;
   }
   .filterContainer {
     margin-block: 15px;

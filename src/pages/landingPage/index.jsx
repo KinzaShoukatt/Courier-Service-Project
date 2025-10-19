@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Container,
   NavContainer,
@@ -18,19 +18,74 @@ import Logo from "../../assets/images/logo.png";
 import CoverImg from "../../assets/images/CoverImg.jpg";
 import WhiteLogo from "../../assets/images/LogoWhite.png";
 
-import { FaBullseye } from "react-icons/fa6";
-import { FaEye } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { ImLocation } from "react-icons/im";
+import { IoMdCheckmark } from "react-icons/io";
+
+import { FaTruckFast } from "react-icons/fa6";
+import { RiTruckFill } from "react-icons/ri";
+import { FaBoxOpen } from "react-icons/fa6";
+import UseLandingPage from "./useHooks";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const { trackParcels, staticPages } = UseLandingPage();
+  const [pagesGet, setPagesGet] = useState([]);
+  const [inputTrackingNumber, setInputTrackingNumber] = useState("");
+
   function setActive(e) {
     document.querySelectorAll(" ul li a").forEach((el) => {
       el.classList.remove("active");
     });
     e.target.classList.add("active");
   }
+
+  const location = useLocation();
+  const TrackingNumber = location?.state?.TrackingNumber;
+  const ParcelStatus = location?.state?.ParcelStatus;
+
+  const handleTrackParcels = async () => {
+    setShow(false);
+    const response = await trackParcels(inputTrackingNumber);
+    if (response && response.trackingNumber) {
+      setShow(true);
+    }
+  };
+  const Statuses = [
+    {
+      key: "order_placed",
+      label: "Order Placed",
+      icon: <IoMdCheckmark size={25} />,
+    },
+    { key: "picked_up", label: "Picked Up", icon: <IoMdCheckmark size={25} /> },
+    { key: "in_transit", label: "In Transit", icon: <FaTruckFast size={25} /> },
+    {
+      key: "out_for_delivery",
+      label: "Out for Delivery",
+      icon: <RiTruckFill size={25} />,
+    },
+    { key: "delivered", label: "Delivered", icon: <FaBoxOpen size={25} /> },
+  ];
+
+  const fetchStaticPages = async () => {
+    const response = await staticPages();
+    if (response) {
+      const pagesArray = Object.entries(response).map(([slug, data]) => ({
+        slug,
+        ...data,
+      }));
+      setPagesGet(pagesArray);
+    }
+  };
+  useEffect(() => {
+    fetchStaticPages();
+  }, []);
+
+  const aboutPage = pagesGet.find((p) => p.slug === "about-us");
+  const contactPage = pagesGet.find((p) => p.slug === "contact-us");
+  const termPage = pagesGet.find((p) => p.slug === "terms-and-conditions");
+
   return (
     <>
       <Container>
@@ -80,9 +135,53 @@ const LandingPage = () => {
                 anywhere!
               </p>
               <div className="tracking">
-                <input type="text" placeholder="Enter Tracking Number" />
-                <button>Track</button>
+                <input
+                  className="inp"
+                  type="text"
+                  placeholder="PK-3ABEC351ECDDC"
+                  value={inputTrackingNumber}
+                  onChange={(e) => setInputTrackingNumber(e.target.value)}
+                />
+                <button className="btn" onClick={handleTrackParcels}>
+                  Track Package
+                </button>
               </div>
+              {show && (
+                <>
+                  <div className="parcelStatus">
+                    <div className="status">
+                      <p className="left">Parcel Status:</p>
+                      <p>{ParcelStatus}</p>
+                    </div>
+                    <div className="status">
+                      <p className="left">Tracking ID:</p>
+                      <p>{TrackingNumber}</p>
+                    </div>
+                  </div>
+                  <div className="parentProgressLine">
+                    <div className="progressLine">
+                      {Statuses.map((status, index) => {
+                        const activeIndex = Statuses.findIndex(
+                          (s) => s.key === ParcelStatus
+                        );
+                        let stepClass = "progressStep stepPending";
+
+                        if (index < activeIndex)
+                          stepClass = "progressStep stepComplete"; // green completed
+                        if (index === activeIndex)
+                          stepClass = "progressStep stepActive"; // current step
+
+                        return (
+                          <div key={status.key} className={stepClass}>
+                            <div className="icon">{status.icon}</div>
+                            <p>{status.label}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
               <button className="btn" onClick={() => navigate("/auth/login")}>
                 Book A Delivery
               </button>
@@ -95,23 +194,11 @@ const LandingPage = () => {
             <p className="aboutHeading">About Us</p>
             <WhoWeAre>
               <div className="whoContainer">
-                <p className="heading">Who We Are</p>
-                <p className="desc1">
-                  DevGo Courier Service has been a trusted name in logistics and
-                  delivery services since 2010. We pride ourselves <br /> on our
-                  commitment to excellence, reliability, and customer
-                  satisfaction.
-                </p>
-                <p className="desc2">
-                  Our team of dedicated professionals ensures that every package
-                  is handled with care and delivered on time. With <br /> a
-                  network spanning across the country and internationally, we
-                  are equipped to meet all your delivery needs.
-                </p>
+                <p className="desc1">{aboutPage?.content?.mainContent || ""}</p>
               </div>
             </WhoWeAre>
           </AboutSection>
-          <Missionvision>
+          {/* <Missionvision>
             <p className="heading">Our Mission & Vision</p>
             <div className="cardparent">
               <div className="card">
@@ -134,8 +221,8 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
-          </Missionvision>
-          <Services>
+          </Missionvision> */}
+          {/* <Services>
             <p className="heading">Our Services</p>
             <div className="cardparent">
               <div className="card">
@@ -155,60 +242,39 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
-          </Services>
+          </Services> */}
         </AboutContainer>
 
         <Contact id="contact">
           <p className="heading">Contact Us</p>
-          <p className="contact">
-            Have questions or need assistance? Our team is here to help you with
-            all your courier service needs.
-          </p>
+          <p className="contact">{contactPage?.content?.mainContent || ""}</p>
           <div className="mail">
             <div className="icon">
               <MdEmail size={18} color="#006769" />
               <span>Email: </span>
             </div>
-            <p>support@devgocourier.com</p>
+            <p>{contactPage?.content?.email || ""}</p>
           </div>
           <div className="address">
             <div className="icon">
               <ImLocation size={18} color="#006769" /> <span>Address: </span>
             </div>
-            <p>Officers Colony, Rahim Yar Khan, 64200</p>
+            <p>{contactPage?.content?.address || ""}</p>
           </div>
         </Contact>
 
         <Terms id="terms">
           <p className="heading">Terms & Conditions</p>
           <div className="parentTerms">
-            <div>
-              <p className="bold">Service Terms</p>
-              <p>
-                By using DevGo Courier Service, you agree to our terms and
-                conditions. Please read them carefully.
-              </p>
-            </div>
-            <div>
-              <p className="bold">Shipping Policies</p>
-              <p>
-                We are not liable for delays caused by weather, natural
-                disasters, or other unforeseen circumstances. Insurance is{" "}
-                <br /> available for valuable items.
-              </p>
-            </div>
-            <div>
-              <p className="bold">Privacy Policy</p>
-              <p>
-                We respect your privacy and are committed to protecting your
-                personal information. Your data will only be used <br /> for
-                shipping and delivery purposes.
-              </p>
-            </div>
+            {termPage?.content?.sections?.map((section, index) => (
+              <div>
+                <p className="bold">{section.title}</p>
+                <p>{section.content}</p>
+              </div>
+            ))}
           </div>
         </Terms>
 
-        
         <Footer>
           <div className="FooterContent">
             <div className="logo">
@@ -248,11 +314,11 @@ const LandingPage = () => {
               <div className="contactDetails">
                 <p>
                   <MdEmail size={18} color="white" />
-                  support@devgocourier.com
+                  {contactPage?.content?.email || ""}
                 </p>
                 <p className="address">
                   <ImLocation size={18} color="white" />
-                  Officers Colony, Rahim Yar Khan, 64200
+                  {contactPage?.content?.address || ""}
                 </p>
               </div>
             </div>

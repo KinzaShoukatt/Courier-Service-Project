@@ -7,7 +7,6 @@ import { Container, ImgDiv, Heading, Form, LastText } from "./style";
 import LogoImg from "../../assets/images/logo.png";
 import { MdEmail } from "react-icons/md";
 import UseAuth from "../useHook";
-import { showError, showSuccess } from "../../utils/toast";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -19,18 +18,7 @@ const ForgotPassword = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const response = await forgotPassword(data);
-    try {
-      if (response.success) {
-        showSuccess(response.message || "");
-        navigate("/auth/verify-otp", {state: {email: data.email}});
-      } else {
-        showError(response.message || "Please Enter the Registerd Email");
-      }
-    } catch (error) {
-      console.error(error);
-      showError("Something went wrong, please try again!");
-    }
+    await forgotPassword(data);
   };
 
   return (

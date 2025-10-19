@@ -1,96 +1,71 @@
-import React from "react";
-import { Container, RecentParcels, GraphDiv } from "./style";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  RecentParcels,
+  PaginationWrapper,
+  PaginationInfo,
+  PaginationNav,
+  PageButton,
+  PageNavButton,
+} from "./style";
 import AI from "../../../components/aiChatBox";
 import Card from "../../../components/cardComponent";
 import { FaBox } from "react-icons/fa6";
 import { FaTruckFast } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
-import { FiClock } from "react-icons/fi";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-import { useNavigate } from "react-router-dom";
-
-// Register Chart.js modules
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { useLocation, useNavigate } from "react-router-dom";
+import UseCustomer from "../useHooks";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const parcelId = Number(localStorage.getItem("parcelId"));
+  const {
+    countParcels,
+    customerBookedParcels,
+    trackParcels,
+    deliveryOrderInvoice,
+  } = UseCustomer();
 
-  const dummyParcelHistory = [
-    {
-      id: "#TRK123451",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "Order Placed",
-      action: "Track",
-    },
-    {
-      id: "#TRK123451",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "Pickup",
-      action: "Track",
-    },
-    {
-      id: "#TRK123452",
-      recipient: "Emma Johnson",
-      destination: "London, UK",
-      status: "in transit",
-      action: "Track",
-    },
-    {
-      id: "#TRK123454",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "out For Delivery",
-      action: "Track",
-    },
-    {
-      id: "#TRK123455",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "delivered",
-      action: "View",
-    },
-  ];
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: "#006769",
-        tension: 0.1,
-      },
-    ],
+  const [totalParcels, setTotalParcels] = useState([]);
+  const [parcelHistory, setParcelHistory] = useState([]);
+  const [pagination1, setPagination1] = useState({
+    page: 1,
+    limit: 10,
+    totalItems: 0,
+    totalPages: 0,
+  });
+
+  useEffect(() => {
+    const fetchParcels = async () => {
+      const response = await countParcels();
+      setTotalParcels(response);
+    };
+    fetchParcels();
+  }, []);
+
+  const fetchParcels = async (page = 1, limit = 10) => {
+    const response = await customerBookedParcels(page, limit);
+    setParcelHistory(response.parcels);
+    setPagination1({
+      page: response.pagination.currentPage,
+      limit: response.pagination.itemsPerPage,
+      totalItems: response.pagination.totalItems,
+      totalPages: response.pagination.totalPages,
+    });
+  };
+  useEffect(() => {
+    fetchParcels(pagination1.page, pagination1.limit);
+  }, []);
+
+  const handleTrackParcels = async (body) => {
+    return await trackParcels(body);
+  };
+
+  const handleDeliveryOrderInvoice = async (id) => {
+    await deliveryOrderInvoice(id);
   };
 
   return (
@@ -100,68 +75,136 @@ const Dashboard = () => {
       <div className="cardComponent">
         <Card
           icon={<FaBox color="#006769" size={21} />}
-          number="6"
+          number={totalParcels?.totalBookings || 0}
           text="Total Parcels"
         />
         <Card
+          icon={<FaBox color="#006769" size={21} />}
+          number={totalParcels?.order_placed || 0}
+          text="Order Placed"
+        />
+        <Card
+          icon={<FaBox color="#006769" size={21} />}
+          number={totalParcels?.picked_up || 0}
+          text="Picked Up Oders"
+        />
+        <Card
           icon={<FaTruckFast color="#006769" size={23} />}
-          number="2"
-          text="In Transit"
+          number={totalParcels?.in_transit || 0}
+          text="In Transit Orders"
+        />
+        <Card
+          icon={<FaTruckFast color="#006769" size={23} />}
+          number={totalParcels?.out_for_delivery || 0}
+          text="Out For Delivery Orders"
         />
         <Card
           icon={<FaCheckCircle color="#006769" size={23} />}
-          number="3"
-          text="Delivered"
-        />
-        <Card
-          icon={<FiClock color="#006769" size={23} />}
-          number="1"
-          text="Pending"
+          number={totalParcels?.delivered || 0}
+          text="Delivered Orders"
         />
       </div>
       {/* 2nd Section */}
       <RecentParcels>
         <div className="firstLine">
           <p className="heading">Recent Parcels</p>
-          <button onClick={() => navigate("/customer/parcel-booking")}>Book New Parcel</button>
+          <button onClick={() => navigate("/customer/parcel-booking")}>
+            Book New Parcel
+          </button>
         </div>
         <div className="tableDiv">
-            <table>
-              <thead>
-                <tr>
-                  <th>Tracking ID</th>
-                  <th>Recipient</th>
-                  <th>Destination</th>
-                  <th>Status</th>
-                  <th>Action</th>
+          <table>
+            <thead>
+              <tr>
+                <th>Tracking ID</th>
+                <th>Pickup Address</th>
+                <th>Delivery Address</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {parcelHistory.map((data) => (
+                <tr key={data.trackingNumber}>
+                  <td>{data.trackingNumber}</td>
+                  <td>{data.pickupAddress}</td>
+                  <td>{data.deliveryAddress}</td>
+                  <td>
+                    <span className={`status ${data.status}`}>
+                      {data.status}
+                    </span>
+                  </td>
+                  <td>
+                    <span>
+                      {data.status === "delivered" ? (
+                        <button
+                          className="actionBtn"
+                          onClick={() => handleDeliveryOrderInvoice(data.id)}
+                        >
+                          View
+                        </button>
+                      ) : (
+                        <button
+                          className="actionBtn"
+                          onClick={() =>
+                            handleTrackParcels(data.trackingNumber)
+                          }
+                        >
+                          Track
+                        </button>
+                      )}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {dummyParcelHistory.map((data) => (
-                  <tr key={data.id}>
-                    <td>{data.id}</td>
-                    <td>{data.recipient}</td>
-                    <td>{data.destination}</td>
-                    <td>
-                      <span className={`status ${data.status}`}>
-                        {data.status}
-                      </span>
-                    </td>
-                    <td>
-                      {" "}
-                      <span className="action">{data.action}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
+          <PaginationWrapper>
+            <PaginationInfo>
+              Showing {(pagination1.page - 1) * pagination1.limit + 1}–
+              {Math.min(
+                pagination1.page * pagination1.limit,
+                pagination1.totalItems
+              )}
+              of {pagination1.totalItems}
+            </PaginationInfo>
+
+            <PaginationNav>
+              <PageNavButton
+                disabled={pagination1.page === 1}
+                onClick={() =>
+                  fetchParcels(pagination1.page - 1, pagination1.limit)
+                }
+              >
+                <FaChevronLeft size={12} />
+              </PageNavButton>
+
+              {Array.from({ length: pagination1.totalPages }).map(
+                (_, index) => (
+                  <PageButton
+                    key={index}
+                    className={pagination1.page === index + 1 ? "active" : ""}
+                    onClick={() => fetchParcels(index + 1, pagination1.limit)}
+                  >
+                    {index + 1}
+                  </PageButton>
+                )
+              )}
+
+              <PageNavButton
+                disabled={pagination1.page === pagination1.totalPages}
+                onClick={() =>
+                  fetchParcels(pagination1.page + 1, pagination1.limit)
+                }
+              >
+                <FaChevronRight size={12} />
+              </PageNavButton>
+            </PaginationNav>
+          </PaginationWrapper>
+        </div>
       </RecentParcels>
-      {/* 3rd Section */}
-      <GraphDiv>
-                <Line className="lineChart" data={data} />
-              </GraphDiv>
-      <AI/>
+
+      <AI />
     </Container>
   );
 };

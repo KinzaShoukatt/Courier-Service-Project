@@ -11,7 +11,7 @@ export const Container = styled.div`
   justify-content: space-between;
   padding-right: 30px;
   padding-left: 15px;
-  align-items: center; //verticallly center
+  align-items: center;
   color: var(--dark-teal);
   font-family: "semibold";
   border: 1px solid var(--secColor);
@@ -34,7 +34,6 @@ export const Container = styled.div`
       @media (max-width: 768px) {
         display: block;
         position: fixed;
-        top: 18px;
         left: 15px;
         z-index: 1100;
         cursor: pointer;
@@ -43,9 +42,7 @@ export const Container = styled.div`
         left: 10px;
       }
       @media (max-width: 480px) {
-        left: 5px;
         font-size: 17px;
-        top: 19.5px;
       }
     }
 

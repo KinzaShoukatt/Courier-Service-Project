@@ -1,90 +1,50 @@
-import React from "react";
-import { Heading, Container, RecentParcels, GraphDiv } from "./style";
+import React, { useEffect, useState } from "react";
+import {
+  Heading,
+  Container,
+  RecentParcels,
+  PaginationWrapper,
+  PaginationInfo,
+  PaginationNav,
+  PageButton,
+  PageNavButton,
+} from "./style";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import AI from "../../../components/aiChatBox";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
-
-// Register Chart.js modules
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import UseCustomer from "../useHooks";
+import { useLocation } from "react-router-dom";
 
 const HistoryReports = () => {
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: "#006769",
-        tension: 0.1,
-      },
-    ],
+  const { customerBookedParcels, trackParcels } = UseCustomer();
+  const location = useLocation();
+
+  const [parcelHistory, setParcelHistory] = useState([]);
+  const [pagination1, setPagination1] = useState({
+    page: 1,
+    limit: 10,
+    totalItems: 0,
+    totalPages: 0,
+  });
+
+  const fetchParcels = async (page = 1, limit = 10) => {
+    const response = await customerBookedParcels(page, limit);
+    setParcelHistory(response.parcels);
+    setPagination1({
+      page: response.pagination.currentPage,
+      limit: response.pagination.itemsPerPage,
+      totalItems: response.pagination.totalItems,
+      totalPages: response.pagination.totalPages,
+    });
+  };
+  useEffect(() => {
+    fetchParcels(pagination1.page, pagination1.limit);
+  }, []);
+
+  const handleTrackParcels = async (body) => {
+    return await trackParcels(body);
   };
 
-  const dummyParcelHistory = [
-    {
-      id: "#TRK123451",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "Order Placed",
-      action: "Track",
-    },
-    {
-      id: "#TRK123451",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "Pickup",
-      action: "Track",
-    },
-    {
-      id: "#TRK123452",
-      recipient: "Emma Johnson",
-      destination: "London, UK",
-      status: "in transit",
-      action: "Track",
-    },
-    {
-      id: "#TRK123454",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "out For Delivery",
-      action: "Track",
-    },
-    {
-      id: "#TRK123455",
-      recipient: "Robert Smith",
-      destination: "New York, USA",
-      status: "delivered",
-      action: "View",
-    },
-  ];
   return (
     <>
       <Heading>History & Reports</Heading>
@@ -103,31 +63,87 @@ const HistoryReports = () => {
                 </tr>
               </thead>
               <tbody>
-                {dummyParcelHistory.map((data) => (
-                  <tr key={data.id}>
-                    <td>{data.id}</td>
-                    <td>{data.recipient}</td>
-                    <td>{data.destination}</td>
+                {parcelHistory.map((data) => (
+                  <tr key={data.trackingNumber}>
+                    <td>{data.trackingNumber}</td>
+                    <td>{data.pickupAddress}</td>
+                    <td>{data.deliveryAddress}</td>
                     <td>
                       <span className={`status ${data.status}`}>
                         {data.status}
                       </span>
                     </td>
                     <td>
-                      {" "}
-                      <span className="action">{data.action}</span>
+                      <span>
+                        {data.status === "delivered" ? (
+                          <button
+                            className="actionBtn"
+                            onClick={() =>
+                              handleTrackParcels(data.trackingNumber)
+                            }
+                          >
+                            Track
+                          </button>
+                        ) : (
+                          <button
+                            className="actionBtn"
+                            onClick={() =>
+                              handleTrackParcels(data.trackingNumber)
+                            }
+                          >
+                            Track
+                          </button>
+                        )}
+                      </span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <PaginationWrapper>
+              <PaginationInfo>
+                Showing {(pagination1.page - 1) * pagination1.limit + 1}–
+                {Math.min(
+                  pagination1.page * pagination1.limit,
+                  pagination1.totalItems
+                )}
+                of {pagination1.totalItems}
+              </PaginationInfo>
+
+              <PaginationNav>
+                <PageNavButton
+                  disabled={pagination1.page === 1}
+                  onClick={() =>
+                    fetchParcels(pagination1.page - 1, pagination1.limit)
+                  }
+                >
+                  <FaChevronLeft size={12} />
+                </PageNavButton>
+
+                {Array.from({ length: pagination1.totalPages }).map(
+                  (_, index) => (
+                    <PageButton
+                      key={index}
+                      className={pagination1.page === index + 1 ? "active" : ""}
+                      onClick={() => fetchParcels(index + 1, pagination1.limit)}
+                    >
+                      {index + 1}
+                    </PageButton>
+                  )
+                )}
+
+                <PageNavButton
+                  disabled={pagination1.page === pagination1.totalPages}
+                  onClick={() =>
+                    fetchParcels(pagination1.page + 1, pagination1.limit)
+                  }
+                >
+                  <FaChevronRight size={12} />
+                </PageNavButton>
+              </PaginationNav>
+            </PaginationWrapper>
           </div>
         </RecentParcels>
-
-        {/* 3rd Section */}
-        <GraphDiv>
-          <Line className="lineChart" data={data} />
-        </GraphDiv>
 
         <AI />
       </Container>

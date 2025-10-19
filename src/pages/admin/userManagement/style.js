@@ -70,6 +70,18 @@ export const Customer = styled.div`
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
     }
+    .character.true {
+      background-color: #dc3545;
+      color: black;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .character.false {
+      background-color: #16a34a;
+      color: var(--secColor);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
     .btns {
       display: flex;
       gap: 6px;
@@ -125,6 +137,9 @@ export const FormDiv = styled.div`
     .inputFeild {
       flex: 1;
       min-width: 160px;
+      .errorMsg {
+        color: red;
+      }
       input {
         width: 100%;
         box-sizing: border-box;
@@ -164,6 +179,61 @@ export const FormDiv = styled.div`
     min-width: 195px;
     flex-wrap: wrap;
   }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  font-family: "regular";
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
+export const PaginationInfo = styled.p`
+  padding-left: 0.25rem;
+  @media (max-width: 320px) {
+    display: none;
+  }
+`;
+
+export const PaginationNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageButton = styled.button`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #374151;
+  background-color: white;
+  font-family: "regular";
+  font-weight: 600;
+  @media (max-width: 320px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    background-color: var(--dark-teal);
+    color: white;
+    border: none;
+  }
+`;
+
+export const PageNavButton = styled(PageButton)`
+  font-size: 0.75rem;
 `;
 
 export const AgentParent = styled.div`
@@ -250,14 +320,17 @@ export const Agent = styled.div`
   }
 `;
 
-export const SuspendBlock = styled.div`
+export const GuestCustomerParent = styled.div`
+  position: relative;
+`;
+export const GuestCustomer = styled.div`
   box-sizing: border-box;
   background-color: var(--secColor);
   border-radius: 10px;
   padding-block: 15px;
   padding-inline: 10px;
+  margin-block: 25px;
   overflow-x: auto;
-  /* position: relative; */
   .firstLine {
     display: flex;
     justify-content: space-between;
@@ -266,14 +339,13 @@ export const SuspendBlock = styled.div`
     padding-bottom: 15px;
     padding-inline-start: 15px;
     border-bottom: 1px solid var(--borderColor);
+    min-width: 650px;
+    overflow-x: auto;
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
     }
   }
-  .tableDiv{
-    overflow-x: auto;
-  
   table {
     width: 100%;
     margin-block: 10px;
@@ -297,28 +369,97 @@ export const SuspendBlock = styled.div`
     .btns {
       display: flex;
       gap: 6px;
-      .btn1 {
-        background-color: #16a34a;
+      button {
+        background-color: var(--dark-teal);
         border: none;
-        padding: 6px 8px;
+        padding: 4px 8px;
         border-radius: 3px;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: var(--secColor);
-        border-radius: 3px;
+        .btn1 {
+          font-size: 18px;
+          color: var(--secColor);
+        }
+        .btn2 {
+          font-size: 18px;
+          color: var(--secColor);
+        }
       }
-      .btn2 {
-        background-color: #475569;
-        border: none;
-        padding: 6px 8px;
-        border-radius: 3px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: var(--secColor);
+      .btn3 {
+        background-color: #dc3545;
       }
     }
   }
-}
+`;
+
+export const SuspendBlock = styled.div`
+  box-sizing: border-box;
+  background-color: var(--secColor);
+  border-radius: 10px;
+  padding-block: 15px;
+  padding-inline: 10px;
+  overflow-x: auto;
+  /* position: relative; */
+  .firstLine {
+    display: flex;
+    justify-content: space-between;
+    font-family: "semibold";
+    align-items: center;
+    padding-bottom: 15px;
+    padding-inline-start: 15px;
+    border-bottom: 1px solid var(--borderColor);
+    .heading {
+      color: var(--dark-teal);
+      font-size: 22px;
+    }
+  }
+  .tableDiv {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      margin-block: 10px;
+      font-family: "regular";
+      border-collapse: collapse;
+      text-align: left;
+      color: var(--textColor);
+
+      th,
+      td {
+        padding: 12px;
+      }
+      th {
+        background-color: var(--priColor);
+        color: var(--dark-teal);
+      }
+      tr {
+        border-bottom: 1px solid var(--borderColor);
+        white-space: nowrap;
+      }
+      .btns {
+        display: flex;
+        gap: 6px;
+        .btn1 {
+          background-color: #16a34a;
+          border: none;
+          padding: 6px 8px;
+          border-radius: 3px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          color: var(--secColor);
+          border-radius: 3px;
+        }
+        .btn2 {
+          background-color: #475569;
+          border: none;
+          padding: 6px 8px;
+          border-radius: 3px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          color: var(--secColor);
+        }
+      }
+    }
+  }
 `;

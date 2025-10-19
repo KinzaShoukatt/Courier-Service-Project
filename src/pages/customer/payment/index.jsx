@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Content,
@@ -12,12 +12,62 @@ import { FaCreditCard } from "react-icons/fa6";
 import { FaMoneyBill1Wave } from "react-icons/fa6";
 import { FaReceipt } from "react-icons/fa6";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AI from "../../../components/aiChatBox";
+import UseCustomer from "../useHooks";
+import { showSuccess } from "../../../utils/toast";
 
 const Payment = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
+  const [isOrder1Confirmed, setIsOrder1Confirmed] = useState(false);
+  const [showInvoiceBtn, setShowInvoiceBtn] = useState(false);
+
+  const location = useLocation();
+  const parcelId = Number(localStorage.getItem("parcelId"));
+  const totalCharges = Number(sessionStorage.getItem("totalCharges"));
+
+  const { codConfirm, stripePayment, bookingOrderInvoice, cancelParcel } =
+    UseCustomer();
+
+  useEffect(() => {
+    const savedMethod = sessionStorage.getItem("paymentMethod");
+    if (savedMethod) {
+      setSelected(savedMethod);
+    }
+  }, []);
+
+  const handleSelectMethod = (method) => {
+    setSelected(method);
+    sessionStorage.setItem("paymentMethod", method);
+  };
+
+  useEffect(() => {
+    const url = new URLSearchParams(location.search);
+    const status = url.get("status");
+    const parcelId = url.get("parcel_id");
+    if (status === "success" && parcelId) {
+      showSuccess("Your payment has been processed successfully!");
+      setShowInvoiceBtn(true);
+    }
+  }, [location.search]);
+
+  const handleCodConfirm = async (body) => {
+    return await codConfirm(body);
+  };
+
+  const handleBookingOrderInvoice = async () => {
+    await bookingOrderInvoice(parcelId, navigate);
+  };
+
+  const handleStripePayment = async (body) => {
+    await stripePayment(body);
+  };
+
+  const handleCancelParcel = async (body) => {
+    return await cancelParcel(body);
+  };
+
   return (
     <Container>
       <div className="firstLine">
@@ -38,11 +88,11 @@ const Payment = () => {
           <div className="parent">
             <div className="child1">
               <p>Delivery Charges</p>
-              <p>100 rps</p>
+              <p>{totalCharges} rps</p>
             </div>
             <div className="child2">
               <p>Total Amount</p>
-              <p>100 rps</p>
+              <p>{totalCharges} rps</p>
             </div>
           </div>
         </OrderSummary>
@@ -55,7 +105,7 @@ const Payment = () => {
           <div className="cardParent">
             <div
               className={`card ${selected === "credit" ? "active" : ""}`}
-              onClick={() => setSelected("credit")}
+              onClick={() => handleSelectMethod("credit")}
             >
               <FaCreditCard className="icon" color="#006769" />
               <h3>Online Payment</h3>
@@ -63,7 +113,7 @@ const Payment = () => {
             </div>
             <div
               className={`card ${selected === "cod" ? "active" : ""}`}
-              onClick={() => setSelected("cod")}
+              onClick={() => handleSelectMethod("cod")}
             >
               <FaMoneyBill1Wave className="icon" color="#006769" />
               <h3>Cash on Delivery</h3>
@@ -71,16 +121,37 @@ const Payment = () => {
             </div>
           </div>
         </PaymentMethod>
+
         {/* Credit Card */}
         {selected === "credit" && (
-          <CreditCardParent>{/* remianing  */}</CreditCardParent>
+          <CreditCardParent>
+            {showInvoiceBtn ? (
+              <button
+                className="confirmBtn"
+                onClick={() => handleBookingOrderInvoice()}
+              >
+                Show Invoice
+              </button>
+            ) : (
+              <button
+                className="confirmBtn"
+                onClick={async () => {
+                  handleStripePayment();
+                }}
+              >
+                Confirm Order
+              </button>
+            )}
+          </CreditCardParent>
         )}
 
         {/* COD Parent */}
         {selected === "cod" && (
           <CODParent>
             <div className="child1">
-              <p>You will pay $25.00 when your package is delivered.</p>
+              <p>
+                You will pay {totalCharges} rps when your package is delivered.
+              </p>
               <p>Please keep the exact amount ready for the delivery person.</p>
             </div>
             <div className="child2">
@@ -89,11 +160,37 @@ const Payment = () => {
                 I understand that I need to pay the full amount upon delivery
               </p>
             </div>
-            <button className="confirmBtn">Confirm Order</button>
+            {!isOrder1Confirmed ? (
+              <button
+                className="confirmBtn"
+                onClick={async () => {
+                  const response = await handleCodConfirm({
+                    paymentMethod: "cod",
+                  });
+                  if (response?.message?.includes("successfully!")) {
+                    setIsOrder1Confirmed(true);
+                  }
+                }}
+              >
+                Confirm Order
+              </button>
+            ) : (
+              <button
+                className="confirmBtn"
+                onClick={() => handleBookingOrderInvoice()}
+              >
+                Show Invoice
+              </button>
+            )}
           </CODParent>
         )}
 
-        <button className="cancelBtn">Cancel Order</button>
+        <button
+          className="cancelBtn"
+          onClick={() => handleCancelParcel(parcelId)}
+        >
+          Cancel Order
+        </button>
       </Content>
       <AI />
     </Container>
