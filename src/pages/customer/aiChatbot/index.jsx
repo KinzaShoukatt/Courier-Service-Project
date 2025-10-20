@@ -7,6 +7,8 @@ import Logo from "../../../assets/images/LogoWhite.png";
 
 import { TbHomeFilled } from "react-icons/tb";
 import { IoChatbubbleEllipses } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
+import { showSuccess } from "../../../utils/toast";
 
 const RASA_URL = process.env.REACT_APP_RASA_URL;
 function getSenderId() {
@@ -25,12 +27,13 @@ const AIChatboox = () => {
   const [selected, setSelected] = useState("msg");
 
   const messagesEndRef = useRef(null);
+  const location = useLocation();
 
   const formatMessageWithLinks = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(
       urlRegex,
-      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+      '<a href="$1" rel="noopener noreferrer">$1</a>'
     );
   };
 
@@ -41,12 +44,32 @@ const AIChatboox = () => {
 
   //  welcome message
   useEffect(() => {
-    const welcome =
-      "👋 Welcome! Here’s what I can help you with today:\n" +
-      " Booking Help\n Track Order\n Cancel Order\n FAQ\n\n" +
-      "Please type the number of your choice:";
-    setMessages([{ sender: "bot", text: welcome }]);
+    const savedMessages = localStorage.getItem("chat_history");
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    } else {
+      const welcome =
+        "👋 Welcome! Here’s what I can help you with today:\n" +
+        " Booking Help\n Track Order\n Cancel Order\n FAQ\n\n" +
+        "Please type the number of your choice:";
+      setMessages([{ sender: "bot", text: welcome }]);
+    }
   }, []);
+
+  useEffect(() => {
+    if (messages) {
+      localStorage.setItem("chat_history", JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const url = new URLSearchParams(location.search);
+    const status = url.get("status");
+    const parcelId = url.get("parcel_id");
+    if (status === "success" && parcelId) {
+      showSuccess("Your payment has been completed successfully!");
+    }
+  }, [location.search]);
 
   // Send user message
   const sendMessage = async (customMessage) => {

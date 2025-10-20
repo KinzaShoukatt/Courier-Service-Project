@@ -5,21 +5,32 @@ export const Container = styled.div`
   background-color: var(--secColor);
   border-radius: 10px;
   margin-inline: 15px;
+
   @media (max-width: 768px) {
     margin-inline: 0px;
-    .errorMsg{
-      color: red;
-      font-family: "regular";
-    }
   }
-
+  .errorMsg {
+    color: red;
+    font-family: "regular";
+  }
+  .heading {
+    text-align: center;
+    background-color: var(--dark-teal);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding-block: 12px;
+    color: var(--secColor);
+    font-family: "regular";
+  }
+  .firstLine {
+    font-weight: bold;
+  }
   form {
     padding-block: 10px;
     padding-inline: 3vw;
     color: var(--dark-teal);
     box-sizing: border-box;
     .heading {
-      text-align: center;
       h1 {
         font-family: "semibold";
       }
@@ -54,7 +65,8 @@ export const Container = styled.div`
         label {
           font-size: 18px;
         }
-        input, select {
+        input,
+        select {
           box-sizing: border-box;
           width: 100%;
           border: 1px solid var(--borderColor);
@@ -100,15 +112,15 @@ export const Container = styled.div`
           accent-color: var(--dark-teal);
           cursor: pointer;
         }
-        label{
+        label {
           cursor: pointer;
         }
       }
     }
-     label {
-          font-size: 18px;
-          font-family: "regular";
-        }
+    label {
+      font-size: 18px;
+      font-family: "regular";
+    }
     .dateTime {
       display: flex;
       flex-wrap: wrap;
@@ -116,14 +128,14 @@ export const Container = styled.div`
       font-family: "regular";
       padding-block: 10px;
       /* display: none; */
-      
+
       @media (max-width: 480px) {
         gap: 7px;
       }
       .dateTimeChilds {
         flex: 1;
         min-width: 200px;
-       
+
         label {
           font-size: 18px;
         }

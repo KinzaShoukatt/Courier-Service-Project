@@ -20,6 +20,9 @@ export const AdminApiEndPoints = {
 
   deleteUser: async (id) => await deleteData(`admin/users/${id}`),
 
+  suspiciousUser: async (id, body) =>
+    await postData(`/reporting/analyze-fraud/${id}`, body),
+
   blockUser: async (id, body) =>
     await patchData(`/admin/users/${id}/block`, body),
 

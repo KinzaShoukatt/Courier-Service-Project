@@ -34,6 +34,7 @@ import UseAdmin from "../useHooks";
 const UserManagement = () => {
   const [show, setShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [analyzingUser, setAnalyzingUser] = useState(null);
 
   const {
     createUser,
@@ -43,6 +44,7 @@ const UserManagement = () => {
     allRestrictedUsersGet,
     updateUser,
     deleteUser,
+    suspiciousUser,
     blockUser,
     suspendUser,
     unBlockUser,
@@ -218,6 +220,36 @@ const UserManagement = () => {
     fetchRestrictedUsers();
   };
 
+  const handleAnalyzeClick = async (e, id) => {
+    const btn = e.target;
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = "Analyzing...";
+
+    try {
+      const res = await suspiciousUser(id);
+      console.log("Suspicious API response:", res);
+
+      const isSuspicious = res.analysis.is_suspicious;
+
+      if (isSuspicious === true) {
+        btn.textContent = "Suspicious";
+        btn.style.color = "black";
+        btn.style.backgroundColor = "#DC3545";
+      } else {
+        btn.textContent = "Not Suspicious";
+        btn.style.backgroundColor = "##28A745";
+        btn.style.color = "white";
+      }
+    } catch (error) {
+      console.error("Error analyzing user:", error);
+      btn.textContent = "Error";
+      btn.style.backgroundColor = "gray";
+    } finally {
+      btn.disabled = false;
+    }
+  };
+
   return (
     <Container>
       <p className="mainHeading">User Management</p>
@@ -254,9 +286,12 @@ const UserManagement = () => {
                   <td>{user.phoneNumber}</td>
                   <td>{user.address}</td>
                   <td>
-                    <span className={`character ${user.isSuspicious}`}>
-                      {user.isSuspicious ? "Suspicious" : "Not Suspicious"}
-                    </span>
+                    <button
+                      className="character"
+                      onClick={(e) => handleAnalyzeClick(e, user.id)}
+                    >
+                      Analyze Character
+                    </button>
                   </td>
                   <td className="btns">
                     <button

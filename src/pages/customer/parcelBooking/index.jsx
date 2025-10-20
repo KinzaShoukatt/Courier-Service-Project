@@ -51,12 +51,11 @@ const ParcelBooking = () => {
   };
   return (
     <Container>
+      <div className="heading">
+        <h2 className="firstLine">Create New Booking</h2>
+        <p>Fill out the form below to schedule your delivery</p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="heading">
-          <h1>Create New Booking</h1>
-          <p>Fill out the form below to schedule your delivery</p>
-        </div>
-        {/* Address Information */}
         <div className="boldText">
           <MdLocationOn className="icon" color="#006769" />
           <h2>Address Information</h2>

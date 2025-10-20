@@ -48,7 +48,7 @@ const VerifyOtp = () => {
   const onSubmit = async (data) => {
     const otp = Object.values(data).join("");
     console.log("otp: ", otp);
-    console.log("type: ", type);
+    // console.log("type: ", type);
     await verifyOtp({ otp, type, email });
   };
 

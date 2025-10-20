@@ -141,7 +141,7 @@ const UseCustomer = () => {
       const response = await CustomerApiEndPoints.getProfile();
       // console.log(response);
       if (response) {
-        showSuccess(response.message);
+        // showSuccess(response.message);
       } else {
         showError(response.error);
       }

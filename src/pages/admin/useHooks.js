@@ -135,6 +135,7 @@ const UseAdmin = () => {
       } else {
         showError(response.error);
       }
+      return response;
     } catch (error) {
       console.log("User Updation Error", error);
       showError("Something went wrong, please try again!");
@@ -152,6 +153,23 @@ const UseAdmin = () => {
       }
     } catch (error) {
       console.log("User Deletion Error", error);
+      showError("Something went wrong, please try again!");
+      return { success: false, message: "Network error" };
+    }
+  };
+
+  // suspicious User
+  const suspiciousUser = async (id, body) => {
+    try {
+      const response = await AdminApiEndPoints.suspiciousUser(id, body);
+      if (response) {
+        showSuccess(response.message);
+      } else {
+        showError(response.error);
+      }
+      return response;
+    } catch (error) {
+      console.log("User Updation Error", error);
       showError("Something went wrong, please try again!");
       return { success: false, message: "Network error" };
     }
@@ -1199,6 +1217,7 @@ const UseAdmin = () => {
       return { success: false, message: "Network error" };
     }
   };
+
   //customer chat delete
   const deleteChat = async () => {
     try {
@@ -1249,6 +1268,7 @@ const UseAdmin = () => {
       return { success: false, message: "Network error" };
     }
   };
+
   return {
     AllUsers,
     allCustomersGet,
@@ -1258,6 +1278,7 @@ const UseAdmin = () => {
     createUser,
     updateUser,
     deleteUser,
+    suspiciousUser,
     blockUser,
     suspendUser,
     unBlockUser,

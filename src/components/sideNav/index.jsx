@@ -32,6 +32,8 @@ const SideNav = ({ toggleSidebar }) => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/auth/login", { replace: true });
+    localStorage.removeItem("chat_history");
+    sessionStorage.removeItem("totalCharges");
   };
 
   const role = localStorage.getItem("role");

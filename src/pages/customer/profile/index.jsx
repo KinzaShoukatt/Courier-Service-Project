@@ -90,9 +90,11 @@ const UserProfile = () => {
             onClick={() => document.getElementById("fileInput").click()}
           />
         </div>
+
         {errors.fullName && (
           <p className="errorMsg">{errors.fullName.message}</p>
         )}
+
         <div className="inputFields">
           <FaUserEdit color="#006769" size={18} />
           <input

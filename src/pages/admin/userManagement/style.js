@@ -70,18 +70,16 @@ export const Customer = styled.div`
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
     }
-    .character.true {
-      background-color: #dc3545;
-      color: black;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-    .character.false {
-      background-color: #16a34a;
+    .character {
+      background-color: rgba(5, 39, 55, 0.53);
       color: var(--secColor);
-      padding: 4px 8px;
+      padding: 7px 10px;
       border-radius: 4px;
+      border: none;
+      font-weight: bold;
+      font-family: "regular";
     }
+
     .btns {
       display: flex;
       gap: 6px;

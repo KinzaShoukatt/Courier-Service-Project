@@ -30,8 +30,8 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
-    padding-left: 20%;
+    /* padding-top: 10px; */
+    /* padding-left: 20%; */
     img {
       height: 100%;
       width: 100%;

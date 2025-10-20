@@ -19,6 +19,7 @@ export const Container = styled.div`
   z-index: 10;
   @media (max-width: 768px) {
     padding-right: 15px;
+    padding-left: 0px;
   }
   @media (max-width: 480px) {
     padding-right: 7px;
@@ -27,6 +28,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 3px;
+    /* border: 1px solid black; */
 
     .burgerIcon {
       display: none;
@@ -35,6 +37,7 @@ export const Container = styled.div`
         display: block;
         position: fixed;
         left: 15px;
+        align-items: center;
         z-index: 1100;
         cursor: pointer;
       }
@@ -60,7 +63,40 @@ export const Container = styled.div`
       font-family: "semibold";
     }
   }
+  .imgProfileDiv {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-family: "regular";
+    font-weight: bold;
+    /* border: 1px solid black; */
+  }
+  .imgDiv {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .profileImg {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
   .profile {
     cursor: pointer;
+    border: none;
+    font-family: "regular";
+    color: var(--dark-teal);
+    background-color: var(--secColor);
+    font-weight: bold;
+    font-size: 16px;
   }
 `;

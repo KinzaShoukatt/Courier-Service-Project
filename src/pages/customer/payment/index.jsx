@@ -15,7 +15,7 @@ import { FaReceipt } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
 import AI from "../../../components/aiChatBox";
 import UseCustomer from "../useHooks";
-import { showSuccess } from "../../../utils/toast";
+import { showError, showSuccess } from "../../../utils/toast";
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const Payment = () => {
     const status = url.get("status");
     const parcelId = url.get("parcel_id");
     if (status === "success" && parcelId) {
-      showSuccess("Your payment has been processed successfully!");
+      showSuccess("Your payment has been completed successfully!");
       setShowInvoiceBtn(true);
     }
   }, [location.search]);
