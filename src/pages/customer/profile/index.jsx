@@ -7,11 +7,20 @@ import { FaPhone } from "react-icons/fa6";
 import { FaAddressBook } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import UseCustomer from "../useHooks";
+import { useDispatch } from "react-redux";
+import { setProfilePic, setUserName } from "../../../store/userSlice";
 
 const UserProfile = () => {
   const [image, setImage] = useState();
   const [selectedFile, setSelectedFile] = useState();
-  const { getCustomerProfile, updateCustomerProfile } = UseCustomer();
+
+  const dispatch = useDispatch();
+
+  const {
+    getCustomerProfile,
+    updateCustomerProfile,
+    getCustomerProfilePicture,
+  } = UseCustomer();
 
   const {
     register,
@@ -28,7 +37,24 @@ const UserProfile = () => {
   });
 
   const BASE_URL = process.env.REACT_APP_IMAGE_BASE_URL;
-  console.log(BASE_URL, "base Url");
+
+  // const fetchProfilePic = async () => {
+  //   const data = await getCustomerProfilePicture();
+
+  //   if (data?.url) {
+  //     const fullUrl = `${BASE_URL}${data.url}`;
+  //     setImage(fullUrl);
+  //     dispatch(setProfilePic(fullUrl));
+  //   } else {
+  //     const name = localStorage.getItem("UserName");
+  //     if (name) dispatch(setUserName(name));
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchProfilePic();
+  // }, []);
+
   useEffect(() => {
     const getProfile = async () => {
       const data = await getCustomerProfile();
@@ -40,22 +66,23 @@ const UserProfile = () => {
           address: data.address || "",
         });
         if (data.ProfilePictures?.length > 0) {
-          setImage(`${BASE_URL}${data.ProfilePictures[0].url}`);
+          const fullUrl = `${BASE_URL}${data.ProfilePictures[0].url}`;
+          setImage(fullUrl);
+          dispatch(setProfilePic(fullUrl));
         }
       }
     };
     getProfile();
-  }, [reset]);
-  console.log(image, "image_url");
+  }, [reset, dispatch]);
+
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     setSelectedFile(file);
-    setImage(URL.createObjectURL(file));
-
-    const formData = new FormData();
-    formData.append("profilePicture", file);
+    const objectUrl = URL.createObjectURL(file);
+    setImage(objectUrl);
+    dispatch(setProfilePic(objectUrl));
   };
 
   const onSubmit = async (data) => {
@@ -70,6 +97,13 @@ const UserProfile = () => {
     }
 
     await updateCustomerProfile(formData);
+
+    // update Redux after successful update
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      dispatch(setProfilePic(objectUrl));
+    }
+    dispatch(setUserName(data.fullName));
   };
 
   return (
@@ -94,7 +128,6 @@ const UserProfile = () => {
         {errors.fullName && (
           <p className="errorMsg">{errors.fullName.message}</p>
         )}
-
         <div className="inputFields">
           <FaUserEdit color="#006769" size={18} />
           <input
@@ -104,11 +137,12 @@ const UserProfile = () => {
               required: "Name is Required!",
               minLength: {
                 value: 3,
-                message: "Name should be atleast three characters",
+                message: "Name should be at least three characters",
               },
             })}
           />
         </div>
+
         {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         <div className="inputFields">
           <MdEmail color="#006769" size={18} />
@@ -116,11 +150,10 @@ const UserProfile = () => {
             type="email"
             disabled
             placeholder="Enter Your Email"
-            {...register("email", {
-              required: "Email is Required!",
-            })}
+            {...register("email", { required: "Email is Required!" })}
           />
         </div>
+
         {errors.phoneNumber && (
           <p className="errorMsg">{errors.phoneNumber.message}</p>
         )}
@@ -128,24 +161,23 @@ const UserProfile = () => {
           <FaPhone color="#006769" size={16} />
           <input
             type="contact"
-            // value={profile.phoneNumber}
             placeholder="Enter Your Phone Number"
             {...register("phoneNumber", {
               required: "Phone Number is Required!",
             })}
           />
         </div>
+
         {errors.address && <p className="errorMsg">{errors.address.message}</p>}
         <div className="inputFields">
           <FaAddressBook color="#006769" size={16} />
           <input
             type="address"
-            placeholder="Enter Your Adrress"
-            {...register("address", {
-              required: "Address is Required!",
-            })}
+            placeholder="Enter Your Address"
+            {...register("address")}
           />
         </div>
+
         <button type="submit" className="btn">
           Update Profile
         </button>

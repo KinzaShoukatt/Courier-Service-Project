@@ -18,12 +18,19 @@ export const ImgDiv = styled.div`
   img {
     height: 120px;
     object-fit: cover;
+    @media (max-width: 380px) {
+      height: 100px;
+    }
   }
 `;
-export const Heading = styled.h1`
+export const Heading = styled.p`
   color: var(--dark-teal);
   font-family: "semibold";
   padding: 10px 0px;
+  font-size: 25px;
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 export const Form = styled.form`
   .inputFields {
@@ -33,10 +40,19 @@ export const Form = styled.form`
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 12px;
+    padding: 10px;
     align-items: center;
     border-radius: 8px;
     margin-block: 13px;
+    @media (max-width: 480px) {
+      padding: 8px 10px;
+    }
+    .icon {
+      font-size: 18px;
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
     input {
       border: none;
       font-size: 15px;
@@ -53,10 +69,14 @@ export const Form = styled.form`
     padding: 12px 10px;
     width: 75%;
     border: 2px solid var(--dark-teal);
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     @media (max-width: 510px) {
       width: 76%;
+    }
+    @media (max-width: 480px) {
+      font-size: 15px;
+      padding: 10px 10px;
     }
     @media (max-width: 470px) {
       width: 77%;
@@ -69,6 +89,10 @@ export const LastText = styled.div`
     margin-block: 10px;
     color: var(--dark-teal);
     margin-top: 15px;
+    @media (max-width: 480px) {
+      font-size: 15px;
+    }
+
     strong {
       font-weight: bold;
       cursor: pointer;

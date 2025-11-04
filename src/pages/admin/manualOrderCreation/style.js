@@ -5,13 +5,11 @@ export const Container = styled.div`
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  margin-block: 25px;
-  .errorMsg{
-      color: red;
-      font-family: "regular";
-    }
+  .errorMsg {
+    color: red;
+    font-family: "regular";
+  }
   .heading {
-    font-size: 22px;
     background-color: var(--dark-teal);
     color: var(--secColor);
     font-weight: bold;
@@ -19,33 +17,48 @@ export const Container = styled.div`
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding-block: 12px;
+    padding-inline: 20px;
     font-weight: bold;
-    padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 22px;
+    }
+    @media (max-width: 420px) {
+      font-size: 20px;
+    }
   }
 
   form {
-    padding-block: 10px;
-    padding-inline: 3vw;
+    padding-block: 5px;
+    padding-inline: 20px;
     color: var(--dark-teal);
     box-sizing: border-box;
-    .heading {
-      text-align: center;
-      h1 {
-        font-family: "semibold";
-      }
-      p {
-        font-family: "regular";
-      }
+    @media (max-width: 420px) {
+      padding-block: 5px;
     }
     .boldText {
       font-family: "semibold";
       display: flex;
-      gap: 5px;
+      gap: 8px;
       align-items: center;
       padding-block: 10px;
       border-bottom: 1px solid var(--borderColor);
+      @media (max-width: 340px) {
+        gap: 5px;
+      }
       .icon {
         font-size: 22px;
+        @media (max-width: 340px) {
+          font-size: 18px;
+        }
+      }
+      .headings {
+        font-size: 20px;
+        @media (max-width: 420px) {
+          font-size: 18px;
+        }
+        @media (max-width: 340px) {
+          font-size: 15px;
+        }
       }
     }
     .inputFields {
@@ -55,14 +68,26 @@ export const Container = styled.div`
       flex-wrap: wrap;
       gap: 20px;
       padding-block: 10px;
-      @media (max-width: 480px) {
+      @media (max-width: 520px) {
+        gap: 14px;
+      }
+      @media (max-width: 420px) {
         gap: 7px;
       }
       .childs {
         flex: 1;
         min-width: 200px;
         label {
-          font-size: 18px;
+          font-size: 17.5px;
+          @media (max-width: 520px) {
+            font-size: 16.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 15px;
+          }
+          @media (max-width: 340px) {
+            font-size: 14px;
+          }
         }
         input,
         select {
@@ -72,11 +97,18 @@ export const Container = styled.div`
           font-family: "regular";
           font-size: 15px;
           border-radius: 5px;
-          padding: 13px 10px;
+          padding: 12px 10px;
           outline-color: var(--borderColor);
           margin-block: 10px;
-          @media (max-width: 480px) {
-            margin-block: 2px;
+          @media (max-width: 520px) {
+            margin-block: 3px;
+            font-size: 13.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 12.5px;
+          }
+          @media (max-width: 340px) {
+            font-size: 11.5px;
           }
         }
         textarea {
@@ -88,8 +120,15 @@ export const Container = styled.div`
           padding: 13px 10px;
           outline-color: var(--borderColor);
           margin-block: 10px;
-          @media (max-width: 480px) {
+          @media (max-width: 520px) {
             margin-block: 2px;
+            font-size: 13.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 12.5px;
+          }
+          @media (max-width: 340px) {
+            font-size: 11.5px;
           }
         }
       }
@@ -100,6 +139,14 @@ export const Container = styled.div`
       font-size: 20px;
       font-family: "regular";
       padding-block: 10px;
+      @media (max-width: 420px) {
+        flex-direction: column;
+        font-size: 15px;
+        gap: 10px;
+      }
+      @media (max-width: 340px) {
+        font-size: 14px;
+      }
       .radioChilds {
         display: flex;
         gap: 3px;
@@ -113,7 +160,32 @@ export const Container = styled.div`
         }
         label {
           cursor: pointer;
+          font-size: 18px;
+          font-family: "regular";
+          @media (max-width: 520px) {
+            font-size: 16.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 15px;
+          }
+          @media (max-width: 340px) {
+            font-size: 14px;
+          }
         }
+      }
+    }
+    .specialLabel {
+      font-size: 18px;
+      font-family: "regular";
+      font-weight: bold;
+      @media (max-width: 520px) {
+        font-size: 16.5px;
+      }
+      @media (max-width: 420px) {
+        font-size: 15px;
+      }
+      @media (max-width: 340px) {
+        font-size: 14px;
       }
     }
     .dateTime {
@@ -122,8 +194,10 @@ export const Container = styled.div`
       gap: 20px;
       font-family: "regular";
       padding-block: 10px;
-      /* display: none; */
-      @media (max-width: 480px) {
+      @media (max-width: 520px) {
+        gap: 14px;
+      }
+      @media (max-width: 420px) {
         gap: 7px;
       }
       .dateTimeChilds {
@@ -131,6 +205,15 @@ export const Container = styled.div`
         min-width: 200px;
         label {
           font-size: 18px;
+          @media (max-width: 520px) {
+            font-size: 16.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 15px;
+          }
+          @media (max-width: 340px) {
+            font-size: 14px;
+          }
         }
         input {
           width: calc(100% - 15px);
@@ -139,13 +222,20 @@ export const Container = styled.div`
           font-family: "regular";
           font-size: 15px;
           border-radius: 5px;
-          padding: 13px 10px;
+          padding: 10px 10px;
           margin-block: 10px;
           color: grey;
-          outline-color: var(--borderColor);
+          /* outline-color: var(--borderColor); */
           cursor: pointer;
-          @media (max-width: 480px) {
+          @media (max-width: 520px) {
             margin-block: 3px;
+            font-size: 13.5px;
+          }
+          @media (max-width: 420px) {
+            font-size: 12.5px;
+          }
+          @media (max-width: 340px) {
+            font-size: 11.5px;
           }
         }
       }
@@ -161,8 +251,17 @@ export const Container = styled.div`
       border-radius: 8px;
       margin: 5px 0px;
       cursor: pointer;
-      @media (max-width: 480px) {
-        padding: 10px 28px;
+      @media (max-width: 520px) {
+        padding: 10px 25px;
+        font-size: 16.5px;
+      }
+      @media (max-width: 420px) {
+        font-size: 15px;
+        padding: 10px 20px;
+      }
+      @media (max-width: 340px) {
+        font-size: 14px;
+        padding: 8px 18px;
       }
     }
   }
@@ -176,7 +275,7 @@ export const Payment = styled.div`
 export const Content = styled.div`
   background-color: var(--priColor);
   border-radius: 10px;
-  padding-inline: 3vw;
+  padding-inline: 15px;
   margin-inline: 15px;
   margin-bottom: 10px;
   padding-block: 10px;
@@ -189,9 +288,13 @@ export const Content = styled.div`
     color: black;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
+    }
   }
 `;
 
@@ -204,7 +307,16 @@ export const OrderSummary = styled.div`
     padding-block: 10px;
     border-bottom: 1px solid var(--borderColor);
     .icon {
-      font-size: 22px;
+      font-size: 20px;
+    }
+    .headings {
+      font-size: 20px;
+      @media (max-width: 420px) {
+        font-size: 18px;
+      }
+      @media (max-width: 340px) {
+        font-size: 15px;
+      }
     }
   }
   .parent {
@@ -214,8 +326,11 @@ export const OrderSummary = styled.div`
     border-radius: 10px;
     padding-inline: 30px;
     padding-block: 15px;
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
       gap: 7px;
+      font-size: 14px;
+      margin-block: 10px;
+      padding-block: 12px;
     }
     .child1 {
       display: flex;
@@ -244,7 +359,16 @@ export const PaymentMethod = styled.div`
     padding-block: 10px;
     border-bottom: 1px solid var(--borderColor);
     .icon {
-      font-size: 22px;
+      font-size: 20px;
+    }
+    .headings {
+      font-size: 20px;
+      @media (max-width: 420px) {
+        font-size: 18px;
+      }
+      @media (max-width: 340px) {
+        font-size: 15px;
+      }
     }
   }
   .cardParent {
@@ -269,8 +393,13 @@ export const PaymentMethod = styled.div`
       .icon {
         font-size: 30px;
       }
-      h3 {
+      .paymentHeading {
         font-family: "semibold";
+        font-size: 18px;
+        color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 16px;
+        }
       }
       p {
         font-family: "regular";
@@ -279,12 +408,12 @@ export const PaymentMethod = styled.div`
         flex-wrap: wrap;
       }
     }
-     .card.active {
-  background: #e6f0ff; 
-  transform: translateY(-8px); 
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); 
-  border: 1px solid  var(--dark-teal);
-}
+    .card.active {
+      background: #e6f0ff;
+      transform: translateY(-8px);
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--dark-teal);
+    }
   }
 `;
 
@@ -301,34 +430,13 @@ export const CreditCardParent = styled.div`
     border: none;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
-  }
-  .creditCard {
-    font-family: "regular";
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    .childs {
-      flex: 1;
-      min-width: 200px;
-      label {
-        font-size: 18px;
-      }
-      input {
-        width: calc(100% - 20px);
-        object-fit: cover;
-        border: 1px solid var(--borderColor);
-        font-family: "regular";
-        font-size: 15px;
-        border-radius: 5px;
-        padding: 13px 10px;
-        outline-color: var(--borderColor);
-        margin-block: 10px;
-      }
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
     }
-    
   }
 `;
 
@@ -340,9 +448,13 @@ export const CODParent = styled.div`
   padding-block: 20px;
   padding-inline: 20px;
   font-family: "regular";
+  font-size: 15px;
+  @media (max-width: 520px) {
+    font-size: 14px;
+  }
   .child1 {
     color: black;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
   }
 
   .confirmBtn {
@@ -352,8 +464,12 @@ export const CODParent = styled.div`
     border: none;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
+    }
   }
 `;

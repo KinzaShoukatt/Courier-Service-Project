@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container } from "./style";
 import LogoImg from "../../assets/images/LogoWhite.png";
@@ -19,10 +19,14 @@ import { FaGlobeAsia } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { GrCompliance } from "react-icons/gr";
 
+import { useDispatch } from "react-redux";
+import { resetUser } from "../../store/userSlice";
+
 const SideNav = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeitem, setActiveitem] = useState("");
+  const dispatch = useDispatch();
 
   const handleClick = (path) => {
     setActiveitem(path);
@@ -30,6 +34,7 @@ const SideNav = ({ toggleSidebar }) => {
   };
 
   const handleLogout = () => {
+    dispatch(resetUser());
     localStorage.clear();
     navigate("/auth/login", { replace: true });
     localStorage.removeItem("chat_history");

@@ -73,6 +73,7 @@ const AgentDashboard = () => {
   const handleAcceptParcel = async (id, body) => {
     await acceptParcel(id, body);
     fetchAssignDeliveries();
+    fetchAcceptParcels();
   };
 
   const handleRejectParcel = async (id, body) => {
@@ -82,59 +83,9 @@ const AgentDashboard = () => {
 
   const handleChangeParcelStatus = async (id, body) => {
     await changeParcelStatus(id, body);
+    setOpen(false);
     fetchAcceptParcels();
   };
-
-  // const dummyDeliveries = [
-  //   {
-  //     id: "#TRK123451",
-  //     customer: "Robert Smith",
-  //     pickupaddress: "Street no 5 RYK",
-  //     deliveryAddress: "Street no 1 Lahore",
-  //   },
-  //   {
-  //     id: "#TRK123451",
-  //     customer: "Robert Smith",
-  //     pickupaddress: "Street no 15 Karachi",
-  //     deliveryAddress: "Street no 1 RYK",
-  //   },
-  //   {
-  //     id: "#TRK123451",
-  //     customer: "Robert Smith",
-  //     pickupaddress: "Street no 15 Karachi",
-  //     deliveryAddress: "Street no 25 Karachi",
-  //   },
-  //   {
-  //     id: "#TRK123451",
-  //     customer: "Robert Smith",
-  //     pickupaddress: "Street no 15 Islamabad",
-  //     deliveryAddress: "Street no 15 Faislabad",
-  //   },
-  // ];
-
-  const dummyStatus = [
-    {
-      id: "#TRK123451",
-      customer: "Robert Smith",
-      pickupaddress: "Street no 5 RYK",
-      deliveryAddress: "Street no 1 Lahore",
-      status: "Pending",
-    },
-    {
-      id: "#TRK123451",
-      customer: "Robert Smith",
-      pickupaddress: "Street no 15 Karachi",
-      deliveryAddress: "Street no 1 RYK",
-      status: "Pending",
-    },
-    {
-      id: "#TRK123451",
-      customer: "Robert Smith",
-      pickupaddress: "Street no 15 Karachi",
-      deliveryAddress: "Street no 25 Karachi",
-      status: "Pending",
-    },
-  ];
 
   return (
     <Container>
@@ -247,7 +198,6 @@ const AgentDashboard = () => {
                   <td>{order.paymentMethod}</td>
                   <td>{`${order.deliveryCharge}Rs`}</td>
                   <td>
-                    {" "}
                     <span className={`status ${order.paymentStatus}`}>
                       {order.paymentStatus}
                     </span>

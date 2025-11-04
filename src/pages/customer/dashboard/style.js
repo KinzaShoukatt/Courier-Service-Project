@@ -9,7 +9,7 @@ export const Container = styled.div`
   .cardComponent {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
-    gap: 25px;
+    gap: 15px;
   }
 `;
 export const RecentParcels = styled.div`
@@ -28,8 +28,9 @@ export const RecentParcels = styled.div`
     padding-block: 10px;
     padding-inline: 10px;
     align-items: center;
-    min-width: 500px;
+    /* min-width: 500px; */
     overflow-x: auto;
+
     .heading {
       color: var(--secColor);
       font-size: 22px;
@@ -38,6 +39,11 @@ export const RecentParcels = styled.div`
       font-family: "regular";
       padding-left: 10px;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      @media (max-width: 520px) {
+        font-size: 19px;
+      }
     }
     button {
       background-color: var(--secColor);
@@ -49,6 +55,9 @@ export const RecentParcels = styled.div`
       border-radius: 5px;
       cursor: pointer;
       flex-shrink: 0;
+      @media (max-width: 520px) {
+        padding: 9px 10px;
+      }
     }
   }
   .tableDiv {
@@ -56,6 +65,10 @@ export const RecentParcels = styled.div`
     overflow-x: auto;
     box-sizing: border-box;
     margin-block: 20px;
+    width: 100%;
+    @media (max-width: 520px) {
+      margin-block: 10px;
+    }
   }
   table {
     width: 100%;
@@ -68,6 +81,9 @@ export const RecentParcels = styled.div`
       padding: 12px;
       text-align: left;
       width: 20%;
+      @media (max-width: 520px) {
+        font-size: 15px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);

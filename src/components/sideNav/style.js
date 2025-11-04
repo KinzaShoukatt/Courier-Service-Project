@@ -12,10 +12,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 240px;
   .closeBtn {
     display: none;
   }
   @media (max-width: 768px) {
+    width: 200px;
     .closeBtn {
       display: block;
       text-align: right;
@@ -30,8 +32,8 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* padding-top: 10px; */
-    /* padding-left: 20%; */
+    padding-top: 10px;
+    padding-left: 20%;
     img {
       height: 100%;
       width: 100%;
@@ -54,50 +56,25 @@ export const Container = styled.div`
       box-sizing: border-box;
       cursor: pointer;
       padding: 5px 15px;
-      flex-wrap: wrap;
-    }
-    .item p {
-      max-width: 150px;
-      white-space: nowrap;
+      flex-wrap: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      p {
+        margin: 0;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+      }
     }
-
     .items.active {
-      width: 100%;
       background-color: rgba(255, 255, 255, 0.1);
       border-left: 3px solid #ffffff;
       border-radius: 4px;
       box-sizing: border-box;
-      overflow-x: hidden;
     }
-
     .icon {
       font-size: 18px;
-    }
-    @media (max-width: 1080px) {
-      p {
-        font-size: 12px;
-        max-width: 150px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .icon {
-        font-size: 14px;
-      }
-    }
-    @media (max-width: 849px) {
-      p {
-        font-size: 10px;
-        max-width: 150px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .icon {
-        font-size: 12px;
-      }
     }
   }
 `;

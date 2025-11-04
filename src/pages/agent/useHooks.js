@@ -74,7 +74,7 @@ const UseAgent = () => {
     try {
       const response = await AgentApiEndPoints.alldeliveredParcels(page, limit);
       if (response) {
-        showSuccess(response.message);
+        // showSuccess(response.message);
       } else {
         showError(response.showError);
       }
@@ -91,7 +91,7 @@ const UseAgent = () => {
     try {
       const response = await AgentApiEndPoints.allEarnings(page, limit);
       if (response) {
-        showSuccess(response.message);
+        // showSuccess(response.message);
       } else {
         showError(response.showError);
       }

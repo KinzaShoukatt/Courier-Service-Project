@@ -24,6 +24,7 @@ export const CustomerApiEndPoints = {
     await patchData(`parcels/${parcelId}/cancel`, body),
 
   getProfile: async () => await getData("users/me"),
+  getProfilePicture: async () => await getData("users/me/profile-picture"),
 
   updateProfile: async (body) => await patchData("users/me", body),
 

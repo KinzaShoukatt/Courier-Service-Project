@@ -54,6 +54,9 @@ export const PaymentsTable = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .paymentTable {
     padding-inline: 10px;
@@ -123,14 +126,21 @@ export const PaymentsTable = styled.div`
       th,
       td {
         padding: 12px;
+        text-align: left;
       }
       th {
         background-color: var(--priColor);
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .iconClass {
         display: flex;
@@ -204,7 +214,7 @@ export const RefundPayments = styled.div`
   margin-block: 20px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   .heading {
-    font-size: 20px;
+    font-size: 22px;
     background-color: var(--dark-teal);
     color: var(--secColor);
     margin-bottom: 10px;
@@ -230,6 +240,7 @@ export const RefundPayments = styled.div`
       th,
       td {
         padding: 12px;
+        text-align: left;
       }
       th {
         background-color: var(--priColor);
@@ -238,6 +249,9 @@ export const RefundPayments = styled.div`
       tr {
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .type {
         padding: 4px 8px;
@@ -278,7 +292,7 @@ export const InvoiceReports = styled.div`
   margin-block: 20px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   .heading {
-    font-size: 20px;
+    font-size: 22px;
     background-color: var(--dark-teal);
     color: var(--secColor);
     margin-bottom: 10px;
@@ -308,10 +322,16 @@ export const InvoiceReports = styled.div`
       th {
         background-color: var(--priColor);
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .status {
         padding: 4px 8px;

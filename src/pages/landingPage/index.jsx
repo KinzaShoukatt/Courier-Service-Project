@@ -279,7 +279,7 @@ const LandingPage = () => {
           <div className="FooterContent">
             <div className="logo">
               <img src={WhiteLogo} alt="" />
-              <p>
+              <p className="firstText">
                 Fast, reliable, and secure courier <br /> services for all your
                 delivery needs.
               </p>
@@ -312,14 +312,20 @@ const LandingPage = () => {
             <div className="contact">
               <p className="highlight">Contact Information</p>
               <div className="contactDetails">
-                <p>
-                  <MdEmail size={18} color="white" />
-                  {contactPage?.content?.email || ""}
-                </p>
-                <p className="address">
-                  <ImLocation size={18} color="white" />
-                  {contactPage?.content?.address || ""}
-                </p>
+                <div className="mail">
+                  <div className="icon">
+                    <MdEmail size={18} className="icons" color="white" />
+                  </div>
+
+                  <p>{contactPage?.content?.email || ""}</p>
+                </div>
+                <div className="address">
+                  <div className="icon">
+                    <ImLocation size={18} className="icons" color="white" />
+                  </div>
+
+                  <p>{contactPage?.content?.address || ""}</p>
+                </div>
               </div>
             </div>
           </div>

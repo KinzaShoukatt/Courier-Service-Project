@@ -20,6 +20,7 @@ export const Container = styled.div`
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     text-align: center;
+    font-size: 20px;
   }
   .parentDiv {
     padding-inline: 20px;
@@ -29,13 +30,19 @@ export const Container = styled.div`
       color: var(--dark-teal);
     }
     .trackOrder {
+      box-sizing: border-box;
       font-family: "regular";
       display: flex;
       gap: 10px;
       white-space: nowrap;
       align-items: center;
       /* height: 30px; */
+      @media (max-width: 420px) {
+        flex-direction: column;
+        gap: 0;
+      }
       .inp {
+        box-sizing: border-box;
         width: 100%;
         border: 1px solid var(--borderColor);
         font-family: "regular";
@@ -45,6 +52,9 @@ export const Container = styled.div`
         padding: 0px 10px;
         outline-color: var(--borderColor);
         margin-block: 10px;
+        @media (max-width: 420px) {
+          margin-top: 10px;
+        }
       }
       .btn {
         background-color: var(--dark-teal);
@@ -56,6 +66,9 @@ export const Container = styled.div`
         padding: 0px 10px;
         border-radius: 5px;
         cursor: pointer;
+        @media (max-width: 420px) {
+          align-self: flex-end;
+        }
       }
     }
 
@@ -67,18 +80,18 @@ export const Container = styled.div`
       justify-content: space-between;
       background-color: var(--priColor);
       border-radius: 5px;
-      @media (max-width: 450px) {
+
+      @media (max-width: 600px) {
+        font-size: 15px;
+      }
+      @media (max-width: 560px) {
         display: block;
       }
       .status {
         display: flex;
         gap: 10px;
-        @media (max-width: 565px) {
-          font-size: 14px;
-        }
-        @media (max-width: 510px) {
-          font-size: 13px;
-          gap: 5px;
+        @media (max-width: 560px) {
+          line-height: 2;
         }
         .left {
           font-weight: bold;
@@ -139,27 +152,28 @@ export const Container = styled.div`
           align-items: center;
           justify-content: center;
           margin-bottom: 10px;
-        }}
-        .progressStep.stepComplete .icon {
-          border-color: green;
-          background-color: green;
-          color: white;
-        }
-        .progressStep.stepComplete p {
-          color: green;
-          font-weight: 600;
-        }
-        .progressStep.stepActive .icon {
-          border-color: green;
-          background-color: green;
-          color: white;
-        }
-        .progressStep.stepActive p {
-          color: green;
-          font-weight: 600;
         }
       }
-    
+      .progressStep.stepComplete .icon {
+        border-color: green;
+        background-color: green;
+        color: white;
+      }
+      .progressStep.stepComplete p {
+        color: green;
+        font-weight: 600;
+      }
+      .progressStep.stepActive .icon {
+        border-color: green;
+        background-color: green;
+        color: white;
+      }
+      .progressStep.stepActive p {
+        color: green;
+        font-weight: 600;
+      }
+    }
+
     /* details */
     .card {
       background-color: var(--priColor);
@@ -174,12 +188,13 @@ export const Container = styled.div`
         font-weight: bold;
         font-family: "semibold";
         color: var(--dark-teal);
-        font-size: 20px;
+        font-size: 18px;
         padding-bottom: 10px;
       }
       .cardChild {
         display: flex;
         gap: 10px;
+        font-size: 15px;
         .heading {
           color: black;
           font-weight: bold;

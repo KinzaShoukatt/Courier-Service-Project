@@ -14,7 +14,10 @@ export const AssignDelivery = styled.div`
   border-radius: 10px;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  margin-block: 25px;
+  margin-block: 15px;
+  @media (max-width: 520px) {
+    margin-block: 10px;
+  }
   .heading {
     font-size: 22px;
     background-color: var(--dark-teal);
@@ -26,8 +29,10 @@ export const AssignDelivery = styled.div`
     border-top-right-radius: 10px;
     padding-block: 12px;
     font-weight: bold;
-    /* text-align: center; */
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
 `;
 export const DivsSetting = styled.div`
@@ -37,8 +42,9 @@ export const DivsSetting = styled.div`
   gap: 25px;
   padding-inline: 15px;
   box-sizing: border-box;
-  @media (max-width: 760px) {
+  @media (max-width: 950px) {
     flex-direction: column;
+    gap: 15px;
   }
 `;
 export const LeftDiv = styled.div`
@@ -64,15 +70,22 @@ export const LeftDiv = styled.div`
       padding-block: 15px;
       padding-inline: 20px;
       border: 1px solid var(--borderColor);
+      margin-block: 10px;
     }
     .trackingId {
       font-weight: bold;
       font-size: 16px;
+      @media (max-width: 520px) {
+        font-size: 15px;
+      }
     }
     .paras {
       .childPara {
         color: #212529;
         font-size: 14px;
+        @media (max-width: 520px) {
+          font-size: 13px;
+        }
         span {
           color: var(--dark-teal);
           font-weight: bold;
@@ -86,6 +99,9 @@ export const LeftDiv = styled.div`
       border-radius: 5px;
       cursor: pointer;
       text-align: center;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
   }
   .cancelBtn {
@@ -99,6 +115,9 @@ export const LeftDiv = styled.div`
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 5px;
+    @media (max-width: 520px) {
+      font-size: 13.5px;
+    }
   }
 `;
 export const RightDiv = styled.div`
@@ -127,6 +146,9 @@ export const RightDiv = styled.div`
     margin-block: 10px;
     padding: 10px 20px;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
+    @media (max-width: 520px) {
+      font-size: 14px;
+    }
     input {
       width: 20px;
       height: 20px;
@@ -137,6 +159,7 @@ export const RightDiv = styled.div`
     }
   }
   .button {
+    font-family: "regular";
     border: 1px solid transparent;
     background-color: var(--dark-teal);
     color: var(--secColor);
@@ -172,8 +195,10 @@ export const AssignDeliveryTable = styled.div`
     border-top-right-radius: 10px;
     padding-block: 12px;
     font-weight: bold;
-    /* text-align: center; */
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .tableDiv {
     overflow-x: auto;
@@ -186,6 +211,7 @@ export const AssignDeliveryTable = styled.div`
     border-collapse: collapse;
     text-align: left;
     color: var(--textColor);
+
     th,
     td {
       padding: 12px;
@@ -193,10 +219,16 @@ export const AssignDeliveryTable = styled.div`
     th {
       background-color: var(--priColor);
       color: var(--dark-teal);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     .cancelBtn {
       color: black;
@@ -207,6 +239,9 @@ export const AssignDeliveryTable = styled.div`
       border-radius: 5px;
       cursor: pointer;
       font-size: 15px;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
   }
 `;
@@ -231,12 +266,14 @@ export const RescheduleCancel = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .tableDiv {
     padding-inline: 10px;
     overflow-x: auto;
     box-sizing: border-box;
-    margin-block: 20px;
     width: 100%;
   }
   table {
@@ -244,6 +281,7 @@ export const RescheduleCancel = styled.div`
     font-family: "regular";
     color: var(--textColor);
     width: 100%;
+    margin-block: 15px;
     th,
     td {
       padding: 12px;
@@ -253,9 +291,15 @@ export const RescheduleCancel = styled.div`
     th {
       color: var(--dark-teal);
       background: var(--priColor);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
 
     .cancelStatus {
@@ -278,6 +322,9 @@ export const RescheduleCancel = styled.div`
         padding: 10px;
         align-items: center;
         font-family: "regular";
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
     }
   }
@@ -384,12 +431,14 @@ export const ParcelHistory = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .parcelHistoryTable {
     padding-inline: 10px;
     overflow-x: auto;
     box-sizing: border-box;
-    margin-block: 20px;
 
     table {
       width: 100%;
@@ -397,6 +446,7 @@ export const ParcelHistory = styled.div`
       border-collapse: collapse;
       text-align: left;
       color: var(--textColor);
+      margin-block: 15px;
       th,
       td {
         padding: 12px;
@@ -404,10 +454,16 @@ export const ParcelHistory = styled.div`
       th {
         background-color: var(--priColor);
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .status {
         padding: 4px 8px;
@@ -415,6 +471,9 @@ export const ParcelHistory = styled.div`
         font-weight: bold;
         text-transform: capitalize;
         font-size: 15px;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .status.order_placed {
         background-color: #c8d9eeff;
@@ -457,6 +516,9 @@ export const ParcelHistory = styled.div`
           border-radius: 5px;
           cursor: pointer;
           font-size: 15px;
+          @media (max-width: 520px) {
+            font-size: 13.5px;
+          }
         }
       }
     }
@@ -467,8 +529,8 @@ export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 2rem;
-  font-size: 0.75rem;
+  /* margin-top: 2rem; */
+  font-size: 14px;
   font-weight: 600;
   color: #111827;
   font-family: "regular";
@@ -478,6 +540,9 @@ export const PaginationWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+  }
+  @media (max-width: 520px) {
+    font-size: 13px;
   }
 `;
 
@@ -503,6 +568,10 @@ export const PageButton = styled.button`
   background-color: white;
   font-family: "regular";
   font-weight: 600;
+  @media (max-width: 520px) {
+    width: 35px;
+    height: 35px;
+  }
   @media (max-width: 320px) {
     width: 30px;
     height: 30px;
@@ -516,5 +585,8 @@ export const PageButton = styled.button`
 `;
 
 export const PageNavButton = styled(PageButton)`
-  font-size: 0.75rem;
+  font-size: 14px;
+  @media (max-width: 520px) {
+    font-size: 12px;
+  }
 `;

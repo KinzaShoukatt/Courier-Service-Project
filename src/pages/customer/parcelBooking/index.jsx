@@ -55,10 +55,11 @@ const ParcelBooking = () => {
         <h2 className="firstLine">Create New Booking</h2>
         <p>Fill out the form below to schedule your delivery</p>
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="boldText">
           <MdLocationOn className="icon" color="#006769" />
-          <h2>Address Information</h2>
+          <p className="headings">Address Information</p>
         </div>
         <div className="inputFields">
           <div className="childs">
@@ -124,11 +125,11 @@ const ParcelBooking = () => {
         {/* package Details */}
         <div className="boldText">
           <FaBoxOpen className="icon" color="#006769" />
-          <h2>Package Details</h2>
+          <p className="headings">Package Details</p>
         </div>
         <div className="inputFields">
           <div className="childs">
-            <label htmlFor="">Package Weight</label>
+            <label htmlFor="">Package Weight(kg)</label>
             <br />
             {errors.packageWeight && (
               <p className="errorMsg">{errors.packageWeight.message}</p>
@@ -141,6 +142,10 @@ const ParcelBooking = () => {
                 max: {
                   value: 50,
                   message: "Weight cannot exceed 50 kg",
+                },
+                min: {
+                  value: 0.5,
+                  message: "Weight cannot be less than 0.5 kg",
                 },
               })}
             />
@@ -197,7 +202,7 @@ const ParcelBooking = () => {
         {/* Pickup Options*/}
         <div className="boldText">
           <RiCalendarScheduleFill className="icon" color="#006769" />
-          <h2>Pickup Options</h2>
+          <p className="headings">Pickup Options</p>
         </div>
         <div className="radioInputFields">
           <div className="radioChilds">
@@ -243,7 +248,7 @@ const ParcelBooking = () => {
                 )}
                 <input
                   type="date"
-                  placeholder="mm/dd/yyyy"
+                  // placeholder="mm/dd/yyyy"
                   {...register("pickupDate", {
                     required: "Select Pickup Date!",
                   })}
@@ -251,19 +256,32 @@ const ParcelBooking = () => {
               </div>
             </div>
 
-            <label htmlFor="">Pick Time Slot</label>
+            <p className="specialLabel" htmlFor="">
+              Pick Time Slot:
+            </p>
             <div className="dateTime">
               <div className="dateTimeChilds">
-                <label htmlFor="">Strat Time</label>
+                <label htmlFor="">Start Time</label>
                 <br />
                 {errors.pickupStart && (
                   <p className="errorMsg">{errors.pickupStart.message}</p>
                 )}
                 <input
                   type="time"
-                  placeholder="mm/dd/yyyy"
                   {...register("pickupStart", {
                     required: "Select Start Time!",
+                    validate: (value, formValues) => {
+                      if (value < "08:00" || value > "20:00") {
+                        return "Start time must be between 08:00 AM and 08:00 PM!";
+                      }
+                      if (
+                        formValues.pickupEnd &&
+                        value >= formValues.pickupEnd
+                      ) {
+                        return "Start time must be earlier than End time!";
+                      }
+                      return true;
+                    },
                   })}
                 />
               </div>
@@ -276,7 +294,21 @@ const ParcelBooking = () => {
                 <input
                   type="time"
                   placeholder="Enter Time"
-                  {...register("pickupEnd", { required: "Select End Time!" })}
+                  {...register("pickupEnd", {
+                    required: "Select End Time!",
+                    validate: (value, formValues) => {
+                      if (value < "08:00" || value > "20:00") {
+                        return "End time must be between 08:00 AM and 08:00 PM!";
+                      }
+                      if (
+                        formValues.pickupStart &&
+                        value <= formValues.pickupStart
+                      ) {
+                        return "End time must be later than Start time!";
+                      }
+                      return true;
+                    },
+                  })}
                 />
               </div>
             </div>

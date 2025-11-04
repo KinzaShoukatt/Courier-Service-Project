@@ -60,19 +60,21 @@ export const AgentPricingTable = styled.div`
         border-radius: 5px;
         cursor: pointer;
         gap: 3px;
+        white-space: nowrap;
+        /* position: relative; */
       }
-      .ticketStatus{
-          padding: 4px 8px;
+      .ticketStatus {
+        padding: 4px 8px;
         border-radius: 4px;
         font-weight: bold;
         text-transform: capitalize;
         font-size: 15px;
       }
-      .ticketStatus.closed{
-                background-color: #e7f6e9;
+      .ticketStatus.closed {
+        background-color: #e7f6e9;
         color: #155724;
       }
-       .ticketStatus.open {
+      .ticketStatus.open {
         background-color: #fef6e7;
         color: #e6a700;
       }
@@ -84,7 +86,8 @@ export const Popup = styled.div`
   background-color: var(--secColor);
   padding: 20px;
   position: absolute;
-  bottom: 90%;
+  /* bottom: 90%; */
+  top: 70%;
   right: 30%;
   border-radius: 5px;
   box-shadow: 0px 4px 14px rgba(21, 21, 21, 0.5);
@@ -102,5 +105,70 @@ export const Popup = styled.div`
       border-radius: 5px;
       cursor: pointer;
     }
+  }
+`;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  font-family: "regular";
+  @media (max-width: 520px) {
+    font-size: 12px;
+  }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
+export const PaginationInfo = styled.p`
+  padding-left: 0.25rem;
+  @media (max-width: 320px) {
+    display: none;
+  }
+`;
+
+export const PaginationNav = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const PageButton = styled.button`
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  color: #374151;
+  background-color: white;
+  font-family: "regular";
+  font-weight: 600;
+  font-size: 14px;
+  @media (max-width: 520px) {
+    width: 35px;
+    height: 35px;
+  }
+  @media (max-width: 320px) {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    background-color: var(--dark-teal);
+    color: white;
+    border: none;
+  }
+`;
+
+export const PageNavButton = styled(PageButton)`
+  font-size: 14px;
+  @media (max-width: 520px) {
+    font-size: 12px;
   }
 `;

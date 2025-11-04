@@ -14,6 +14,16 @@ export const Container = styled.div`
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     text-align: center;
+    font-size: 15px;
+    @media (max-width: 520px) {
+      font-size: 14px;
+    }
+    @media (max-width: 420px) {
+      font-size: 12px;
+    }
+    @media (max-width: 340px) {
+      font-size: 10px;
+    }
     .heading {
       font-family: "semibold";
       display: flex;
@@ -38,9 +48,13 @@ export const Content = styled.div`
     color: black;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
+    }
   }
 `;
 
@@ -53,7 +67,16 @@ export const OrderSummary = styled.div`
     padding-block: 10px;
     border-bottom: 1px solid var(--borderColor);
     .icon {
-      font-size: 22px;
+      font-size: 20px;
+    }
+    .headings {
+      font-size: 20px;
+      @media (max-width: 420px) {
+        font-size: 18px;
+      }
+      @media (max-width: 340px) {
+        font-size: 15px;
+      }
     }
   }
   .parent {
@@ -63,8 +86,11 @@ export const OrderSummary = styled.div`
     border-radius: 10px;
     padding-inline: 30px;
     padding-block: 15px;
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
       gap: 7px;
+      font-size: 14px;
+      margin-block: 10px;
+      padding-block: 12px;
     }
     .child1 {
       display: flex;
@@ -93,7 +119,16 @@ export const PaymentMethod = styled.div`
     padding-block: 10px;
     border-bottom: 1px solid var(--borderColor);
     .icon {
-      font-size: 22px;
+      font-size: 20px;
+    }
+    .headings {
+      font-size: 20px;
+      @media (max-width: 420px) {
+        font-size: 18px;
+      }
+      @media (max-width: 340px) {
+        font-size: 15px;
+      }
     }
   }
   .cardParent {
@@ -117,8 +152,13 @@ export const PaymentMethod = styled.div`
       .icon {
         font-size: 30px;
       }
-      h3 {
+      .paymentHeading {
         font-family: "semibold";
+        font-size: 18px;
+        color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 16px;
+        }
       }
       p {
         font-family: "regular";
@@ -149,9 +189,13 @@ export const CreditCardParent = styled.div`
     border: none;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
+    }
   }
 `;
 
@@ -163,6 +207,10 @@ export const CODParent = styled.div`
   padding-block: 20px;
   padding-inline: 20px;
   font-family: "regular";
+  font-size: 15px;
+  @media (max-width: 520px) {
+    font-size: 14px;
+  }
   .child1 {
     color: black;
   }
@@ -172,6 +220,9 @@ export const CODParent = styled.div`
     gap: 3px;
     color: var(--dark-teal);
     padding-block: 15px;
+    input {
+      cursor: pointer;
+    }
   }
   .confirmBtn {
     background-color: var(--dark-teal);
@@ -180,8 +231,12 @@ export const CODParent = styled.div`
     border: none;
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     cursor: pointer;
+    @media (max-width: 520px) {
+      font-size: 14px;
+      padding: 9px 12px;
+    }
   }
 `;

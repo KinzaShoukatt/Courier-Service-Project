@@ -19,12 +19,19 @@ export const ImgDiv = styled.div`
     object-fit: cover;
   }
 `;
-export const Heading = styled.h1`
+export const Heading = styled.p`
   color: var(--dark-teal);
   font-family: "semibold";
   padding: 10px 0px;
+  font-size: 25px;
+  @media (max-width: 480px) {
+    font-size: 22px;
+  }
 `;
 export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   .errorMsg {
     color: red;
     font-family: "regular";
@@ -38,14 +45,22 @@ export const Form = styled.form`
     gap: 5px;
     padding: 10px;
     border-radius: 8px;
-    margin-block: 13px;
-
+    /* margin-block: 13px; */
+    .icon {
+      font-size: 18px;
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
     input {
       border: none;
       font-size: 15px;
       outline: none;
       width: 90%;
       font-family: "regular";
+      @media (max-width: 480px) {
+        font-size: 14px;
+      }
     }
   }
   .inputFields2 {
@@ -55,7 +70,7 @@ export const Form = styled.form`
     display: flex;
     padding: 10px;
     border-radius: 8px;
-    margin-block: 13px;
+    /* margin-block: 13px; */
     justify-content: space-between;
     .passwordInput {
       display: flex;
@@ -67,6 +82,9 @@ export const Form = styled.form`
         outline: none;
         width: 90%;
         font-family: "regular";
+        @media (max-width: 480px) {
+          font-size: 14px;
+        }
       }
     }
     .eyeIcon {
@@ -79,12 +97,15 @@ export const Form = styled.form`
     font-size: 17px;
     font-weight: bold;
     color: var(--secColor);
-    padding: 9px 10px;
+    padding: 9px;
     width: 74%;
     border: 2px solid var(--dark-teal);
     border-radius: 10px;
     margin-top: 3px;
     cursor: pointer;
+    @media (max-width: 480px) {
+      font-size: 15px;
+    }
   }
 `;
 export const LastText = styled.div`
@@ -92,6 +113,9 @@ export const LastText = styled.div`
     margin-block: 10px;
     color: var(--dark-teal);
     font-family: "regular";
+    @media (max-width: 480px) {
+      font-size: 15px;
+    }
     strong {
       cursor: pointer;
       color: var(--dark-teal);

@@ -40,7 +40,7 @@ const AgentManagement = () => {
     yearlyDeliveredparcels,
   } = UseAdmin();
   const [totalDeliveredParcels, setDeliveredParcels] = useState({});
-  const [agentFilter, setAgentFilter] = useState("daily");
+  const [agentFilter, setAgentFilter] = useState("monthly");
   const [isPopupOpen2, setIsPopupOpen2] = useState(false);
   const popupRef2 = useRef(null);
 

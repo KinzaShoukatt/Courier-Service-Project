@@ -49,7 +49,7 @@ const UseLandingpage = () => {
       if (response) {
         // showSuccess(response.message);
       } else {
-        showError(response.error);
+        // showError(response.error);
       }
       return response;
     } catch (error) {

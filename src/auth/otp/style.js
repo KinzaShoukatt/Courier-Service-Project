@@ -20,10 +20,11 @@ export const ImgDiv = styled.div`
     object-fit: cover;
   }
 `;
-export const Heading = styled.h1`
+export const Heading = styled.p`
   color: var(--dark-teal);
   font-family: "semibold";
   padding: 10px 0px;
+  font-size: 25px;
 `;
 export const Para = styled.p`
   font-family: "semibold";

@@ -28,13 +28,15 @@ import { FaCheck } from "react-icons/fa";
 import { CgUnblock } from "react-icons/cg";
 import { IoLockOpenSharp } from "react-icons/io5";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { IoEyeOffSharp } from "react-icons/io5";
+import { MdRemoveRedEye } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import UseAdmin from "../useHooks";
 
 const UserManagement = () => {
   const [show, setShow] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [analyzingUser, setAnalyzingUser] = useState(null);
+  // const [analyzingUser, setAnalyzingUser] = useState(null);
 
   const {
     createUser,
@@ -86,6 +88,10 @@ const UserManagement = () => {
   const [allGuestCustomers, setAllGuestCustomers] = useState([]);
   const [allAgents, setAllAgents] = useState([]);
   const [allRestrictedUsers, setAllRestrictedUsers] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const fetchCustomers = async (page = 1, limit = 10) => {
     const response = await allCustomersGet(page, limit);
@@ -144,18 +150,31 @@ const UserManagement = () => {
     fetchRestrictedUsers(pagination4.page, pagination4.limit);
   }, []);
 
+  // useEffect(() => {
+  //   if (selectedUser) {
+  //     reset({
+  //       fullName: selectedUser.fullName || "",
+  //       email: selectedUser.email || "",
+  //       phoneNumber: selectedUser.phoneNumber || "",
+  //       password: "",
+  //       address: selectedUser.address || "",
+  //       role: selectedUser.role || "",
+  //     });
+  //   }
+  // }, [selectedUser, reset]);
+
   useEffect(() => {
-    if (selectedUser) {
+    if (show === "addCustomer" || show === "addAgent") {
       reset({
-        fullName: selectedUser.fullName || "",
-        email: selectedUser.email || "",
-        phoneNumber: selectedUser.phoneNumber || "",
+        fullName: "",
+        email: "",
+        phoneNumber: "",
         password: "",
-        address: selectedUser.address || "",
-        role: selectedUser.role || "",
+        address: "",
+        role: show === "addCustomer" ? "customer" : "agent",
       });
     }
-  }, [selectedUser, reset]);
+  }, [show, reset]);
 
   const handleCreateUser = async (body) => {
     const payload = {
@@ -166,19 +185,24 @@ const UserManagement = () => {
       role: body.role,
     };
     // console.log(payload);
-    await createUser(payload);
-    fetchCustomers();
-    fetchGuestCustomers();
-    fetchAgents();
-    fetchRestrictedUsers();
+    try {
+      const response = await createUser(payload);
+      console.log("API response:", response);
+      if (response.message?.includes("successfully.")) {
+        setShow(false);
+        fetchCustomers();
+        fetchAgents();
+        reset();
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
   };
 
   const handleUpdateUser = async (id, body) => {
     await updateUser(id, body);
     fetchCustomers();
-    fetchGuestCustomers();
     fetchAgents();
-    fetchRestrictedUsers();
   };
 
   const handleDeleteUser = async (id) => {
@@ -186,13 +210,11 @@ const UserManagement = () => {
     fetchCustomers();
     fetchGuestCustomers();
     fetchAgents();
-    fetchRestrictedUsers();
   };
 
   const handleBlockUser = async (id, body) => {
     await blockUser(id, body);
     fetchCustomers();
-    fetchGuestCustomers();
     fetchAgents();
     fetchRestrictedUsers();
   };
@@ -200,24 +222,21 @@ const UserManagement = () => {
   const handleSuspendUser = async (id, body) => {
     await suspendUser(id, body);
     fetchCustomers();
-    fetchGuestCustomers();
     fetchAgents();
     fetchRestrictedUsers();
   };
   const handleUnBlockUser = async (id, body) => {
     await unBlockUser(id, body);
-    fetchCustomers();
-    fetchGuestCustomers();
-    fetchAgents();
     fetchRestrictedUsers();
+    fetchCustomers();
+    fetchAgents();
   };
 
   const handleUnSuspendUser = async (id, body) => {
     await unSuspendUser(id, body);
-    fetchCustomers();
-    fetchGuestCustomers();
-    fetchAgents();
     fetchRestrictedUsers();
+    fetchCustomers();
+    fetchAgents();
   };
 
   const handleAnalyzeClick = async (e, id) => {
@@ -236,16 +255,18 @@ const UserManagement = () => {
         btn.textContent = "Suspicious";
         btn.style.color = "black";
         btn.style.backgroundColor = "#DC3545";
+        btn.disabled = true;
       } else {
         btn.textContent = "Not Suspicious";
-        btn.style.backgroundColor = "##28A745";
+        btn.style.backgroundColor = "#28A745";
         btn.style.color = "white";
       }
+      btn.disabled = true;
+      btn.style.cursor = "not-allowed";
     } catch (error) {
       console.error("Error analyzing user:", error);
       btn.textContent = "Error";
       btn.style.backgroundColor = "gray";
-    } finally {
       btn.disabled = false;
     }
   };
@@ -261,7 +282,10 @@ const UserManagement = () => {
             <p className="heading">Customer Management</p>
             <button
               className={`btn ${show === "addCustomer" ? "active" : ""}`}
-              onClick={() => setShow("addCustomer")}
+              onClick={() => {
+                setSelectedUser(null);
+                setShow("addCustomer");
+              }}
             >
               <IoMdAdd size={18} color="white" />
               <p>Add Cutomer</p>
@@ -287,7 +311,7 @@ const UserManagement = () => {
                   <td>{user.address}</td>
                   <td>
                     <button
-                      className="character"
+                      className="characterBtn"
                       onClick={(e) => handleAnalyzeClick(e, user.id)}
                     >
                       Analyze Character
@@ -295,6 +319,7 @@ const UserManagement = () => {
                   </td>
                   <td className="btns">
                     <button
+                      className="viewCustomer"
                       onClick={() => {
                         setSelectedUser(user);
                         setShow("viewCustomer");
@@ -381,6 +406,7 @@ const UserManagement = () => {
                   <label htmlFor="">Name</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     placeholder="Enter Name"
                     {...register("fullName", {
@@ -400,6 +426,7 @@ const UserManagement = () => {
                   <label htmlFor="">Email</label>
                   <br />
                   <input
+                    className="input"
                     type="email"
                     placeholder="Enter Email"
                     {...register("email", {
@@ -420,6 +447,7 @@ const UserManagement = () => {
                   <label htmlFor="">Phone Number</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     placeholder="Enter Phone No"
                     {...register("phoneNumber", {
@@ -441,28 +469,48 @@ const UserManagement = () => {
                 <div className="inputFeild">
                   <label htmlFor="">Password</label>
                   <br />
-                  <input
-                    type="password"
-                    placeholder="Enter Password"
-                    {...register("password", {
-                      required: "Password is Required!",
-                      minLength: {
-                        value: 6,
-                        message:
-                          "Password should contain atleast 6 characters long!",
-                      },
-                    })}
-                  />
+                  <div className="passwordInput">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter Your Password"
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 6,
+                          message:
+                            "Password must be at least 6 characters long",
+                        },
+                      })}
+                    />
+                    <div className="eyeIcon" onClick={togglePassword}>
+                      {showPassword ? (
+                        <MdRemoveRedEye
+                          color="#006769"
+                          size={18}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <IoEyeOffSharp
+                          color="#006769"
+                          size={18}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </div>
+                  </div>
+
                   {errors.password && (
                     <p className="errorMsg">{errors.password.message}</p>
                   )}
                 </div>
               </div>
+
               <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     value="customer"
                     {...register("role", {
@@ -483,7 +531,7 @@ const UserManagement = () => {
           </FormDiv>
         )}
         {show === "viewCustomer" && selectedUser && (
-          <FormDiv>
+          <FormDiv key={selectedUser.id}>
             <form action="">
               <div className="heading">
                 <p>View Customer</p>
@@ -496,36 +544,44 @@ const UserManagement = () => {
                 <div className="inputFeild">
                   <label htmlFor="">Name</label>
                   <br />
-                  <input defaultValue={selectedUser.fullName} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.fullName}
+                  />
                 </div>
                 <div className="inputFeild">
                   <label htmlFor="">Email</label>
                   <br />
-                  <input defaultValue={selectedUser.email} disabled />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.email}
+                    disabled
+                  />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Phone Number</label>
                   <br />
-                  <input defaultValue={selectedUser.phoneNumber} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.phoneNumber}
+                  />
                 </div>
                 <div className="inputFeild">
-                  <label htmlFor="">Password</label>
+                  <label htmlFor="">Address</label>
                   <br />
-                  <input type="password" placeholder="Enter Password" />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.address}
+                  />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
-                  <label htmlFor="">Address</label>
-                  <br />
-                  <input defaultValue={selectedUser.address} />
-                </div>
-                <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
-                  <input type="text" value="customer" />
+                  <input className="input" type="text" value="customer" />
                 </div>
               </div>
               <div className="btns">
@@ -571,6 +627,7 @@ const UserManagement = () => {
                   <label htmlFor="">Name</label>
                   <br />
                   <input
+                    className="input"
                     {...register("fullName", {
                       required: "Name is Required!",
                       minLength: {
@@ -584,6 +641,7 @@ const UserManagement = () => {
                   <label htmlFor="">Email</label>
                   <br />
                   <input
+                    className="input"
                     disabled
                     {...register("email", {
                       required: "Email is required!",
@@ -600,35 +658,29 @@ const UserManagement = () => {
                   <label htmlFor="">Phone Number</label>
                   <br />
                   <input
+                    className="input"
                     {...register("phoneNumber", {
                       // required: "Phone Number is Required!",
                     })}
                   />
                 </div>
                 <div className="inputFeild">
-                  <label htmlFor="">Password</label>
-                  <br />
-                  <input
-                    type="password"
-                    placeholder="Enter Password"
-                    {...register("password", {})}
-                  />
-                </div>
-              </div>
-              <div className="inputFields">
-                <div className="inputFeild">
                   <label htmlFor="">Address</label>
                   <br />
                   <input
+                    className="input"
                     {...register("address", {
                       // required: "Address is Required!",
                     })}
                   />
                 </div>
+              </div>
+              <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     value="Customer"
                     {...register("role", {})}
@@ -655,7 +707,10 @@ const UserManagement = () => {
             <p className="heading">Agent Management</p>
             <button
               className={`btn btn2 ${show === "addAgent" ? "active" : ""}`}
-              onClick={() => setShow("addAgent")}
+              onClick={() => {
+                setSelectedUser(null);
+                setShow("addAgent");
+              }}
             >
               <IoMdAdd size={18} color="white" />
               <p>Add Agent</p>
@@ -764,6 +819,7 @@ const UserManagement = () => {
                   <label htmlFor="">Name</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     placeholder="Enter Name"
                     {...register("fullName", {
@@ -782,6 +838,7 @@ const UserManagement = () => {
                   <label htmlFor="">Email</label>
                   <br />
                   <input
+                    className="input"
                     type="email"
                     placeholder="Enter Email"
                     {...register("email", {
@@ -802,6 +859,7 @@ const UserManagement = () => {
                   <label htmlFor="">Phone Number</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     placeholder="Enter Phone No"
                     {...register("phoneNumber", {
@@ -823,18 +881,35 @@ const UserManagement = () => {
                 <div className="inputFeild">
                   <label htmlFor="">Password</label>
                   <br />
-                  <input
-                    type="password"
-                    placeholder="Enter Password"
-                    {...register("password", {
-                      required: "Password is Required!",
-                      minLength: {
-                        value: 6,
-                        message:
-                          "Password should contain atleast 6 characters long!",
-                      },
-                    })}
-                  />
+                  <div className="passwordInput">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter Password"
+                      {...register("password", {
+                        required: "Password is Required!",
+                        minLength: {
+                          value: 6,
+                          message:
+                            "Password should contain atleast 6 characters long!",
+                        },
+                      })}
+                    />
+                    <div className="eyeIcon" onClick={togglePassword}>
+                      {showPassword ? (
+                        <MdRemoveRedEye
+                          color="#006769"
+                          size={18}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <IoEyeOffSharp
+                          color="#006769"
+                          size={18}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </div>
+                  </div>
                   {errors.password && (
                     <p className="errorMsg">{errors.password.message}</p>
                   )}
@@ -845,6 +920,7 @@ const UserManagement = () => {
                   <label htmlFor="">Role</label>
                   <br />
                   <input
+                    className="input"
                     type="text"
                     value="agent"
                     {...register("role", {
@@ -865,7 +941,7 @@ const UserManagement = () => {
           </FormDiv>
         )}
         {show === "viewAgent" && selectedUser && (
-          <FormDiv>
+          <FormDiv key={selectedUser.id}>
             <form action="">
               <div className="heading">
                 <p>View Agent</p>
@@ -878,36 +954,40 @@ const UserManagement = () => {
                 <div className="inputFeild">
                   <label htmlFor="">Name</label>
                   <br />
-                  <input defaultValue={selectedUser.fullName} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.fullName}
+                  />
                 </div>
                 <div className="inputFeild">
                   <label htmlFor="">Email</label>
                   <br />
-                  <input defaultValue={selectedUser.email} />
+                  <input className="input" defaultValue={selectedUser.email} />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Phone Number</label>
                   <br />
-                  <input defaultValue={selectedUser.phoneNumber} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.phoneNumber}
+                  />
                 </div>
                 <div className="inputFeild">
-                  <label htmlFor="">Password</label>
+                  <label htmlFor="">Address</label>
                   <br />
-                  <input type="password" placeholder="Enter Password" />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.address}
+                  />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
-                  <label htmlFor="">Address</label>
-                  <br />
-                  <input defaultValue={selectedUser.address} />
-                </div>
-                <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
-                  <input type="text" value="agent" />
+                  <input className="input" type="text" value="agent" />
                 </div>
               </div>
               <div className="btns">
@@ -952,6 +1032,7 @@ const UserManagement = () => {
                   <label htmlFor="">Name</label>
                   <br />
                   <input
+                    className="input"
                     {...register("fullName", {
                       required: "Name is Required!",
                       minLength: {
@@ -965,6 +1046,7 @@ const UserManagement = () => {
                   <label htmlFor="">Email</label>
                   <br />
                   <input
+                    className="input"
                     disabled
                     {...register("email", {
                       required: "Email is required!",
@@ -981,35 +1063,33 @@ const UserManagement = () => {
                   <label htmlFor="">Phone Number</label>
                   <br />
                   <input
+                    className="input"
                     {...register("phoneNumber", {
                       // required: "Phone Number is Required!",
                     })}
                   />
                 </div>
                 <div className="inputFeild">
-                  <label htmlFor="">Password</label>
-                  <br />
-                  <input
-                    type="password"
-                    placeholder="Enter Password"
-                    {...register("password", {})}
-                  />
-                </div>
-              </div>
-              <div className="inputFields">
-                <div className="inputFeild">
                   <label htmlFor="">Address</label>
                   <br />
                   <input
+                    className="input"
                     {...register("address", {
                       // required: "Address is Required!",
                     })}
                   />
                 </div>
+              </div>
+              <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
-                  <input type="text" value="agent" {...register("role", {})} />
+                  <input
+                    type="text"
+                    value="agent"
+                    className="input"
+                    {...register("role", {})}
+                  />
                 </div>
               </div>
               <div className="btns">
@@ -1025,7 +1105,7 @@ const UserManagement = () => {
         )}
       </AgentParent>
 
-      {/* Agent Management*/}
+      {/* guest customer Management*/}
       <GuestCustomerParent>
         <GuestCustomer>
           <div className="firstLine">
@@ -1128,36 +1208,40 @@ const UserManagement = () => {
                 <div className="inputFeild">
                   <label htmlFor="">Name</label>
                   <br />
-                  <input defaultValue={selectedUser.fullName} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.fullName}
+                  />
                 </div>
                 <div className="inputFeild">
                   <label htmlFor="">Email</label>
                   <br />
-                  <input defaultValue={selectedUser.email} />
+                  <input className="input" defaultValue={selectedUser.email} />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
                   <label htmlFor="">Phone Number</label>
                   <br />
-                  <input defaultValue={selectedUser.phoneNumber} />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.phoneNumber}
+                  />
                 </div>
                 <div className="inputFeild">
-                  <label htmlFor="">Password</label>
+                  <label htmlFor="">Address</label>
                   <br />
-                  <input type="password" placeholder="Enter Password" />
+                  <input
+                    className="input"
+                    defaultValue={selectedUser.address}
+                  />
                 </div>
               </div>
               <div className="inputFields">
                 <div className="inputFeild">
-                  <label htmlFor="">Address</label>
-                  <br />
-                  <input defaultValue={selectedUser.address} />
-                </div>
-                <div className="inputFeild">
                   <label htmlFor="">Role</label>
                   <br />
-                  <input type="text" value="guest" />
+                  <input className="input" type="text" value="guest" />
                 </div>
               </div>
             </form>

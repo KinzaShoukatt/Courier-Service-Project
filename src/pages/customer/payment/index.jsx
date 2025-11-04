@@ -25,7 +25,11 @@ const Payment = () => {
 
   const location = useLocation();
   const parcelId = Number(localStorage.getItem("parcelId"));
-  const totalCharges = Number(sessionStorage.getItem("totalCharges"));
+  const [totalCharges, setTotalCharges] = useState(
+    Number(sessionStorage.getItem("totalCharges")) || 0
+  );
+  // const totalCharges = Number(sessionStorage.getItem("totalCharges"));
+  const fromBooking = location.state?.fromBooking;
 
   const { codConfirm, stripePayment, bookingOrderInvoice, cancelParcel } =
     UseCustomer();
@@ -49,11 +53,16 @@ const Payment = () => {
     if (status === "success" && parcelId) {
       showSuccess("Your payment has been completed successfully!");
       setShowInvoiceBtn(true);
+      sessionStorage.removeItem("totalCharges");
     }
   }, [location.search]);
 
   const handleCodConfirm = async (body) => {
-    return await codConfirm(body);
+    const response = await codConfirm(body);
+    if (response?.message?.includes("successfully")) {
+      sessionStorage.removeItem("totalCharges");
+    }
+    return response;
   };
 
   const handleBookingOrderInvoice = async () => {
@@ -65,7 +74,12 @@ const Payment = () => {
   };
 
   const handleCancelParcel = async (body) => {
-    return await cancelParcel(body);
+    const response = await cancelParcel(body);
+    if (response?.message?.includes("successfully")) {
+      sessionStorage.removeItem("totalCharges");
+      setTotalCharges(0);
+    }
+    return response;
   };
 
   return (
@@ -83,7 +97,7 @@ const Payment = () => {
         <OrderSummary>
           <div className="boldText">
             <FaReceipt className="icon" color="#006769" />
-            <h2>Order Summary</h2>
+            <p className="headings">Order Summary</p>
           </div>
           <div className="parent">
             <div className="child1">
@@ -100,7 +114,7 @@ const Payment = () => {
         <PaymentMethod>
           <div className="boldText">
             <FaMoneyBill1Wave className="icon" color="#006769" />
-            <h2>Select Payment Method</h2>
+            <p className="headings">Select Payment Method</p>
           </div>
           <div className="cardParent">
             <div
@@ -108,7 +122,7 @@ const Payment = () => {
               onClick={() => handleSelectMethod("credit")}
             >
               <FaCreditCard className="icon" color="#006769" />
-              <h3>Online Payment</h3>
+              <p className="paymentHeading">Online Payment</p>
               <p>Pay securely with your credit or debit card</p>
             </div>
             <div
@@ -116,7 +130,7 @@ const Payment = () => {
               onClick={() => handleSelectMethod("cod")}
             >
               <FaMoneyBill1Wave className="icon" color="#006769" />
-              <h3>Cash on Delivery</h3>
+              <p className="paymentHeading">Cash on Delivery</p>
               <p>Pay when your package is delivered</p>
             </div>
           </div>
@@ -185,12 +199,14 @@ const Payment = () => {
           </CODParent>
         )}
 
-        <button
-          className="cancelBtn"
-          onClick={() => handleCancelParcel(parcelId)}
-        >
-          Cancel Order
-        </button>
+        {fromBooking && (
+          <button
+            className="cancelBtn"
+            onClick={() => handleCancelParcel(parcelId)}
+          >
+            Cancel Order
+          </button>
+        )}
       </Content>
       <AI />
     </Container>

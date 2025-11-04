@@ -10,6 +10,7 @@ import {
   AgentchartContainer,
   AgentChart,
   RevenuechartContainer,
+  RevenueChart,
 } from "./style";
 
 import { Line, Pie, Bar } from "react-chartjs-2";
@@ -59,9 +60,9 @@ const AdminDashboard = () => {
   const [totalDeliveredParcels, setDeliveredParcels] = useState({});
   const [totalRevenue, setTotalRevenue] = useState({});
 
-  const [bookingFilter, setBookingFilter] = useState("daily");
-  const [agentFilter, setAgentFilter] = useState("daily");
-  const [revenueFilter, setRevenueFilter] = useState("daily");
+  const [bookingFilter, setBookingFilter] = useState("monthly");
+  const [agentFilter, setAgentFilter] = useState("monthly");
+  const [revenueFilter, setRevenueFilter] = useState("monthly");
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopupOpen2, setIsPopupOpen2] = useState(false);
@@ -317,13 +318,13 @@ const AdminDashboard = () => {
         <Charts>
           {/* BookingReport */}
           <BookingchartContainer>
-            <p>Bookings Report:</p>
+            <p className="firstHeading">Bookings Report:</p>
             <BookingChart>
               <div className="headingDiv">
-                <h2 className="heading1">
+                <p className="heading1">
                   Total Bookings: {totalBookingData.totalCount}
-                </h2>
-                <h2 className="heading2"> {totalBookingData.period}</h2>
+                </p>
+                <p className="heading2"> {totalBookingData.period}</p>
               </div>
               <div className="filterContainer" ref={popupRef}>
                 <button
@@ -376,13 +377,13 @@ const AdminDashboard = () => {
           {/* agent performance */}
 
           <AgentchartContainer>
-            <p>Agent Performance:</p>
+            <p className="firstHeading">Agent Performance:</p>
             <AgentChart>
               <div className="headingDiv">
-                <h2 className="heading1">
+                <p className="heading1">
                   Total Order Delivered: {totalDeliveredParcels.totalCount}
-                </h2>
-                <h2 className="heading2"> {totalDeliveredParcels.period}</h2>
+                </p>
+                <p className="heading2"> {totalDeliveredParcels.period}</p>
               </div>
               <div className="filterContainer" ref={popupRef2}>
                 <button
@@ -435,56 +436,59 @@ const AdminDashboard = () => {
 
         {/* Revenue Chart */}
         <RevenuechartContainer>
-          <div className="headingDiv">
-            <h2 className="heading1">
-              Total Revenue: {totalRevenue.totalRevenue}
-            </h2>
-            <h2 className="heading2"> {totalRevenue.period}</h2>
-          </div>
-          <div className="filterContainer" ref={popupRef3}>
-            <button
-              onClick={() => setIsPopupOpen3(!isPopupOpen3)}
-              className="filter-btn"
-            >
-              Choose Filter
-            </button>
+          <p className="firstHeading">Revenue Report:</p>
+          <RevenueChart>
+            <div className="headingDiv">
+              <p className="heading1">
+                Total Revenue: {totalRevenue.totalRevenue}
+              </p>
+              <p className="heading2"> {totalRevenue.period}</p>
+            </div>
+            <div className="filterContainer" ref={popupRef3}>
+              <button
+                onClick={() => setIsPopupOpen3(!isPopupOpen3)}
+                className="filter-btn"
+              >
+                Choose Filter
+              </button>
 
-            {isPopupOpen3 && (
-              <div className="popupMenu">
-                <button
-                  onClick={() => {
-                    setRevenueFilter("daily");
-                    setIsPopupOpen3(false);
-                  }}
-                >
-                  Daily
-                </button>
-                <button
-                  onClick={() => {
-                    setRevenueFilter("monthly");
-                    setIsPopupOpen3(false);
-                  }}
-                >
-                  Monthly
-                </button>
-                <button
-                  onClick={() => {
-                    setRevenueFilter("yearly");
-                    setIsPopupOpen3(false);
-                  }}
-                >
-                  Yearly
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="chartBox">
-            <Bar
-              key={revenueFilter}
-              data={revenueChartData}
-              options={options}
-            />
-          </div>
+              {isPopupOpen3 && (
+                <div className="popupMenu">
+                  <button
+                    onClick={() => {
+                      setRevenueFilter("daily");
+                      setIsPopupOpen3(false);
+                    }}
+                  >
+                    Daily
+                  </button>
+                  <button
+                    onClick={() => {
+                      setRevenueFilter("monthly");
+                      setIsPopupOpen3(false);
+                    }}
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    onClick={() => {
+                      setRevenueFilter("yearly");
+                      setIsPopupOpen3(false);
+                    }}
+                  >
+                    Yearly
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="chartBox">
+              <Bar
+                key={revenueFilter}
+                data={revenueChartData}
+                options={options}
+              />
+            </div>
+          </RevenueChart>
         </RevenuechartContainer>
       </Container>
     </>

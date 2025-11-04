@@ -10,7 +10,7 @@ export const Container = styled.div`
     align-items: center;
     padding-left: 20px;
     border-radius: 8px;
-    padding-block: 1.3vw;
+    padding-block: 20px;
     font-family: "regular";
     .iconDiv {
       width: 50px;

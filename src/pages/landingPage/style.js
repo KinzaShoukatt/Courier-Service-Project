@@ -521,17 +521,27 @@ export const Footer = styled.div`
     padding-inline: 20px;
     gap: 30px;
   }
+  @media (max-width: 420px) {
+    padding-inline: 5px;
+  }
+
   .FooterContent {
     display: flex;
     gap: 20px;
     justify-content: space-between;
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       flex-direction: column;
+      /* gap: 10px; */
     }
     .logo {
       img {
         height: 60px;
         width: 60px;
+      }
+      .firstText {
+        @media (max-width: 420px) {
+          font-size: 15px;
+        }
       }
     }
     .links {
@@ -539,15 +549,24 @@ export const Footer = styled.div`
         font-family: "semibold";
         font-size: 18px;
         color: var(--secColor);
+        @media (max-width: 420px) {
+          font-size: 16px;
+        }
       }
       ul {
         list-style: none;
-        padding-block: 15px;
+        padding-top: 15px;
+        @media (max-width: 420px) {
+          padding-top: 7px;
+        }
         li {
           line-height: 1.8;
           a {
             text-decoration: none;
             color: #e3e0e0ff;
+            @media (max-width: 420px) {
+              font-size: 15px;
+            }
           }
 
           a.active {
@@ -561,16 +580,36 @@ export const Footer = styled.div`
         font-family: "semibold";
         font-size: 18px;
         color: var(--secColor);
+        @media (max-width: 420px) {
+          font-size: 16px;
+        }
       }
       .contactDetails {
         padding-block: 15px;
         line-height: 2;
-        p {
+        @media (max-width: 420px) {
+          padding-top: 7px;
+        }
+
+        .mail,
+        .address {
           display: flex;
-          align-items: center;
           gap: 5px;
+          line-height: 2;
+          .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+          }
+
           @media (max-width: 480px) {
-            align-items: first baseline;
+            gap: 2px;
+            font-size: 15px;
+          }
+          @media (max-width: 350px) {
+            flex-direction: column;
+            text-align: center;
           }
         }
       }
@@ -585,5 +624,8 @@ export const Footer = styled.div`
   .lastText {
     text-align: center;
     padding-top: 15px;
+    @media (max-width: 420px) {
+      font-size: 15px;
+    }
   }
 `;

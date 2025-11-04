@@ -43,7 +43,7 @@ const SignUp = () => {
             <p className="errorMsg">{errors.fullName.message}</p>
           )}
           <div className="inputFields">
-            <FaUserEdit color="#006769" size={18} />
+            <FaUserEdit className="icon" color="#006769" />
             <input
               type="full name"
               placeholder="Enter Your Name"
@@ -59,7 +59,7 @@ const SignUp = () => {
 
           {errors.email && <p className="errorMsg">{errors.email.message}</p>}
           <div className="inputFields">
-            <MdEmail color="#006769" size={18} />
+            <MdEmail className="icon" color="#006769" />
             <input
               type="email"
               placeholder="Enter Your Email"
@@ -78,7 +78,7 @@ const SignUp = () => {
           )}
           <div className="inputFields2">
             <div className="passwordInput">
-              <RiLockPasswordFill color="#006769" size={18} />
+              <RiLockPasswordFill className="icon" color="#006769" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Your Password"
@@ -95,14 +95,14 @@ const SignUp = () => {
             <div className="eyeIcon" onClick={togglePassword}>
               {showPassword ? (
                 <MdRemoveRedEye
+                  className="icon"
                   color="#006769"
-                  size={18}
                   style={{ cursor: "pointer" }}
                 />
               ) : (
                 <IoEyeOffSharp
+                  className="icon"
                   color="#006769"
-                  size={18}
                   style={{ cursor: "pointer" }}
                 />
               )}
@@ -113,7 +113,7 @@ const SignUp = () => {
             <p className="errorMsg">{errors.phoneNumber.message}</p>
           )}
           <div className="inputFields">
-            <FaPhone color="#006769" size={16} />
+            <FaPhone className="icon" color="#006769" />
             <input
               type="phoneNumber"
               placeholder="Enter Your Phone Number"
@@ -130,10 +130,11 @@ const SignUp = () => {
               })}
             />
           </div>
-
-          <button type="submit" className="btn">
-            Sign Up
-          </button>
+          <div className="inputFields3">
+            <button type="submit" className="btn">
+              Sign Up
+            </button>
+          </div>
         </Form>
         <LastText>
           <p>

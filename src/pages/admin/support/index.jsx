@@ -3,8 +3,7 @@ import { io } from "socket.io-client";
 import { ChatbotWrapper } from "./style";
 import Logo from "../../../assets/images/LogoWhite.png";
 
-import { HiSearch } from "react-icons/hi";
-import { HiArrowLeft } from "react-icons/hi";
+import { HiSearch, HiArrowLeft } from "react-icons/hi";
 import UseAdmin from "../useHooks";
 
 const SOCKET_URL = process.env.REACT_APP_WS;
@@ -16,18 +15,20 @@ const AdminChat = () => {
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const selectedCustomerRef = useRef(null);
+
+  useEffect(() => {
+    selectedCustomerRef.current = selectedCustomer;
+  }, [selectedCustomer]);
+
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showChat, setShowChat] = useState(false);
 
   const { ChatGet, customersRoom, chatRead } = UseAdmin();
-
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
-
-  // useEffect(() => {
-  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messages]);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   // Initialize socket connection
   useEffect(() => {
@@ -35,9 +36,7 @@ const AdminChat = () => {
       console.error("No token found for admin");
       return;
     }
-
-    if (socketRef.current) return;
-    console.log("Connecting to socket:", `${SOCKET_URL}/chat`);
+    if (socketRef.current) return; // Prevent multiple connections
 
     const socket = io(`${SOCKET_URL}/chat`, {
       query: { token },
@@ -46,37 +45,47 @@ const AdminChat = () => {
 
     socketRef.current = socket;
 
-    socket.on("connect", () => {
-      console.log("Admin connected to chat namespace");
-      setIsConnected(true);
-    });
+    socket.on("connect", () => setIsConnected(true));
+    socket.on("disconnect", () => setIsConnected(false));
 
-    socket.on("disconnect", () => {
-      console.log("Admin disconnected");
-      setIsConnected(false);
-    });
-
-    socket.on("receiveMessage", (data) => {
-      console.log("Message received:", data);
-
-      // Auto-select this customer if no one is selected
+    // Single listener for receiving messages
+    socket.on("receiveMessage", async (data) => {
       if (data.sentBy === "admin") return;
 
-      if (!selectedCustomer) setSelectedCustomer(data.customerId);
+      const currentSelected = selectedCustomerRef.current;
 
+      // Add message to chat
       setMessages((prev) => [
         ...prev,
-        {
-          sender: data.sentBy === "admin" ? "admin" : "customer",
-          text: data.message,
-          customerId: data.customerId,
-        },
+        { sender: "customer", text: data.message, customerId: data.customerId },
       ]);
+
+      // Update unread count
+      setCustomers((prev) =>
+        prev.map((cust) => {
+          if (cust.customerId === data.customerId) {
+            if (currentSelected === data.customerId) {
+              return { ...cust, unreadCount: 0 }; // Reset if viewing
+            } else {
+              return { ...cust, unreadCount: (cust.unreadCount || 0) + 1 };
+            }
+          }
+          return cust;
+        })
+      );
+
+      // Mark as read if admin is viewing
+      if (currentSelected === data.customerId) {
+        try {
+          await chatRead(data.customerId);
+        } catch (err) {
+          console.error("Auto mark-as-read failed:", err);
+        }
+      }
     });
 
-    socket.on("chatError", (err) => {
-      console.error("Chat error:", err);
-    });
+    // Error handling
+    socket.on("chatError", (err) => console.error("Chat error:", err));
 
     return () => {
       socket.disconnect();
@@ -88,10 +97,10 @@ const AdminChat = () => {
   const joinCustomerRoom = async (customerId) => {
     if (!socketRef.current || !isConnected) return;
 
-    console.log(`Joining chat room for customer ${customerId}`);
     socketRef.current.emit("joinAdminChat", customerId);
     setSelectedCustomer(customerId);
 
+    // Reset unread count locally
     setCustomers((prev) =>
       prev.map((cust) =>
         cust.customerId === customerId ? { ...cust, unreadCount: 0 } : cust
@@ -99,7 +108,7 @@ const AdminChat = () => {
     );
 
     try {
-      await chatRead(customerId);
+      await chatRead(customerId); // Reset unread count on backend
     } catch (err) {
       console.error("Failed to reset unread count on backend:", err);
     }
@@ -113,18 +122,15 @@ const AdminChat = () => {
           customerId: msg.customerId,
         }));
 
-        setMessages((prev) => {
-          // Remove old messages of the same customer before merging
-          const filtered = prev.filter((m) => m.customerId !== customerId);
-          return [...filtered, ...formattedMessages];
-        });
+        setMessages((prev) => [
+          ...prev.filter((m) => m.customerId !== customerId),
+          ...formattedMessages,
+        ]);
 
-        // Auto-scroll to bottom after messages load
         setTimeout(() => {
           messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         }, 100);
       } else {
-        console.log("ℹNo previous messages for this customer");
         setMessages((prev) => prev.filter((m) => m.customerId !== customerId));
       }
     } catch (error) {
@@ -148,34 +154,37 @@ const AdminChat = () => {
     setInput("");
   };
 
-  //  Handle Enter key
   const handleKeyPress = (e) => {
     if (e.key === "Enter") sendMessage();
   };
 
   // Fetch customers list
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const response = await customersRoom();
-        if (Array.isArray(response)) {
-          setCustomers(response);
-        }
-      } catch (error) {
-        console.error("Error fetching customers:", error);
+  const fetchCustomers = async () => {
+    try {
+      const response = await customersRoom();
+      if (Array.isArray(response)) {
+        setCustomers(response);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching customers:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchCustomers();
   }, []);
 
-  // Filter messages for selected customer
+  useEffect(() => {
+    if (refreshTrigger) fetchCustomers();
+  }, [refreshTrigger]);
+
+  // Filter messages & customers
   const filteredMessages = selectedCustomer
     ? messages.filter((m) => m.customerId === selectedCustomer)
     : [];
-
-  const filteredCustomers = customers.filter((cust) => {
-    return cust.customerName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const filteredCustomers = customers.filter((cust) =>
+    cust.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const highlight = (name) => {
     if (!searchTerm) return name;
@@ -188,21 +197,18 @@ const AdminChat = () => {
     const match = name.substring(index, index + searchTerm.length);
     const after = name.substring(index + searchTerm.length);
     return (
-      <>
-        <span style={{ whiteSpace: "nowrap" }}>
-          {before}
-          <mark style={{ backgroundColor: "yellow", padding: 0 }}>{match}</mark>
-          {after}
-        </span>
-      </>
+      <span style={{ whiteSpace: "nowrap" }}>
+        {before}
+        <mark style={{ backgroundColor: "yellow", padding: 0 }}>{match}</mark>
+        {after}
+      </span>
     );
   };
 
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    handleResize(); // initial check
+    const handleResize = () => setIsMobile(window.innerWidth <= 850);
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -215,7 +221,6 @@ const AdminChat = () => {
           <p>DEVGO Admin Chat Panel</p>
         </div>
 
-        {/*  Customer list */}
         <div className="parent">
           {(!isMobile || !showChat) && (
             <div className="customer-list">
@@ -226,7 +231,7 @@ const AdminChat = () => {
                   placeholder="search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                ></input>
+                />
               </div>
 
               {filteredCustomers.length > 0 ? (
@@ -294,7 +299,6 @@ const AdminChat = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  // disabled={!selectedCustomer}
                 />
                 <button onClick={sendMessage}>Send</button>
               </div>

@@ -1,22 +1,43 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Heading, AgentPricingTable, Popup } from "./style";
+import {
+  Heading,
+  AgentPricingTable,
+  Popup,
+  PaginationWrapper,
+  PaginationInfo,
+  PaginationNav,
+  PageButton,
+  PageNavButton,
+} from "./style";
 import UseAdmin from "../useHooks";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const Complaint = () => {
-  const [status, setStatus] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const popupRef = useRef(null);
 
   const { complaintsGet, complaintsStatusUpdation } = UseAdmin();
   const [totalComplaints, setTotalComplaints] = useState([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    totalItems: 0,
+    totalPages: 0,
+  });
 
+  const fetchComplaints = async () => {
+    const response = await complaintsGet();
+    if (response) {
+      setTotalComplaints(response.tickets);
+      setPagination({
+        page: response.pagination.currentPage,
+        limit: response.pagination.itemsPerPage,
+        totalItems: response.pagination.totalItems,
+        totalPages: response.pagination.totalPages,
+      });
+    }
+  };
   useEffect(() => {
-    const fetchComplaints = async () => {
-      const response = await complaintsGet();
-      if (response) {
-        setTotalComplaints(response.data);
-      }
-    };
-    fetchComplaints();
+    fetchComplaints(pagination.page, pagination.limit);
   }, []);
 
   useEffect(() => {
@@ -34,12 +55,16 @@ const Complaint = () => {
     };
   }, [selectedId]);
 
-    const handleComplaintsStatusUpdation = async (id, status) => {
-      const body = {
-        status: status
-      }
-    await complaintsStatusUpdation(id, body)
-  }
+  const handleComplaintsStatusUpdation = async (id, status) => {
+    const body = {
+      status: status,
+    };
+    const response = await complaintsStatusUpdation(id, body);
+    if (response.message.includes("updated")) {
+      fetchComplaints();
+      setSelectedId(null);
+    }
+  };
 
   return (
     <>
@@ -51,7 +76,7 @@ const Complaint = () => {
             <thead>
               <tr>
                 <th>Parcel ID</th>
-                <th>Tracking ID</th>
+                <th>Tracking No.</th>
                 <th>Customer Name</th>
                 <th>Subject</th>
                 <th>Complaint Description</th>
@@ -67,23 +92,40 @@ const Complaint = () => {
                   <td>{ticket.User.fullName}</td>
                   <td>{ticket.subject}</td>
                   <td>{ticket.description}</td>
-                  <td >
-                    <span className={`ticketStatus ${ticket.status}`}>{ticket.status}</span></td>
+                  <td>
+                    <span className={`ticketStatus ${ticket.status}`}>
+                      {ticket.status}
+                    </span>
+                  </td>
                   <td style={{ position: "relative" }}>
                     <button
-                      onClick={() =>
-                        setSelectedId(
-                          selectedId === ticket.id ? null : ticket.id
-                        )
-                      }
+                      onClick={() => {
+                        if (ticket.status === "open") {
+                          setSelectedId(
+                            selectedId === ticket.id ? null : ticket.id
+                          );
+                        } else {
+                          alert(
+                            "This ticket is already closed. Only tickets with 'open' status can be updated."
+                          );
+                        }
+                      }}
                     >
                       Change Ticket Status
                     </button>
                     {selectedId === ticket.id && (
                       <Popup ref={popupRef}>
                         <div className="btnParent">
-                          {/* <button>In Progress</button> */}
-                          <button  onClick={() => handleComplaintsStatusUpdation(ticket.id, "closed")}>Closed</button>
+                          <button
+                            onClick={() =>
+                              handleComplaintsStatusUpdation(
+                                ticket.id,
+                                "closed"
+                              )
+                            }
+                          >
+                            Closed
+                          </button>
                         </div>
                       </Popup>
                     )}
@@ -92,6 +134,47 @@ const Complaint = () => {
               ))}
             </tbody>
           </table>
+          <PaginationWrapper>
+            <PaginationInfo>
+              Showing
+              {(pagination.page - 1) * pagination.limit + 1}–
+              {Math.min(
+                pagination.page * pagination.limit,
+                pagination.totalItems
+              )}
+              of {pagination.totalItems}
+            </PaginationInfo>
+
+            <PaginationNav>
+              <PageNavButton
+                disabled={pagination.page === 1}
+                onClick={() =>
+                  fetchComplaints(pagination.page - 1, pagination.limit)
+                }
+              >
+                <FaChevronLeft size={12} />
+              </PageNavButton>
+
+              {Array.from({ length: pagination.totalPages }).map((_, index) => (
+                <PageButton
+                  key={index}
+                  className={pagination.page === index + 1 ? "active" : ""}
+                  onClick={() => fetchComplaints(index + 1, pagination.limit)}
+                >
+                  {index + 1}
+                </PageButton>
+              ))}
+
+              <PageNavButton
+                disabled={pagination.page === pagination.totalPages}
+                onClick={() =>
+                  fetchComplaints(pagination.page + 1, pagination.limit)
+                }
+              >
+                <FaChevronRight size={12} />
+              </PageNavButton>
+            </PaginationNav>
+          </PaginationWrapper>
         </div>
       </AgentPricingTable>
     </>

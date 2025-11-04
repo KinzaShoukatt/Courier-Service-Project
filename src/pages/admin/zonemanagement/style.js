@@ -34,8 +34,8 @@ export const ServiceAreas = styled.div`
   display: flex;
   gap: 15px;
   padding: 10px;
-    @media (max-width: 760px) {
-   flex-direction: column;
+  @media (max-width: 760px) {
+    flex-direction: column;
   }
 `;
 
@@ -44,7 +44,7 @@ export const FormDiv = styled.div`
   color: var(--dark-teal);
   box-sizing: border-box;
   width: 100%;
-  .leftHeading{
+  .leftHeading {
     border-bottom: 2px solid var(--dark-teal);
     font-family: "semibold";
     font-size: 18px;
@@ -92,49 +92,48 @@ export const FormDiv = styled.div`
 `;
 
 export const Listing = styled.div`
-font-family: "regular";
+  font-family: "regular";
   color: var(--dark-teal);
   box-sizing: border-box;
   width: 100%;
-  .rightHeading{
+  .rightHeading {
     border-bottom: 2px solid var(--dark-teal);
     font-family: "semibold";
     font-size: 18px;
     padding: 5px 0px;
   }
-   table {
+  table {
     width: 100%;
-      margin-block: 15px;
-      font-family: "regular";
-      border-collapse: collapse;
-      text-align: left;
-      color: var(--textColor);
-      overflow-x: auto;
-      th,
-      td {
-        padding: 10px;
-      }
-      th {
-        background-color: var(--priColor);
-        color: var(--dark-teal);
-      }
-      tr {
-        border-bottom: 1px solid var(--borderColor);
-        white-space: nowrap;
-      }
+    margin-block: 15px;
+    font-family: "regular";
+    border-collapse: collapse;
+    text-align: left;
+    color: var(--textColor);
+    overflow-x: auto;
+    th,
+    td {
+      padding: 10px;
     }
-    .deleteBtn{
-      background-color: #dc3545;
-      border: none;
-      padding: 4px 6px;
-        border-radius: 3px;
-        cursor: pointer;
+    th {
+      background-color: var(--priColor);
+      color: var(--dark-teal);
     }
+    tr {
+      border-bottom: 1px solid var(--borderColor);
+      white-space: nowrap;
+    }
+  }
+  .deleteBtn {
+    background-color: #dc3545;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
 `;
 
 export const SetChargesParent = styled.div`
   box-sizing: border-box;
-  margin-block: 15px;
   background-color: var(--secColor);
   border-radius: 10px;
   .heading {
@@ -148,6 +147,9 @@ export const SetChargesParent = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
 `;
 export const SetCharges = styled.div`
@@ -156,8 +158,8 @@ export const SetCharges = styled.div`
   display: flex;
   gap: 15px;
   padding: 10px;
-   @media (max-width: 760px) {
-   flex-direction: column;
+  @media (max-width: 880px) {
+    flex-direction: column;
   }
 `;
 
@@ -166,11 +168,14 @@ export const LastFormDiv = styled.div`
   color: var(--dark-teal);
   box-sizing: border-box;
   width: 100%;
-  .leftHeading{
+  .leftHeading {
     border-bottom: 2px solid var(--dark-teal);
     font-family: "semibold";
     font-size: 18px;
     padding: 5px 0px;
+    @media (max-width: 420px) {
+      font-size: 16px;
+    }
   }
   form {
     display: flex;
@@ -179,7 +184,8 @@ export const LastFormDiv = styled.div`
     .inputFeild {
       flex: 1;
       min-width: 160px;
-      select, input {
+      select,
+      input {
         width: 100%;
         box-sizing: border-box;
         padding: 10px;
@@ -195,7 +201,7 @@ export const LastFormDiv = styled.div`
       display: flex;
       justify-content: flex-start;
       margin: 5px 0px;
-      .addAgentBtn {
+      .addZoneBtn {
         padding: 12px 15px;
         margin-block: 10px;
         border-radius: 8px;
@@ -208,59 +214,76 @@ export const LastFormDiv = styled.div`
         color: var(--secColor);
         font-size: 15px;
         cursor: pointer;
+        @media (max-width: 420px) {
+          padding: 10px 12px;
+          font-size: 14px;
+        }
       }
     }
   }
 `;
 
 export const LastListing = styled.div`
-font-family: "regular";
+  font-family: "regular";
   color: var(--dark-teal);
   box-sizing: border-box;
   width: 100%;
-  .rightHeading{
+  .rightHeading {
     border-bottom: 2px solid var(--dark-teal);
     font-family: "semibold";
     font-size: 18px;
     padding: 5px 0px;
+    @media (max-width: 420px) {
+      font-size: 16px;
+    }
   }
-   table {
+  table {
     width: 100%;
-      margin-block: 15px;
-      font-family: "regular";
-      border-collapse: collapse;
-      text-align: left;
-      color: var(--textColor);
-      overflow-x: auto;
-      th,
-      td {
-        padding: 10px;
-      }
-      th {
-        background-color: var(--priColor);
-        color: var(--dark-teal);
-      }
-      tr {
-        border-bottom: 1px solid var(--borderColor);
-        white-space: nowrap;
+    margin-block: 15px;
+    font-family: "regular";
+    border-collapse: collapse;
+    text-align: left;
+    color: var(--textColor);
+    overflow-x: auto;
+    th,
+    td {
+      padding: 10px;
+    }
+    th {
+      background-color: var(--priColor);
+      color: var(--dark-teal);
+      @media (max-width: 420px) {
+        font-size: 14px;
       }
     }
-    .btns{
-      display: flex;
-      gap: 5px;
+    tr {
+      border-bottom: 1px solid var(--borderColor);
+      white-space: nowrap;
+      @media (max-width: 420px) {
+        font-size: 14px;
+      }
     }
-    .editBtn{
-      background-color: var(--dark-teal);
-      border: none;
-      padding: 4px 6px;
-        border-radius: 3px;
-        cursor: pointer;
+  }
+  .btns {
+    display: flex;
+    gap: 5px;
+  }
+  .editBtn {
+    background-color: var(--dark-teal);
+    border: none;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 18px;
+    cursor: pointer;
+    @media (max-width: 420px) {
+      font-size: 15px;
     }
-    .deleteBtn{
-      background-color: #dc3545;
-      border: none;
-      padding: 4px 6px;
-        border-radius: 3px;
-        cursor: pointer;
-    }
+  }
+  .deleteBtn {
+    background-color: #dc3545;
+    border: none;
+    padding: 4px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
 `;

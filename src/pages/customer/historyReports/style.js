@@ -26,6 +26,9 @@ export const RecentParcels = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 19px;
+    }
   }
 
   .tableDiv {
@@ -33,6 +36,9 @@ export const RecentParcels = styled.div`
     overflow-x: auto;
     box-sizing: border-box;
     margin-block: 20px;
+    @media (max-width: 520px) {
+      margin-block: 10px;
+    }
   }
   table {
     width: 100%;
@@ -45,6 +51,9 @@ export const RecentParcels = styled.div`
       padding: 12px;
       text-align: left;
       width: 20%;
+      @media (max-width: 520px) {
+        font-size: 15px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);

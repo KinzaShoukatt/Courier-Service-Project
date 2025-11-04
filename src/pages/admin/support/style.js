@@ -51,7 +51,8 @@ export const ChatbotWrapper = styled.div`
     max-height: 75vh;
   }
   .rightChild {
-    width: 78%;
+    /* width: 78%; */
+    width: calc(100% - 210px);
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -79,7 +80,8 @@ export const ChatbotWrapper = styled.div`
   .customer-list {
     font-family: "regular";
     padding: 5px;
-    width: 22%;
+    /* width: 22%; */
+    width: 210px;
     border-right: 2px solid var(--priColor);
     overflow-y: auto;
     scrollbar-width: thin;
@@ -120,7 +122,8 @@ export const ChatbotWrapper = styled.div`
       font-family: "regular";
       gap: 10px;
       padding-block: 10px;
-      padding-inline-start: 15px;
+      padding-inline: 10px;
+
       border: none;
       margin-block: 2px;
       border-radius: 4px;
@@ -221,7 +224,7 @@ export const ChatbotWrapper = styled.div`
     font-family: "regular";
     padding-inline-start: 10px;
   }
-  @media (max-width: 450px) {
+  @media (max-width: 850px) {
     .parent {
       flex-direction: column;
     }

@@ -36,6 +36,7 @@ export const Container = styled.div`
       @media (max-width: 768px) {
         display: block;
         position: fixed;
+        left: 3px;
         left: 15px;
         align-items: center;
         z-index: 1100;
@@ -46,6 +47,9 @@ export const Container = styled.div`
       }
       @media (max-width: 480px) {
         font-size: 17px;
+      }
+      @media (max-width: 320px) {
+        font-size: 15px;
       }
     }
 
@@ -61,6 +65,10 @@ export const Container = styled.div`
     h2 {
       color: var(--dark-teal);
       font-family: "semibold";
+      padding-left: 15px;
+      @media (max-width: 320px) {
+        font-size: 17px;
+      }
     }
   }
   .imgProfileDiv {
@@ -74,7 +82,7 @@ export const Container = styled.div`
   .imgDiv {
     height: 30px;
     width: 30px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 50%;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -83,13 +91,31 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    @media (max-width: 320px) {
+      height: 25px;
+      width: 25px;
+    }
     .profileImg {
+      border: 1px solid black;
       height: 100%;
       width: 100%;
       object-fit: cover;
       border-radius: 50%;
     }
+    .placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background-color: #006769;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
   }
+
   .profile {
     cursor: pointer;
     border: none;
@@ -98,5 +124,8 @@ export const Container = styled.div`
     background-color: var(--secColor);
     font-weight: bold;
     font-size: 16px;
+    @media (max-width: 320px) {
+      font-size: 15px;
+    }
   }
 `;

@@ -35,6 +35,9 @@ export const Customer = styled.div`
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
+      @media (max-width: 520px) {
+        font-size: 18.5px;
+      }
     }
     .btn {
       display: flex;
@@ -48,6 +51,9 @@ export const Customer = styled.div`
       background-color: var(--dark-teal);
       cursor: pointer;
       flex-shrink: 0;
+      @media (max-width: 520px) {
+        font-size: 13px;
+      }
     }
   }
   table {
@@ -65,12 +71,18 @@ export const Customer = styled.div`
     th {
       background-color: var(--priColor);
       color: var(--dark-teal);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
-    .character {
+    .characterBtn {
       background-color: rgba(5, 39, 55, 0.53);
       color: var(--secColor);
       padding: 7px 10px;
@@ -78,6 +90,9 @@ export const Customer = styled.div`
       border: none;
       font-weight: bold;
       font-family: "regular";
+      @media (max-width: 520px) {
+        font-size: 13px;
+      }
     }
 
     .btns {
@@ -92,14 +107,24 @@ export const Customer = styled.div`
         .btn1 {
           font-size: 18px;
           color: var(--secColor);
+          position: relative;
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
         .btn2 {
           font-size: 18px;
           color: var(--secColor);
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
       }
       .btn3 {
         background-color: #dc3545;
+        @media (max-width: 520px) {
+          font-size: 15px;
+        }
       }
     }
   }
@@ -116,6 +141,8 @@ export const FormDiv = styled.div`
   position: absolute;
   left: 50%;
   top: 10%;
+  /* left: 10%; */
+  /* bottom: 10%; */
   transform: translateX(-50%);
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.3);
   z-index: 1;
@@ -138,7 +165,7 @@ export const FormDiv = styled.div`
       .errorMsg {
         color: red;
       }
-      input {
+      .input {
         width: 100%;
         box-sizing: border-box;
         padding: 10px;
@@ -148,8 +175,33 @@ export const FormDiv = styled.div`
         border-radius: 5px;
         background-color: var(--secColor);
       }
+      .passwordInput {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 10px;
+        /* padding: 10px; */
+        font-family: "regular";
+        outline: none;
+        border: 1px solid var(--borderColor);
+        border-radius: 5px;
+        background-color: var(--secColor);
+        input {
+          box-sizing: border-box;
+          border: none;
+          outline: none;
+          width: 90%;
+        }
+      }
+      .eyeIcon {
+        align-items: center;
+        box-sizing: border-box;
+      }
     }
   }
+
   .btns {
     margin: 10px;
     display: flex;
@@ -184,11 +236,13 @@ export const PaginationWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 2rem;
-  font-size: 0.75rem;
+  font-size: 14px;
   font-weight: 600;
   color: #111827;
   font-family: "regular";
-
+  @media (max-width: 520px) {
+    font-size: 12px;
+  }
   @media (max-width: 500px) {
     flex-direction: column;
     align-items: flex-start;
@@ -218,6 +272,11 @@ export const PageButton = styled.button`
   background-color: white;
   font-family: "regular";
   font-weight: 600;
+  font-size: 14px;
+  @media (max-width: 520px) {
+    width: 35px;
+    height: 35px;
+  }
   @media (max-width: 320px) {
     width: 30px;
     height: 30px;
@@ -231,7 +290,10 @@ export const PageButton = styled.button`
 `;
 
 export const PageNavButton = styled(PageButton)`
-  font-size: 0.75rem;
+  font-size: 14px;
+  @media (max-width: 520px) {
+    font-size: 12px;
+  }
 `;
 
 export const AgentParent = styled.div`
@@ -258,6 +320,9 @@ export const Agent = styled.div`
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
+      @media (max-width: 520px) {
+        font-size: 18.5px;
+      }
     }
     .btn {
       display: flex;
@@ -271,6 +336,9 @@ export const Agent = styled.div`
       background-color: var(--dark-teal);
       cursor: pointer;
       flex-shrink: 0;
+      @media (max-width: 520px) {
+        font-size: 13px;
+      }
     }
   }
   table {
@@ -288,10 +356,16 @@ export const Agent = styled.div`
     th {
       background-color: var(--priColor);
       color: var(--dark-teal);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     .btns {
       display: flex;
@@ -305,14 +379,23 @@ export const Agent = styled.div`
         .btn1 {
           font-size: 18px;
           color: var(--secColor);
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
         .btn2 {
           font-size: 18px;
           color: var(--secColor);
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
       }
       .btn3 {
         background-color: #dc3545;
+        @media (max-width: 520px) {
+          font-size: 15px;
+        }
       }
     }
   }
@@ -342,6 +425,9 @@ export const GuestCustomer = styled.div`
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
+      @media (max-width: 520px) {
+        font-size: 18.5px;
+      }
     }
   }
   table {
@@ -359,10 +445,16 @@ export const GuestCustomer = styled.div`
     th {
       background-color: var(--priColor);
       color: var(--dark-teal);
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     tr {
       border-bottom: 1px solid var(--borderColor);
       white-space: nowrap;
+      @media (max-width: 520px) {
+        font-size: 13.5px;
+      }
     }
     .btns {
       display: flex;
@@ -376,14 +468,16 @@ export const GuestCustomer = styled.div`
         .btn1 {
           font-size: 18px;
           color: var(--secColor);
-        }
-        .btn2 {
-          font-size: 18px;
-          color: var(--secColor);
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
       }
       .btn3 {
         background-color: #dc3545;
+        @media (max-width: 520px) {
+          font-size: 15px;
+        }
       }
     }
   }
@@ -408,6 +502,9 @@ export const SuspendBlock = styled.div`
     .heading {
       color: var(--dark-teal);
       font-size: 22px;
+      @media (max-width: 520px) {
+        font-size: 18.5px;
+      }
     }
   }
   .tableDiv {
@@ -428,10 +525,16 @@ export const SuspendBlock = styled.div`
       th {
         background-color: var(--priColor);
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
         white-space: nowrap;
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .btns {
         display: flex;
@@ -446,6 +549,9 @@ export const SuspendBlock = styled.div`
           align-items: center;
           color: var(--secColor);
           border-radius: 3px;
+          @media (max-width: 520px) {
+            font-size: 13px;
+          }
         }
         .btn2 {
           background-color: #475569;
@@ -456,6 +562,9 @@ export const SuspendBlock = styled.div`
           display: flex;
           align-items: center;
           color: var(--secColor);
+          @media (max-width: 520px) {
+            font-size: 13px;
+          }
         }
       }
     }

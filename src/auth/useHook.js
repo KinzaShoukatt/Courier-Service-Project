@@ -15,6 +15,7 @@ const UseAuth = () => {
         showSuccess(response.message || "Login Successful!");
         localStorage.setItem("role", response.user.role);
         localStorage.setItem("loginToken", response.token);
+        localStorage.setItem("UserName", response.user.fullName);
         if (response.user.role == "customer") {
           navigate("/customer/dashboard");
         }
@@ -46,6 +47,7 @@ const UseAuth = () => {
         showSuccess(response.message || "Login Successful!");
         localStorage.setItem("role", response.user.role);
         localStorage.setItem("loginToken", response.token);
+        localStorage.setItem("UserName", response.user.fullName);
         navigate("/customer/dashboard");
       } else {
         showError(response.error);
@@ -63,10 +65,17 @@ const UseAuth = () => {
     try {
       const response = await AuthApiEndPoints.signUp(body);
       const msg = response?.message || response?.error;
-      if (response?.user) {
+
+      if (
+        response?.user ||
+        msg?.includes("already registered but not verified")
+      ) {
         showSuccess(msg || "Sign Up Successful!");
         navigate("/auth/verify-otp", {
-          state: { email: response.user.email, type: "email_verification" },
+          state: {
+            email: response?.user?.email || body?.email,
+            type: "email_verification",
+          },
         });
       } else {
         showError(msg || "SignUp Failed");

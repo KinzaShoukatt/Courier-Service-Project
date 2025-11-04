@@ -22,11 +22,25 @@ export const ChatbotWrapper = styled.div`
       background-color: var(--dark-teal);
       color: var(--secColor);
       font-family: "semibold";
-      font-size: 25px;
+      font-size: 22px;
       align-items: center;
+      @media (max-width: 520px) {
+        font-size: 18px;
+      }
+      @media (max-width: 420px) {
+        font-size: 16px;
+      }
       img {
         height: 50px;
         width: 60px;
+        @media (max-width: 520px) {
+          height: 45px;
+          width: 50px;
+        }
+        @media (max-width: 420px) {
+          height: 40px;
+          width: 45px;
+        }
       }
     }
   }
@@ -65,17 +79,31 @@ export const ChatbotWrapper = styled.div`
     white-space: pre-wrap;
     font-size: 14px;
     line-height: 1.6;
+    @media (max-width: 520px) {
+      font-size: 13px;
+    }
+    @media (max-width: 420px) {
+      font-size: 12px;
+      padding: 12px 15px;
+    }
   }
 
   .admin-message {
+    box-sizing: border-box;
     background: #f1f0f0;
     align-self: flex-start;
+    margin-right: 90px;
+    max-width: 85%;
+    width: max-content;
   }
 
   .customer-message {
+    box-sizing: border-box;
     background: #006769;
     color: #fff;
     align-self: flex-end;
+    max-width: 85%;
+    width: max-content;
   }
 
   .input-box {
@@ -84,6 +112,12 @@ export const ChatbotWrapper = styled.div`
     border-top: 1px solid var(--borderColor);
     border-bottom: 1px solid var(--borderColor);
     background: var(--priColor);
+    @media (max-width: 520px) {
+      padding: 10px;
+    }
+    @media (max-width: 420px) {
+      padding: 8px;
+    }
   }
 
   .input-box input {
@@ -95,6 +129,14 @@ export const ChatbotWrapper = styled.div`
     margin-right: 10px;
     outline: none;
     font-family: "regular";
+    @media (max-width: 520px) {
+      font-size: 13px;
+      padding: 8px 15px;
+    }
+    @media (max-width: 420px) {
+      font-size: 12px;
+      padding: 8px 15px;
+    }
   }
 
   .input-box button {
@@ -106,6 +148,13 @@ export const ChatbotWrapper = styled.div`
     cursor: pointer;
     transition: 0.3s;
     font-family: "regular";
+    @media (max-width: 520px) {
+      font-size: 13px;
+    }
+    @media (max-width: 420px) {
+      font-size: 12px;
+      padding: 11px 15px;
+    }
   }
 
   .input-box button:hover {

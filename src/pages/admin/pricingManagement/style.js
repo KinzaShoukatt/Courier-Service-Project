@@ -26,6 +26,9 @@ export const WeightParent = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   form {
     box-sizing: border-box;
@@ -44,26 +47,33 @@ export const WeightParent = styled.div`
     flex-wrap: wrap;
     gap: 20px;
     padding-block: 10px;
-    @media (max-width: 480px) {
+    @media (max-width: 520px) {
       gap: 7px;
     }
     .childs {
       flex: 1;
       min-width: 200px;
       label {
-        font-size: 18px;
+        font-size: 17px;
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 16px;
+        }
       }
       input {
         box-sizing: border-box;
         width: 100%;
         border: 1px solid var(--borderColor);
         font-family: "regular";
-        font-size: 15px;
+        font-size: 14px;
         border-radius: 5px;
-        padding: 13px 10px;
+        padding: 12px 10px;
         outline-color: var(--borderColor);
         margin-block: 10px;
+        @media (max-width: 520px) {
+          font-size: 13px;
+          margin-block: 5px;
+        }
         @media (max-width: 480px) {
           margin-block: 2px;
         }
@@ -87,6 +97,10 @@ export const WeightParent = styled.div`
       color: var(--secColor);
       font-size: 15px;
       cursor: pointer;
+      @media (max-width: 520px) {
+        margin-top: 0px;
+        font-size: 13.5px;
+      }
     }
   }
 `;
@@ -109,6 +123,9 @@ export const Table = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .tableDiv {
     margin-inline: 10px;
@@ -117,7 +134,7 @@ export const Table = styled.div`
     table {
       width: 100%;
       box-sizing: border-box;
-      margin-block: 20px;
+      margin-block: 15px;
       border-collapse: collapse;
       font-family: "regular";
       color: var(--textColor);
@@ -131,9 +148,15 @@ export const Table = styled.div`
       th {
         color: var(--dark-teal);
         background: var(--priColor);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
 
       .btns {
@@ -142,19 +165,27 @@ export const Table = styled.div`
         .btn1 {
           background-color: var(--dark-teal);
           color: var(--secColor);
+          font-size: 18px;
           border: none;
           padding: 4px 8px;
           border-radius: 5px;
           cursor: pointer;
           gap: 3px;
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
         .btn2 {
           background-color: #dc3545;
           border: none;
+          font-size: 18px;
           padding: 4px 8px;
           border-radius: 5px;
           cursor: pointer;
           gap: 3px;
+          @media (max-width: 520px) {
+            font-size: 15px;
+          }
         }
       }
     }
@@ -190,6 +221,9 @@ export const FormDiv = styled.div`
     border-bottom: 1px solid var(--borderColor);
     padding-inline: 15px;
     align-items: center;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .parentInput {
     padding-inline: 15px;
@@ -205,19 +239,26 @@ export const FormDiv = styled.div`
       flex: 1;
       min-width: 200px;
       label {
-        font-size: 18px;
+        font-size: 17px;
         color: var(--dark-teal);
+        @media (max-width: 520px) {
+          font-size: 16px;
+        }
       }
       input {
         box-sizing: border-box;
         width: 100%;
         border: 1px solid var(--borderColor);
         font-family: "regular";
-        font-size: 15px;
+        font-size: 14px;
         border-radius: 5px;
-        padding: 13px 10px;
+        padding: 12px 10px;
         outline-color: var(--borderColor);
         margin-block: 10px;
+        @media (max-width: 520px) {
+          font-size: 13px;
+          margin-block: 5px;
+        }
         @media (max-width: 480px) {
           margin-block: 2px;
         }
@@ -264,6 +305,9 @@ export const AgentPricing = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   form {
     box-sizing: border-box;
@@ -288,6 +332,9 @@ export const AgentPricing = styled.div`
       border: 1px solid var(--borderColor);
       border-radius: 5px;
       background-color: var(--secColor);
+      @media (max-width: 520px) {
+        font-size: 13px;
+      }
     }
   }
   .btn {
@@ -307,6 +354,11 @@ export const AgentPricing = styled.div`
       color: var(--secColor);
       font-size: 15px;
       cursor: pointer;
+      @media (max-width: 520px) {
+        padding: 10px 12px;
+        font-size: 13.5px;
+        margin-top: 5px;
+      }
     }
   }
 `;
@@ -329,6 +381,9 @@ export const AgentPricingTable = styled.div`
     padding-block: 12px;
     font-weight: bold;
     padding-left: 20px;
+    @media (max-width: 520px) {
+      font-size: 18px;
+    }
   }
   .tableDiv {
     margin-inline: 10px;
@@ -337,7 +392,7 @@ export const AgentPricingTable = styled.div`
     table {
       width: 100%;
       box-sizing: border-box;
-      margin-block: 20px;
+      margin-block: 10px;
       border-collapse: collapse;
       font-family: "regular";
       color: var(--textColor);
@@ -351,9 +406,15 @@ export const AgentPricingTable = styled.div`
       th {
         color: var(--dark-teal);
         background: var(--priColor);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       tr {
         border-bottom: 1px solid var(--borderColor);
+        @media (max-width: 520px) {
+          font-size: 13.5px;
+        }
       }
       .btn1 {
         background-color: var(--dark-teal);
@@ -363,6 +424,10 @@ export const AgentPricingTable = styled.div`
         border-radius: 5px;
         cursor: pointer;
         gap: 3px;
+        font-size: 18px;
+        @media (max-width: 520px) {
+          font-size: 15px;
+        }
       }
     }
   }

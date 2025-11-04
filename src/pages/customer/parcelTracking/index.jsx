@@ -47,10 +47,10 @@ const ParcelTracking = () => {
     <Container>
       <div className="firstLine">
         <FaLocationDot className="icon" size={20} color="white" />
-        <h2>Parcel Tracking</h2>
+        <p className="heading1">Parcel Tracking</p>
       </div>
       <div className="parentDiv">
-        <p>Enter Your Trcaking Number</p>
+        <p className="inputtrackingNo">Enter Your Trcaking Number</p>
         <div className="trackOrder">
           <input
             className="inp"
@@ -93,36 +93,6 @@ const ParcelTracking = () => {
                 </div>
               );
             })}
-            {/* <div className="progressStep stepComplete">
-              <div className="icon ">
-                <IoMdCheckmark size={25} />
-              </div>
-              <p>Order placed</p>
-            </div>
-            <div className="progressStep stepComplete">
-              <div className="icon">
-                <IoMdCheckmark size={25} />
-              </div>
-              <p>Picked Up</p>
-            </div>
-            <div className="progressStep stepActive">
-              <div className="icon ">
-                <FaTruckFast size={25} />
-              </div>
-              <p>In Transit</p>
-            </div>
-            <div className="progressStep stepPending">
-              <div className="icon">
-                <RiTruckFill size={25} />
-              </div>
-              <p>Out for Delivery</p>
-            </div>
-            <div className="progressStep stepPending">}
-              <div className="icon">
-                <FaBoxOpen size={25} />
-              </div>
-              <p>Delivered</p>
-            </div>  */}
           </div>
         </div>
         {/* detail */}
@@ -142,7 +112,7 @@ const ParcelTracking = () => {
           </div>
           <div className="cardChild">
             <p className="heading">Delivery Charges:</p>
-            <p>{`${DeliveryCharges}Rs`}</p>
+            <p>{DeliveryCharges}Rs</p>
           </div>
           <div className="cardChild">
             <p className="heading">Delivery Type:</p>
@@ -150,7 +120,7 @@ const ParcelTracking = () => {
           </div>
           <div className="cardChild">
             <p className="heading">Package Weight:</p>
-            <p>{`${PackageWeight}kg`}</p>
+            <p>{PackageWeight}kg</p>
           </div>
           <div className="cardChild">
             <p className="heading">Package Size:</p>

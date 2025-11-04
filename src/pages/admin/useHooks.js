@@ -39,6 +39,7 @@ const UseAdmin = () => {
       return { success: false, message: "Network error" };
     }
   };
+
   // all Guest Customers
   const allGuestCustomersGet = async (page = 1, limit = 10) => {
     try {
@@ -118,6 +119,7 @@ const UseAdmin = () => {
       } else {
         showError(response.error);
       }
+      return response;
     } catch (error) {
       console.log("User Created Error", error);
       showError("Something went wrong, please try again!");
@@ -528,7 +530,7 @@ const UseAdmin = () => {
   const orderCancelledGet = async (page = 1, limit = 10) => {
     try {
       const response = await AdminApiEndPoints.orderCancelled(page, limit);
-      if (Array.isArray(response?.parcels) && response.parcels.length > 0) {
+      if (Array.isArray(response?.parcels) && response.parcels.length >= 0) {
         const trackingNumbers = response.parcels.map(
           (parcel) => parcel.trackingNumber
         );
@@ -558,7 +560,7 @@ const UseAdmin = () => {
   const activeOrdersGet = async (page = 1, limit = 10) => {
     try {
       const response = await AdminApiEndPoints.activeOrders(page, limit);
-      if (response.parcels.length > 0) {
+      if (response.parcels.length >= 0) {
         const trackingNumbers = response.parcels.map(
           (parcel) => parcel.trackingNumber
         );
@@ -814,7 +816,7 @@ const UseAdmin = () => {
     try {
       const response = await AdminApiEndPoints.weightBasePricesGet();
       if (response.message.includes("Successfully")) {
-        showSuccess(response.message);
+        // showSuccess(response.message);
       } else {
         showError(response.error);
       }
@@ -853,6 +855,7 @@ const UseAdmin = () => {
       } else {
         showError(response.error);
       }
+      return response;
     } catch (error) {
       console.log("Price Updation Error", error);
       showError("Something went wrong, please try again!");
@@ -899,8 +902,10 @@ const UseAdmin = () => {
   const complaintsGet = async () => {
     try {
       const response = await AdminApiEndPoints.complaints();
-      if (response.message.includes("successfully")) {
-        showSuccess(response.message);
+      console.log("Complaints API response:", response);
+
+      if (response) {
+        // showSuccess(response.message);
       } else {
         showError(response.error);
       }

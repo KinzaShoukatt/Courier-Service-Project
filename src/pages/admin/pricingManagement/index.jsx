@@ -37,6 +37,13 @@ const PricingManagement = () => {
   } = useForm();
 
   const {
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    reset: resetEdit,
+    formState: { errors: errorsEdit },
+  } = useForm();
+
+  const {
     register: registerAgent,
     handleSubmit: handleSubmitAgent,
     reset: resetAgent,
@@ -44,36 +51,52 @@ const PricingManagement = () => {
   } = useForm();
 
   const handleWeightBasePrices = async (body) => {
-    await weightBasePrices(body);
+    try {
+      const response = await weightBasePrices(body);
+      if (response?.message?.includes("Created")) {
+        fetchweightBasePrice();
+        reset();
+      }
+    } catch (error) {
+      console.error("Error Adding Weight Base Price:", error);
+    }
   };
 
+  const fetchweightBasePrice = async () => {
+    const response = await weightBasePricesGet();
+    if (response) {
+      setWeightBasePrice(response.data);
+      // console.log(response);
+    }
+  };
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await weightBasePricesGet();
-      if (response) {
-        setWeightBasePrice(response.data);
-        console.log(response);
-      }
-    };
-    fetchUsers();
+    fetchweightBasePrice();
   }, []);
 
   useEffect(() => {
     if (selecteditem) {
-      reset({
+      resetEdit({
         minWeight: selecteditem.minWeight,
         maxWeight: selecteditem.maxWeight,
         charge: selecteditem.charge,
       });
     }
-  }, [selecteditem, reset]);
+  }, [selecteditem, resetEdit]);
 
   const handleDeleteprice = async (id) => {
     await deletePrice(id);
+    fetchweightBasePrice();
   };
 
   const handlePricesUpdate = async (id, body) => {
-    await weightBasePricesUpdate(id, body);
+    const response = await weightBasePricesUpdate(id, body);
+    console.log("API REsponse: ", response);
+    if (response?.message.includes("Successfully")) {
+      reset();
+      setShow(false);
+      fetchweightBasePrice();
+    }
+    return response;
   };
   const fetchAgentCommision = async () => {
     const response = await agentCommisionGet();
@@ -199,14 +222,14 @@ const PricingManagement = () => {
                           setShow(true);
                         }}
                       >
-                        <FaEdit size={18} />
+                        <FaEdit />
                       </button>
                       <button
                         type="button"
                         className="btn2"
                         onClick={() => handleDeleteprice(item.id)}
                       >
-                        <AiFillDelete size={18} />
+                        <AiFillDelete />
                       </button>
                     </div>
                   </td>
@@ -219,7 +242,7 @@ const PricingManagement = () => {
         {show && (
           <FormDiv>
             <form
-              onSubmit={handleSubmit((body) =>
+              onSubmit={handleSubmitEdit((body) =>
                 handlePricesUpdate(selecteditem.id, body)
               )}
             >
@@ -235,13 +258,13 @@ const PricingManagement = () => {
                   <div className="childs">
                     <label htmlFor="">Enter Minimum Weight</label>
                     <br />
-                    {errors.minWeight && (
-                      <p className="errorMsg">{errors.minWeight.message}</p>
+                    {errorsEdit.minWeight && (
+                      <p className="errorMsg">{errorsEdit.minWeight.message}</p>
                     )}
                     <input
                       type="number"
                       placeholder="Enter Minimum Weight"
-                      {...register("minWeight", {
+                      {...registerEdit("minWeight", {
                         required: "Minimum Weight is Required!",
                         min: {
                           value: 6,
@@ -257,13 +280,13 @@ const PricingManagement = () => {
                   <div className="childs">
                     <label htmlFor="">Enter Maximum Weight</label>
                     <br />
-                    {errors.maxWeight && (
-                      <p className="errorMsg">{errors.maxWeight.message}</p>
+                    {errorsEdit.maxWeight && (
+                      <p className="errorMsg">{errorsEdit.maxWeight.message}</p>
                     )}
                     <input
                       type="number"
                       placeholder="Enter Maximum Weight"
-                      {...register("maxWeight", {
+                      {...registerEdit("maxWeight", {
                         required: "Maximum Weight is Required!",
                         min: {
                           value: 6,
@@ -281,13 +304,13 @@ const PricingManagement = () => {
                   <div className="childs">
                     <label htmlFor="">Charges</label>
                     <br />
-                    {errors.charge && (
-                      <p className="errorMsg">{errors.charge.message}</p>
+                    {errorsEdit.charge && (
+                      <p className="errorMsg">{errorsEdit.charge.message}</p>
                     )}
                     <input
                       type="number"
                       placeholder="Enter Charges/Rupees"
-                      {...register("charge", {
+                      {...registerEdit("charge", {
                         required: "Charges is  Required!",
                       })}
                     />
@@ -358,7 +381,7 @@ const PricingManagement = () => {
                       className="btn1"
                       onClick={() => setSelectedagent(agentCommision)}
                     >
-                      <FaEdit size={18} />
+                      <FaEdit />
                     </button>
                   </td>
                 </tr>

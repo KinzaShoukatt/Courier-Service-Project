@@ -9,16 +9,16 @@ const UseCustomer = () => {
   const parcelBookingCheckout = async (body) => {
     try {
       const response = await CustomerApiEndPoints.parcelBookingCheckout(body);
-      // const message = response.message || response.error;
-      if (response.message.includes("successfully!")) {
+      const message = response.message || response.error;
+      console.log("This is response: ", response);
+      if (response.message) {
         showSuccess(response.message);
         const parcelId = response?.parcel?.parcelId;
         const totalCharges = response?.parcel?.totalCharges;
         localStorage.setItem("parcelId", response?.parcel?.parcelId);
         sessionStorage.setItem("totalCharges", response?.parcel?.totalCharges);
-        navigate("/customer/payment");
+        navigate("/customer/payment", { state: { fromBooking: true } });
       } else {
-        // showError(message);
         showError(response.error);
       }
       return response;
@@ -147,8 +147,25 @@ const UseCustomer = () => {
       }
       return response;
     } catch (error) {
-      console.log("Profile Get Error: ", error);
+      console.log("Profile Picture Get Error: ", error);
       showError("Something went wrong, please try again!");
+      return { success: false, message: "Network error" };
+    }
+  };
+  // Get profile
+  const getCustomerProfilePicture = async () => {
+    try {
+      const response = await CustomerApiEndPoints.getProfilePicture();
+      console.log(response);
+      if (response) {
+        // showSuccess(response.message);
+      } else {
+        showError(response.error);
+      }
+      return response;
+    } catch (error) {
+      console.log("Profile Get Error: ", error);
+      // showError("Something went wrong, please try again!");
       return { success: false, message: "Network error" };
     }
   };
@@ -318,6 +335,7 @@ const UseCustomer = () => {
     stripePayment,
     cancelParcel,
     getCustomerProfile,
+    getCustomerProfilePicture,
     updateCustomerProfile,
     customerBookedParcels,
     trackParcels,

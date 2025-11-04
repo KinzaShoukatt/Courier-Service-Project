@@ -24,13 +24,22 @@ export const PickupDeliveryContainer = styled.div`
     text-align: center;
     font-weight: bold;
     font-family: "semibold";
-    font-size: 23px;
+    font-size: 20px;
     margin-bottom: 18px;
+    @media (max-width: 420px) {
+      font-size: 17px;
+    }
+    @media (max-width: 360px) {
+      font-size: 15px;
+    }
   }
   .cardParent {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+    @media (max-width: 580px) {
+      gap: 10px;
+    }
     .card {
       background-color: #e5f2f2;
       text-align: center;
@@ -38,8 +47,9 @@ export const PickupDeliveryContainer = styled.div`
       padding-block: 30px;
       border-radius: 8px;
       font-weight: bold;
+
       .bold {
-        font-size: 17px;
+        font-size: 16px;
       }
     }
   }
@@ -50,21 +60,24 @@ export const Charts = styled.div`
   display: flex;
   gap: 15px;
   margin-block: 20px;
-  @media (max-width: 768px) {
-    display: block;
+  @media (max-width: 885px) {
+    flex-direction: column;
   }
 `;
 export const BookingchartContainer = styled.div`
   width: 50%;
   box-sizing: border-box;
-  p {
+  .firstHeading {
     color: var(--dark-teal);
     font-family: "semibold";
-    font-size: 22px;
+    font-size: 20px;
     padding-bottom: 10px;
     padding-left: 5px;
+    @media (max-width: 1020px) {
+      font-size: 18px;
+    }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 885px) {
     width: 100%;
   }
 `;
@@ -76,21 +89,36 @@ export const BookingChart = styled.div`
   .headingDiv {
     display: flex;
     justify-content: center;
-    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
-    margin-bottom: 10px;
-    padding-top: 10px;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    @media (max-width: 885px) {
+      padding-top: 15px;
+    }
+    p {
+      color: var(--dark-teal);
+      font-family: "semibold";
+      font-size: 18px;
+      padding-left: 5px;
+      @media (max-width: 1020px) {
+        font-size: 16px;
+      }
+    }
   }
   .heading2 {
     text-transform: uppercase;
   }
   .filterContainer {
-    margin-block: 15px;
+    margin-block: 10px;
     font-family: "regular";
     position: relative;
+    @media (max-width: 1020px) {
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
   }
   .filter-btn {
     font-family: "regular";
@@ -100,6 +128,10 @@ export const BookingChart = styled.div`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    @media (max-width: 1020px) {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
   }
   .filter-btn:hover {
     background-color: teal;
@@ -140,14 +172,17 @@ export const BookingChart = styled.div`
 export const AgentchartContainer = styled.div`
   width: 50%;
   box-sizing: border-box;
-  p {
+  .firstHeading {
     color: var(--dark-teal);
     font-family: "semibold";
-    font-size: 22px;
+    font-size: 20px;
     padding-bottom: 10px;
     padding-left: 5px;
+    @media (max-width: 1020px) {
+      font-size: 18px;
+    }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 885px) {
     width: 100%;
   }
 `;
@@ -160,21 +195,35 @@ export const AgentChart = styled.div`
   .headingDiv {
     display: flex;
     justify-content: center;
-    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding-top: 10px;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    @media (max-width: 885px) {
+      padding-top: 15px;
+    }
+    p {
+      color: var(--dark-teal);
+      font-family: "semibold";
+      font-size: 18px;
+      padding-left: 5px;
+      @media (max-width: 1020px) {
+        font-size: 16px;
+      }
+    }
   }
   .heading2 {
     text-transform: uppercase;
   }
   .filterContainer {
-    margin-block: 15px;
+    margin-block: 10px;
     font-family: "regular";
     position: relative;
+    @media (max-width: 1020px) {
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
   }
   .filter-btn {
     font-family: "regular";
@@ -184,6 +233,10 @@ export const AgentChart = styled.div`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    @media (max-width: 1020px) {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
   }
   .filter-btn:hover {
     background-color: teal;
@@ -220,7 +273,50 @@ export const AgentChart = styled.div`
     padding: 10px;
   }
 `;
+
 export const RevenuechartContainer = styled.div`
+  box-sizing: border-box;
+  .firstHeading {
+    color: var(--dark-teal);
+    font-family: "semibold";
+    font-size: 20px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    @media (max-width: 1020px) {
+      font-size: 18px;
+    }
+  }
+`;
+export const RevenueChart = styled.div`
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  /* min-height: 80vh; */
+  /* height: 100%; */
+
+  .headingDiv {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-family: "semibold";
+    color: var(--dark-teal);
+    margin-bottom: 5px;
+    padding-top: 20px;
+    @media (max-width: 885px) {
+      padding-top: 15px;
+    }
+    p {
+      color: var(--dark-teal);
+      font-family: "semibold";
+      font-size: 18px;
+      padding-left: 5px;
+      @media (max-width: 1020px) {
+        font-size: 16px;
+      }
+    }
+  }
+  /* box-sizing: border-box;
   min-height: 80vh;
   height: 100%;
   text-align: center;
@@ -228,22 +324,25 @@ export const RevenuechartContainer = styled.div`
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   margin-top: 30px;
-  .headingDiv {
+  font-size: 20px;
+  padding-top: 12px; */
+
+  /* .headingDiv {
     display: flex;
     justify-content: center;
-    gap: 5px;
     font-weight: bold;
     font-family: "semibold";
     color: var(--dark-teal);
     font-weight: bold;
     margin-bottom: 10px;
     padding-top: 10px;
-  }
+    gap: 5px;
+  } */
   .heading2 {
     text-transform: uppercase;
   }
   .filterContainer {
-    margin-block: 15px;
+    margin-block: 10px;
     font-family: "regular";
     position: relative;
   }

@@ -46,6 +46,7 @@ const ManualOrderCreation = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -84,10 +85,18 @@ const ManualOrderCreation = () => {
 
   const location = useLocation();
   const parcelId = Number(localStorage.getItem("parcelId"));
-  const totalCharges = Number(sessionStorage.getItem("totalCharges"));
+  const [totalCharges, setTotalCharges] = useState(
+    Number(sessionStorage.getItem("totalCharges"))
+  );
+  // const totalCharges = Number(sessionStorage.getItem("totalCharges"));
 
   const handleCashPayment = async (body) => {
-    return await cashPayment(body);
+    const response = await cashPayment(body);
+    if (response.message.includes("Successful")) {
+      reset();
+      sessionStorage.removeItem("totalCharges");
+    }
+    return response;
   };
 
   const handleBookingOrderInvoice = async () => {
@@ -99,7 +108,13 @@ const ManualOrderCreation = () => {
   };
 
   const handleCancelParcel = async (body) => {
-    return await cancelParcel(body);
+    const response = await cancelParcel(body);
+    if (response?.message?.includes("cancelled")) {
+      reset();
+      sessionStorage.removeItem("totalCharges");
+      setTotalCharges(0);
+    }
+    return response;
   };
 
   return (
@@ -110,7 +125,7 @@ const ManualOrderCreation = () => {
           {/* person Information */}
           <div className="boldText">
             <IoPerson className="icon" color="#006769" />
-            <h2>Customer Information</h2>
+            <p className="headings">Customer Information</p>
           </div>
           <div className="inputFields">
             <div className="childs">
@@ -173,7 +188,7 @@ const ManualOrderCreation = () => {
           {/* Address Information */}
           <div className="boldText">
             <MdLocationOn className="icon" color="#006769" />
-            <h2>Address Information</h2>
+            <p className="headings">Address Information</p>
           </div>
           <div className="inputFields">
             <div className="childs">
@@ -238,11 +253,11 @@ const ManualOrderCreation = () => {
           {/* package Details */}
           <div className="boldText">
             <FaBoxOpen className="icon" color="#006769" />
-            <h2>Package Details</h2>
+            <p className="headings">Package Details</p>
           </div>
           <div className="inputFields">
             <div className="childs">
-              <label htmlFor="">Package Weight</label>
+              <label htmlFor="">Package Weight(kg)</label>
               <br />
               {errors.packageWeight && (
                 <p className="errorMsg">{errors.packageWeight.message}</p>
@@ -255,6 +270,10 @@ const ManualOrderCreation = () => {
                   max: {
                     value: 50,
                     message: "Weight cannot exceed 50 kg",
+                  },
+                  min: {
+                    value: 0.5,
+                    message: "Weight cannot be less than 0.5 kg",
                   },
                 })}
               />
@@ -295,6 +314,8 @@ const ManualOrderCreation = () => {
           </div>
           <div className="inputFields">
             <div className="childs">
+              <label htmlFor="">Enter Special Instructions</label>
+              <br />
               {errors.specialInstructions && (
                 <p className="errorMsg">{errors.specialInstructions.message}</p>
               )}
@@ -309,7 +330,7 @@ const ManualOrderCreation = () => {
           {/* Pickup Options*/}
           <div className="boldText">
             <RiCalendarScheduleFill className="icon" color="#006769" />
-            <h2>Pickup Options</h2>
+            <p className="headings">Pickup Options</p>
           </div>
           <div className="radioInputFields">
             <div className="radioChilds">
@@ -354,7 +375,6 @@ const ManualOrderCreation = () => {
                   )}
                   <input
                     type="date"
-                    placeholder="mm/dd/yyyy"
                     {...register("pickupDate", {
                       required: "Select Pickup Date!",
                     })}
@@ -362,19 +382,30 @@ const ManualOrderCreation = () => {
                 </div>
               </div>
 
-              <label htmlFor="">Pick Time Slot</label>
+              <label className="specialLabel">Pick Time Slot</label>
               <div className="dateTime">
                 <div className="dateTimeChilds">
-                  <label htmlFor="">Strat Time</label>
+                  <label htmlFor="">Start Time</label>
                   <br />
                   {errors.pickupStart && (
                     <p className="errorMsg">{errors.pickupStart.message}</p>
                   )}
                   <input
                     type="time"
-                    placeholder="mm/dd/yyyy"
                     {...register("pickupStart", {
                       required: "Select Start Time!",
+                      validate: (value, formValues) => {
+                        if (value < "08:00" || value > "20:00") {
+                          return "Start time must be between 08:00 AM and 08:00 PM!";
+                        }
+                        if (
+                          formValues.pickupEnd &&
+                          value >= formValues.pickupEnd
+                        ) {
+                          return "Start time must be earlier than End time!";
+                        }
+                        return true;
+                      },
                     })}
                   />
                 </div>
@@ -387,7 +418,21 @@ const ManualOrderCreation = () => {
                   <input
                     type="time"
                     placeholder="Enter Time"
-                    {...register("pickupEnd", { required: "Select End Time!" })}
+                    {...register("pickupEnd", {
+                      required: "Select End Time!",
+                      validate: (value, formValues) => {
+                        if (value < "08:00" || value > "20:00") {
+                          return "End time must be between 08:00 AM and 08:00 PM!";
+                        }
+                        if (
+                          formValues.pickupStart &&
+                          value <= formValues.pickupStart
+                        ) {
+                          return "End time must be later than Start time!";
+                        }
+                        return true;
+                      },
+                    })}
                   />
                 </div>
               </div>
@@ -404,7 +449,7 @@ const ManualOrderCreation = () => {
               <OrderSummary>
                 <div className="boldText">
                   <FaReceipt className="icon" color="#006769" />
-                  <h2>Order Summary</h2>
+                  <p className="headings">Order Summary</p>
                 </div>
                 <div className="parent">
                   <div className="child1">
@@ -421,7 +466,7 @@ const ManualOrderCreation = () => {
               <PaymentMethod>
                 <div className="boldText">
                   <FaMoneyBill1Wave className="icon" color="#006769" />
-                  <h2>Select Payment Method</h2>
+                  <p className="headings">Select Payment Method</p>
                 </div>
                 <div className="cardParent">
                   <div
@@ -429,7 +474,7 @@ const ManualOrderCreation = () => {
                     onClick={() => setSelected("credit")}
                   >
                     <FaCreditCard className="icon" color="#006769" />
-                    <h3>Online Payment</h3>
+                    <p className="paymentHeading">Online Payment</p>
                     <p>Pay securely with your credit or debit card</p>
                   </div>
                   <div
@@ -437,7 +482,7 @@ const ManualOrderCreation = () => {
                     onClick={() => setSelected("cod")}
                   >
                     <FaMoneyBill1Wave className="icon" color="#006769" />
-                    <h3>Pay Now</h3>
+                    <p className="paymentHeading">Pay Now</p>
                     <p>Kindly make your payment now.</p>
                   </div>
                 </div>

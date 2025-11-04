@@ -84,6 +84,7 @@ const OrderManagement = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -228,11 +229,11 @@ const OrderManagement = () => {
   }, []);
 
   const handleCancelParcel = async (body) => {
-    return await cancelParcel(body);
-    fetchCancelledOrders();
+    await cancelParcel(body);
     fetchPlacedOrders();
     fetchScheduledOrders();
     fetchActiveOrders();
+    fetchCancelledOrders();
   };
 
   const handleResheduleParcel = async (data) => {
@@ -241,9 +242,20 @@ const OrderManagement = () => {
       pickupSlot: data.pickupSlot,
     };
     // console.log("payload:", payload);
-    await resheduleParcel(selectedOrder.id, payload);
-    fetchPlacedOrders();
-    fetchCancelledOrders();
+    try {
+      const response = await resheduleParcel(selectedOrder.id, payload);
+      if (response.message.includes("successfully")) {
+        setShow(false);
+        fetchCancelledOrders();
+        fetchPlacedOrders();
+        reset();
+      } else {
+        showError(response.message);
+      }
+      return response;
+    } catch (error) {
+      showError("Something went wrong, please try again!");
+    }
   };
 
   const handleTrackParcels = async (body) => {
@@ -390,7 +402,7 @@ const OrderManagement = () => {
                       checked={selectedAgent === agent.id}
                       onChange={() => setSelectedAgent(agent.id)}
                     />
-                    <p>{agent.fullName}</p>
+                    <p>{agent.fullName || "N/A"}</p>
                   </div>
                 ))}
                 <PaginationWrapper>
@@ -469,12 +481,14 @@ const OrderManagement = () => {
                   <tr key={sOrder.id}>
                     <td>{sOrder.id}</td>
                     <td>{sOrder.trackingNumber}</td>
-                    <td>{sOrder.Customer.fullName}</td>
+                    <td>{sOrder.Customer.fullName || "N/A"}</td>
                     <td>
                       {sOrder.pickupAddress} -> {sOrder.deliveryAddress}
                     </td>
                     <td>{sOrder.pickupSlot}</td>
-                    <td>{sOrder.Agent.fullName}</td>
+                    {/* <td>{sOrder.Agent.fullName || "N/A"}</td> */}
+                    <td>{sOrder.Agent?.fullName || "Unassigned"}</td>
+
                     <td>{sOrder.status}</td>
                     <td>{sOrder.assignedAt}</td>
                     <td>
@@ -559,7 +573,7 @@ const OrderManagement = () => {
                 {allCancelledOrders.map((cancelOrders) => (
                   <tr key={cancelOrders.id}>
                     <td>{cancelOrders.trackingNumber}</td>
-                    <td>{cancelOrders.Customer.fullName}</td>
+                    <td>{cancelOrders.Customer.fullName || "N/A"}</td>
                     <td>{cancelOrders.deliveryType}</td>
                     <td>
                       <span className="cancelStatus">
@@ -651,7 +665,7 @@ const OrderManagement = () => {
                     )}
                     <input
                       type="date"
-                      placeholder="mm/dd/yyyy"
+                      // placeholder="mm/dd/yyyy"
                       {...register("pickupDate", {
                         required: "Select Pickup Date!",
                       })}
@@ -669,9 +683,20 @@ const OrderManagement = () => {
                     )}
                     <input
                       type="time"
-                      placeholder="mm/dd/yyyy"
                       {...register("pickupStart", {
                         required: "Select Start Time!",
+                        validate: (value, formValues) => {
+                          if (value < "08:00" || value > "20:00") {
+                            return "Start time must be between 08:00 AM and 08:00 PM!";
+                          }
+                          if (
+                            formValues.pickupEnd &&
+                            value >= formValues.pickupEnd
+                          ) {
+                            return "Start time must be earlier than End time!";
+                          }
+                          return true;
+                        },
                       })}
                     />
                   </div>
@@ -686,6 +711,18 @@ const OrderManagement = () => {
                       placeholder="Enter Time"
                       {...register("pickupEnd", {
                         required: "Select End Time!",
+                        validate: (value, formValues) => {
+                          if (value < "08:00" || value > "20:00") {
+                            return "End time must be between 08:00 AM and 08:00 PM!";
+                          }
+                          if (
+                            formValues.pickupStart &&
+                            value <= formValues.pickupStart
+                          ) {
+                            return "End time must be later than Start time!";
+                          }
+                          return true;
+                        },
                       })}
                     />
                   </div>

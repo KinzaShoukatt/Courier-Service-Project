@@ -19,10 +19,11 @@ export const ImgDiv = styled.div`
     object-fit: cover;
   }
 `;
-export const Heading = styled.h1`
+export const Heading = styled.p`
   color: var(--dark-teal);
   font-family: "semibold";
   padding: 10px 0px;
+  font-size: 25px;
 `;
 export const Form = styled.form`
   .errorMsg {
@@ -88,9 +89,9 @@ export const Form = styled.form`
     font-weight: bold;
     color: var(--secColor);
     padding: 9.5px 10px;
-    width: 74%;
+    width: 73%;
     border: 2px solid var(--dark-teal);
-    border-radius: 10px;
+    border-radius: 8px;
     margin: 10px;
     cursor: pointer;
   }

@@ -170,7 +170,7 @@ const ZoneManagement = () => {
                 />
               </div>
               <div className="btn">
-                <button className="addAgentBtn">Add Pricing</button>
+                <button className="addZoneBtn">Add Pricing</button>
               </div>
             </form>
           </LastFormDiv>
@@ -197,7 +197,7 @@ const ZoneManagement = () => {
                           className="editBtn"
                           onClick={() => setSelectedItem(zone)}
                         >
-                          <FaEdit color="white" size={18} />
+                          <FaEdit color="white" />
                         </button>
                         {/* <button className="deleteBtn" title="Remove province">
                           <AiFillDelete color="white" size={18} />

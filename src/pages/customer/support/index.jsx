@@ -104,7 +104,7 @@ const Support = () => {
     // Send to server
     socketRef.current.emit("sendMessage", {
       message,
-      receiverId: 2,
+      receiverId: 1,
     });
 
     setTimeout(() => setIsTyping(false), 300);
