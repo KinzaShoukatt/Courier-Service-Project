@@ -24,6 +24,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import UseAdmin from "../useHooks";
 import { useForm } from "react-hook-form";
 import { showError, showSuccess } from "../../../utils/toast";
+import swal from "sweetalert";
 
 const OrderManagement = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -229,13 +230,38 @@ const OrderManagement = () => {
   }, []);
 
   const handleCancelParcel = async (body) => {
-    await cancelParcel(body);
-    fetchPlacedOrders();
-    fetchScheduledOrders();
-    fetchActiveOrders();
-    fetchCancelledOrders();
-  };
+    const willCancel = await swal({
+      title: "Cancel this parcel?",
+      text: "Once cancelled, you won’t be able to undo this action!",
+      icon: "warning",
+      buttons: ["No, keep it", "Yes, cancel it"],
+      dangerMode: true,
+    });
 
+    if (willCancel) {
+      try {
+        await cancelParcel(body);
+        fetchPlacedOrders();
+        fetchScheduledOrders();
+        fetchActiveOrders();
+        fetchCancelledOrders();
+
+        swal(
+          "Cancelled!",
+          "The parcel has been successfully cancelled.",
+          "success"
+        );
+      } catch (error) {
+        swal(
+          "Failed!",
+          "Something went wrong while cancelling the parcel.",
+          "error"
+        );
+      }
+    } else {
+      swal("Cancelled", "The parcel is still active.", "info");
+    }
+  };
   const handleResheduleParcel = async (data) => {
     data.pickupSlot = `${data.pickupDate}, ${data.pickupStart} to ${data.pickupEnd}`;
     const payload = {
@@ -483,7 +509,7 @@ const OrderManagement = () => {
                     <td>{sOrder.trackingNumber}</td>
                     <td>{sOrder.Customer.fullName || "N/A"}</td>
                     <td>
-                      {sOrder.pickupAddress} -> {sOrder.deliveryAddress}
+                      {sOrder.pickupAddress} -&gt; {sOrder.deliveryAddress}
                     </td>
                     <td>{sOrder.pickupSlot}</td>
                     {/* <td>{sOrder.Agent.fullName || "N/A"}</td> */}

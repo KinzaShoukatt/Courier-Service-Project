@@ -32,6 +32,7 @@ import { IoEyeOffSharp } from "react-icons/io5";
 import { MdRemoveRedEye } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import UseAdmin from "../useHooks";
+import swal from "sweetalert";
 
 const UserManagement = () => {
   const [show, setShow] = useState(false);
@@ -206,10 +207,26 @@ const UserManagement = () => {
   };
 
   const handleDeleteUser = async (id) => {
-    await deleteUser(id);
-    fetchCustomers();
-    fetchGuestCustomers();
-    fetchAgents();
+    const willDelete = await swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this user!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    });
+    if (willDelete) {
+      try {
+        await deleteUser(id);
+        fetchCustomers();
+        fetchGuestCustomers();
+        fetchAgents();
+        swal("User has been deleted!", { icon: "success" });
+      } catch (error) {
+        swal("Failed to delete user!", { icon: "error" });
+      }
+    } else {
+      swal("Cancelled", "The user was not deleted.", "info");
+    }
   };
 
   const handleBlockUser = async (id, body) => {

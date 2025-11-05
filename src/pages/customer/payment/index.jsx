@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AI from "../../../components/aiChatBox";
 import UseCustomer from "../useHooks";
 import { showError, showSuccess } from "../../../utils/toast";
+import swal from "sweetalert";
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -73,13 +74,40 @@ const Payment = () => {
     await stripePayment(body);
   };
 
-  const handleCancelParcel = async (body) => {
-    const response = await cancelParcel(body);
-    if (response?.message?.includes("successfully")) {
-      sessionStorage.removeItem("totalCharges");
-      setTotalCharges(0);
+  const handleCancelParcel = async (id) => {
+    const willCancel = await swal({
+      title: "Cancel this parcel?",
+      text: "Are you sure you want to cancel this parcel? This action cannot be undone.",
+      icon: "warning",
+      buttons: ["No", "Yes, cancel it"],
+      dangerMode: true,
+    });
+
+    if (willCancel) {
+      try {
+        const response = await cancelParcel(id);
+
+        if (response?.message?.includes("successfully")) {
+          sessionStorage.removeItem("totalCharges");
+          setTotalCharges(0);
+          swal(
+            "Success!",
+            "Parcel has been cancelled successfully.",
+            "success"
+          );
+        } else {
+          swal("Notice", "Parcel could not be cancelled.", "info");
+        }
+
+        return response;
+      } catch (error) {
+        swal(
+          "Error!",
+          "Something went wrong while cancelling the parcel.",
+          "error"
+        );
+      }
     }
-    return response;
   };
 
   return (

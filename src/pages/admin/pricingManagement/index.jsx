@@ -13,6 +13,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { useForm } from "react-hook-form";
 import UseAdmin from "../useHooks";
+import swal from "sweetalert";
 const PricingManagement = () => {
   const [show, setShow] = useState(false);
   const [selecteditem, setSelectedItem] = useState(null);
@@ -83,9 +84,30 @@ const PricingManagement = () => {
     }
   }, [selecteditem, resetEdit]);
 
-  const handleDeleteprice = async (id) => {
-    await deletePrice(id);
-    fetchweightBasePrice();
+  const handleDeletePrice = async (id) => {
+    const willDelete = await swal({
+      title: "Delete this price?",
+      text: "Once deleted, you won’t be able to recover it!",
+      icon: "warning",
+      buttons: ["Cancel", "Delete"],
+      dangerMode: true,
+    });
+
+    if (willDelete) {
+      try {
+        await deletePrice(id);
+        fetchweightBasePrice();
+        swal("Deleted!", "Price has been successfully removed.", "success");
+      } catch (error) {
+        swal(
+          "Error!",
+          "Something went wrong while deleting the price.",
+          "error"
+        );
+      }
+    } else {
+      swal("The price was not deleted.");
+    }
   };
 
   const handlePricesUpdate = async (id, body) => {
@@ -227,7 +249,7 @@ const PricingManagement = () => {
                       <button
                         type="button"
                         className="btn2"
-                        onClick={() => handleDeleteprice(item.id)}
+                        onClick={() => handleDeletePrice(item.id)}
                       >
                         <AiFillDelete />
                       </button>

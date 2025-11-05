@@ -37,7 +37,9 @@ const UseLandingpage = () => {
       return response;
     } catch (error) {
       console.log("Parcel Trcaking Error: ", error);
-      showError("Something went wrong, please try again!", error.error);
+      showError(
+        "Tracking number not found. Please check your tracking number and try again"
+      );
       return { success: false, message: "Network error" };
     }
   };
@@ -54,7 +56,7 @@ const UseLandingpage = () => {
       return response;
     } catch (error) {
       console.log("static Pages Get Error: ", error);
-      showError("Something went wrong, please try again!");
+      // showError("Something went wrong, please try again!");
       return { success: false, message: "Network error" };
     }
   };

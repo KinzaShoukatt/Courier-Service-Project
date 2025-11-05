@@ -129,16 +129,29 @@ export const HomeSection = styled.div`
     font-size: 28px;
     font-weight: bolder;
     color: var(--secColor);
+    @media (max-width: 640px) {
+      font-size: 25px;
+    }
+    @media (max-width: 640px) {
+      font-size: 23px;
+    }
   }
   .desc {
     font-family: "regular";
     font-size: 17px;
     color: var(--secColor);
+    @media (max-width: 640px) {
+      font-size: 15.5px;
+    }
+    @media (max-width: 540px) {
+      font-size: 15px;
+    }
   }
   .tracking {
     display: flex;
     border-radius: 5px;
-    padding-inline: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 5px;
     width: fit-content;
     align-items: center;
     gap: 10px;
@@ -148,11 +161,21 @@ export const HomeSection = styled.div`
     @media (max-width: 768px) {
       margin-block: 10px;
     }
+    @media (max-width: 350px) {
+      gap: 0px;
+      padding-inline-start: 5px;
+    }
     input {
       font-size: 16px;
       border: none;
       font-family: "regular";
       outline: none;
+      @media (max-width: 640px) {
+        font-size: 15px;
+      }
+      @media (max-width: 540px) {
+        font-size: 14px;
+      }
     }
     button {
       border: none;
@@ -164,8 +187,14 @@ export const HomeSection = styled.div`
       background-color: rgba(3, 63, 63, 1);
       border-radius: 5px;
       margin-block: 5px;
-      @media (max-width: 768px) {
-        padding: 3px 10px;
+      white-space: nowrap;
+      @media (max-width: 640px) {
+        font-size: 15px;
+      }
+      @media (max-width: 540px) {
+        font-size: 14px;
+        margin-block: 4px;
+        padding: 8px 12px;
       }
     }
   }
@@ -283,12 +312,20 @@ export const HomeSection = styled.div`
   .btn {
     background-color: rgba(3, 63, 63, 1);
     color: var(--secColor);
-    padding: 11px 19px;
+    padding: 10px 17px;
     border: none;
     font-family: "regular";
     font-size: 15px;
     border-radius: 5px;
     cursor: pointer;
+    @media (max-width: 640px) {
+      font-size: 15px;
+      padding: 10px 18px;
+    }
+    @media (max-width: 540px) {
+      font-size: 14px;
+      padding: 10px 17px;
+    }
   }
 `;
 
@@ -311,6 +348,9 @@ export const AboutSection = styled.div`
     font-size: 25px;
     border-bottom: 2px solid var(--dark-teal);
     padding-bottom: 10px;
+    @media (max-width: 600px) {
+      font-size: 22px;
+    }
   }
 `;
 export const WhoWeAre = styled.div`
@@ -324,15 +364,6 @@ export const WhoWeAre = styled.div`
     align-items: center;
     text-align: center;
   }
-
-  .heading {
-    color: var(--dark-teal);
-    font-family: "semibold";
-    font-size: 22px;
-    border-bottom: 2px solid var(--dark-teal);
-    /* padding-bottom: 10px; */
-    align-self: flex-start;
-  }
   .desc1,
   .desc2 {
     line-height: 2;
@@ -340,96 +371,96 @@ export const WhoWeAre = styled.div`
   }
 `;
 
-export const Missionvision = styled.div`
-  padding-inline: 20px;
-  padding-block: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  .heading {
-    color: var(--dark-teal);
-    font-family: "semibold";
-    font-size: 25px;
-    border-bottom: 2px solid var(--dark-teal);
-    padding-bottom: 10px;
-  }
-  .cardparent {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-block: 30px;
-    @media (max-width: 480px) {
-      flex-wrap: wrap;
-    }
+// export const Missionvision = styled.div`
+//   padding-inline: 20px;
+//   padding-block: 30px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: center;
+//   .heading {
+//     color: var(--dark-teal);
+//     font-family: "semibold";
+//     font-size: 25px;
+//     border-bottom: 2px solid var(--dark-teal);
+//     padding-bottom: 10px;
+//   }
+//   .cardparent {
+//     display: flex;
+//     justify-content: center;
+//     gap: 20px;
+//     margin-block: 30px;
+//     @media (max-width: 480px) {
+//       flex-wrap: wrap;
+//     }
 
-    .card {
-      background-color: var(--secColor);
-      padding-block: 30px;
-      padding-inline: 25px;
-      line-height: 1.6;
-      font-family: "regular";
-      border-radius: 10px;
-      font-size: 15px;
-      color: #444444;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      .boldText {
-        color: var(--dark-teal);
-        font-family: "semibold";
-        font-size: 20px;
-        padding-block: 8px;
-      }
-    }
-  }
-`;
+//     .card {
+//       background-color: var(--secColor);
+//       padding-block: 30px;
+//       padding-inline: 25px;
+//       line-height: 1.6;
+//       font-family: "regular";
+//       border-radius: 10px;
+//       font-size: 15px;
+//       color: #444444;
+//       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+//       .boldText {
+//         color: var(--dark-teal);
+//         font-family: "semibold";
+//         font-size: 20px;
+//         padding-block: 8px;
+//       }
+//     }
+//   }
+// `;
 
-export const Services = styled.div`
-  padding-inline: 20px;
-  padding-block: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: var(--secColor);
-  .heading {
-    color: var(--dark-teal);
-    font-family: "semibold";
-    font-size: 25px;
-    border-bottom: 2px solid var(--dark-teal);
-    padding-bottom: 10px;
-  }
-  .cardparent {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-block: 30px;
-    @media (max-width: 480px) {
-      flex-wrap: wrap;
-    }
+// export const Services = styled.div`
+//   padding-inline: 20px;
+//   padding-block: 30px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: center;
+//   background-color: var(--secColor);
+//   .heading {
+//     color: var(--dark-teal);
+//     font-family: "semibold";
+//     font-size: 25px;
+//     border-bottom: 2px solid var(--dark-teal);
+//     padding-bottom: 10px;
+//   }
+//   .cardparent {
+//     display: flex;
+//     justify-content: center;
+//     gap: 20px;
+//     margin-block: 30px;
+//     @media (max-width: 480px) {
+//       flex-wrap: wrap;
+//     }
 
-    .card {
-      background-color: var(--priColor);
-      padding-block: 30px;
-      padding-inline: 25px;
-      line-height: 1.6;
-      font-family: "regular";
-      border-radius: 10px;
-      font-size: 15px;
-      color: #444444;
-      transition: all 0.6s;
-      .boldText {
-        color: var(--dark-teal);
-        font-family: "semibold";
-        font-size: 20px;
-        padding-block: 8px;
-      }
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 2px 6px rgba(36, 36, 36, 0.3);
-      }
-    }
-  }
-`;
+//     .card {
+//       background-color: var(--priColor);
+//       padding-block: 30px;
+//       padding-inline: 25px;
+//       line-height: 1.6;
+//       font-family: "regular";
+//       border-radius: 10px;
+//       font-size: 15px;
+//       color: #444444;
+//       transition: all 0.6s;
+//       .boldText {
+//         color: var(--dark-teal);
+//         font-family: "semibold";
+//         font-size: 20px;
+//         padding-block: 8px;
+//       }
+//       &:hover {
+//         transform: translateY(-5px);
+//         box-shadow: 0 2px 6px rgba(36, 36, 36, 0.3);
+//       }
+//     }
+//   }
+// `;
 
 export const Contact = styled.div`
   padding-block: 30px;
@@ -446,6 +477,9 @@ export const Contact = styled.div`
     font-family: "semibold";
     font-size: 30px;
     border-bottom: 2px solid var(--dark-teal);
+    @media (max-width: 600px) {
+      font-size: 24px;
+    }
   }
   .contact {
     padding-top: 40px;
@@ -458,6 +492,13 @@ export const Contact = styled.div`
     gap: 5px;
     color: #444444;
     line-height: 2;
+    @media (max-width: 480px) {
+      gap: 2px;
+      font-size: 15px;
+    }
+    @media (max-width: 424px) {
+      flex-direction: column;
+    }
     .icon {
       display: flex;
       align-items: center;
@@ -467,14 +508,6 @@ export const Contact = styled.div`
         font-weight: bold;
         color: black;
       }
-    }
-
-    @media (max-width: 480px) {
-      gap: 2px;
-      font-size: 15px;
-    }
-    @media (max-width: 424px) {
-      flex-direction: column;
     }
   }
 `;
@@ -494,6 +527,9 @@ export const Terms = styled.div`
     font-family: "semibold";
     font-size: 30px;
     border-bottom: 2px solid var(--dark-teal);
+    @media (max-width: 600px) {
+      font-size: 22px;
+    }
   }
   .parentTerms {
     padding-top: 40px;
@@ -505,6 +541,9 @@ export const Terms = styled.div`
         color: black;
         font-family: "semibold";
         font-size: 18px;
+        @media (max-width: 600px) {
+          font-size: 17px;
+        }
       }
     }
   }
