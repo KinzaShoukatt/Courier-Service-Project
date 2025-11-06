@@ -34,7 +34,7 @@ const ForgotPassword = () => {
             type="email"
             placeholder="Enter Your Email"
             {...register("email", {
-              required: "Email is required",
+              required: "Email is required!",
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Enter a valid email",

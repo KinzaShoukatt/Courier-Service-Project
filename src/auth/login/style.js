@@ -10,6 +10,9 @@ export const Container = styled.div`
   text-align: center;
   justify-content: center;
   padding-block: 7vh;
+  @media (max-width: 480px) {
+    margin-inline: 2vw;
+  }
 `;
 
 export const ImgDiv = styled.div`
@@ -17,6 +20,9 @@ export const ImgDiv = styled.div`
   img {
     height: 120px;
     object-fit: cover;
+    @media (max-width: 480px) {
+      height: 100px;
+    }
   }
 `;
 export const Heading = styled.p`
@@ -24,6 +30,10 @@ export const Heading = styled.p`
   font-family: "semibold";
   padding: 10px 0px;
   font-size: 25px;
+  @media (max-width: 480px) {
+    font-size: 22px;
+    padding-top: 2px;
+  }
 `;
 export const Form = styled.form`
   .errorMsg {
@@ -40,12 +50,19 @@ export const Form = styled.form`
     border-radius: 8px;
     margin-block: 13px;
     align-items: center;
+    @media (max-width: 480px) {
+      margin-block: 8px;
+      padding: 11px 10px;
+    }
     input {
       border: none;
       font-size: 15px;
       outline: none;
       width: 90%;
       font-family: "regular";
+      @media (max-width: 480px) {
+        font-size: 13.5px;
+      }
     }
   }
   .inputFields2 {
@@ -58,6 +75,9 @@ export const Form = styled.form`
     border-radius: 8px;
     margin-block: 13px;
     justify-content: space-between;
+    @media (max-width: 480px) {
+      margin-block: 8px;
+    }
     .passwordInput {
       display: flex;
       gap: 5px;
@@ -68,6 +88,9 @@ export const Form = styled.form`
         outline: none;
         width: 90%;
         font-family: "regular";
+        @media (max-width: 480px) {
+          font-size: 13.5px;
+        }
       }
     }
     .eyeIcon {
@@ -81,6 +104,9 @@ export const Form = styled.form`
     width: 72%;
     text-align: left;
     margin: auto;
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
   }
   .btn {
     background-color: var(--dark-teal);
@@ -94,6 +120,11 @@ export const Form = styled.form`
     border-radius: 8px;
     margin: 10px;
     cursor: pointer;
+    @media (max-width: 480px) {
+      font-size: 15px;
+      padding: 9px 10px;
+      width: 75%;
+    }
   }
 
   .or {
@@ -122,6 +153,9 @@ export const LastText = styled.div`
     margin-block: 10px;
     color: var(--dark-teal);
     font-family: "regular";
+    @media (max-width: 480px) {
+      font-size: 13.5px;
+    }
     strong {
       cursor: pointer;
       color: var(--dark-teal);

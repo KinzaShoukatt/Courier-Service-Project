@@ -11,6 +11,9 @@ export const Container = styled.div`
   text-align: center;
   justify-content: center;
   padding-block: 9vh;
+  @media (max-width: 480px) {
+    margin-inline: 2vw;
+  }
 `;
 
 export const ImgDiv = styled.div`
@@ -18,6 +21,9 @@ export const ImgDiv = styled.div`
   img {
     height: 120px;
     object-fit: cover;
+    @media (max-width: 480px) {
+      height: 100px;
+    }
   }
 `;
 export const Heading = styled.p`
@@ -25,6 +31,10 @@ export const Heading = styled.p`
   font-family: "semibold";
   padding: 10px 0px;
   font-size: 25px;
+  @media (max-width: 480px) {
+    font-size: 22px;
+    padding-top: 2px;
+  }
 `;
 export const Para = styled.p`
   font-family: "semibold";
@@ -43,6 +53,9 @@ export const Form = styled.form`
     justify-content: center;
     gap: 10px;
     margin-block: 20px;
+    @media (max-width: 480px) {
+      margin-block: 15px;
+    }
     .box {
       height: 35px;
       width: 28px;
@@ -69,6 +82,9 @@ export const Form = styled.form`
     border-radius: 10px;
     cursor: pointer;
     margin-top: 10px;
+    @media (max-width: 480px) {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -78,6 +94,9 @@ export const LastText = styled.div`
     color: var(--dark-teal);
     margin-top: 10px;
     font-family: "regular";
+    @media (max-width: 480px) {
+      font-size: 13.5px;
+    }
     strong {
       font-weight: bold;
       cursor: pointer;

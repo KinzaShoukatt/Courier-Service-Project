@@ -11,6 +11,9 @@ export const Container = styled.div`
   text-align: center;
   justify-content: center;
   padding-block: 7vh;
+  @media (max-width: 480px) {
+    margin-inline: 2vw;
+  }
 `;
 
 export const ImgDiv = styled.div`
@@ -18,7 +21,7 @@ export const ImgDiv = styled.div`
   img {
     height: 120px;
     object-fit: cover;
-    @media (max-width: 380px) {
+    @media (max-width: 480px) {
       height: 100px;
     }
   }
@@ -30,9 +33,14 @@ export const Heading = styled.p`
   font-size: 25px;
   @media (max-width: 480px) {
     font-size: 20px;
+    padding-top: 2px;
   }
 `;
 export const Form = styled.form`
+  .errorMsg {
+    color: red;
+    font-family: "regular";
+  }
   .inputFields {
     border: 1px solid var(--borderColor);
     margin: auto;
@@ -45,6 +53,7 @@ export const Form = styled.form`
     border-radius: 8px;
     margin-block: 13px;
     @media (max-width: 480px) {
+      margin-block: 8px;
       padding: 8px 10px;
     }
     .icon {
@@ -59,6 +68,9 @@ export const Form = styled.form`
       outline: none;
       width: 90%;
       font-family: "regular";
+      @media (max-width: 480px) {
+        font-size: 13.5px;
+      }
     }
   }
   .btn {
@@ -90,7 +102,7 @@ export const LastText = styled.div`
     color: var(--dark-teal);
     margin-top: 15px;
     @media (max-width: 480px) {
-      font-size: 15px;
+      font-size: 13.5px;
     }
 
     strong {

@@ -10,6 +10,9 @@ export const Container = styled.div`
   text-align: center;
   justify-content: center;
   padding-block: 7vh;
+  @media (max-width: 480px) {
+    margin-inline: 2vw;
+  }
 `;
 
 export const ImgDiv = styled.div`
@@ -17,6 +20,9 @@ export const ImgDiv = styled.div`
   img {
     height: 120px;
     object-fit: cover;
+    @media (max-width: 480px) {
+      height: 100px;
+    }
   }
 `;
 export const Heading = styled.p`
@@ -26,6 +32,7 @@ export const Heading = styled.p`
   font-size: 25px;
   @media (max-width: 480px) {
     font-size: 22px;
+    padding-top: 2px;
   }
 `;
 export const Form = styled.form`
@@ -59,7 +66,7 @@ export const Form = styled.form`
       width: 90%;
       font-family: "regular";
       @media (max-width: 480px) {
-        font-size: 14px;
+        font-size: 13.5px;
       }
     }
   }
@@ -83,7 +90,7 @@ export const Form = styled.form`
         width: 90%;
         font-family: "regular";
         @media (max-width: 480px) {
-          font-size: 14px;
+          font-size: 13.5px;
         }
       }
     }
@@ -105,6 +112,8 @@ export const Form = styled.form`
     cursor: pointer;
     @media (max-width: 480px) {
       font-size: 15px;
+      padding: 9px 10px;
+      width: 75%;
     }
   }
 `;
@@ -114,7 +123,7 @@ export const LastText = styled.div`
     color: var(--dark-teal);
     font-family: "regular";
     @media (max-width: 480px) {
-      font-size: 15px;
+      font-size: 13.5px;
     }
     strong {
       cursor: pointer;

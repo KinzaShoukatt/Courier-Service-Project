@@ -41,8 +41,10 @@ export const CoverImage = styled.div`
     width: 100%;
     height: 100%;
     img {
-      width: 25%;
-      height: 22%;
+      /* width: 25%; */
+      /* height: 22%; */
+      width: 150px;
+      height: 110px;
       object-fit: contain;
     }
   }

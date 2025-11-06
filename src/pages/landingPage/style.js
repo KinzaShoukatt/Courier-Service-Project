@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   position: relative;
   scroll-behavior: smooth;
+  box-sizing: border-box;
   * {
     box-sizing: border-box;
   }
@@ -43,12 +44,12 @@ export const NavContainer = styled.div`
     .list {
       ul {
         display: flex;
-        gap: 50px;
+        gap: 70px;
         list-style: none;
         font-family: "regular";
         font-weight: bold;
         @media (max-width: 480px) {
-          gap: 10px;
+          gap: 20px;
         }
         li {
           @media (max-width: 480px) {
@@ -122,6 +123,7 @@ export const HomeSection = styled.div`
     color: white;
     /* max-width: 800px; */
     line-height: 1.8;
+    padding-inline: 30px;
   }
 
   .heading {
@@ -149,6 +151,7 @@ export const HomeSection = styled.div`
   }
   .tracking {
     display: flex;
+    justify-content: space-between;
     border-radius: 5px;
     padding-inline-start: 10px;
     padding-inline-end: 5px;
@@ -161,13 +164,14 @@ export const HomeSection = styled.div`
     @media (max-width: 768px) {
       margin-block: 10px;
     }
-    @media (max-width: 350px) {
-      gap: 0px;
+    @media (max-width: 450px) {
       padding-inline-start: 5px;
+      width: 80vw;
     }
     input {
       font-size: 16px;
       border: none;
+      min-width: 140px;
       font-family: "regular";
       outline: none;
       @media (max-width: 640px) {
@@ -175,6 +179,9 @@ export const HomeSection = styled.div`
       }
       @media (max-width: 540px) {
         font-size: 14px;
+      }
+      @media (max-width: 450px) {
+        font-size: 12px;
       }
     }
     button {
@@ -195,6 +202,10 @@ export const HomeSection = styled.div`
         font-size: 14px;
         margin-block: 4px;
         padding: 8px 12px;
+      }
+      @media (max-width: 450px) {
+        font-size: 12px;
+        padding: 8px 5px;
       }
     }
   }
@@ -320,11 +331,15 @@ export const HomeSection = styled.div`
     cursor: pointer;
     @media (max-width: 640px) {
       font-size: 15px;
-      padding: 10px 18px;
+      padding: 10px 15px;
     }
     @media (max-width: 540px) {
       font-size: 14px;
-      padding: 10px 17px;
+      padding: 10px 13px;
+    }
+    @media (max-width: 450px) {
+      font-size: 12px;
+      padding: 9px 12px;
     }
   }
 `;
@@ -561,7 +576,7 @@ export const Footer = styled.div`
     gap: 30px;
   }
   @media (max-width: 420px) {
-    padding-inline: 5px;
+    padding-inline: 10px;
   }
 
   .FooterContent {
